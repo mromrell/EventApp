@@ -23,3 +23,16 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = 'Address'
+
+class Location(models.Model):
+    ''' Model features for an address '''
+    street = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return u'%s, %s, %s' % (self.street, self.city, self.state)
+
+    class Meta:
+        verbose_name_plural = 'Locations'

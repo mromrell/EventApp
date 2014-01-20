@@ -36,6 +36,21 @@ class UserDetail(generics.RetrieveAPIView):
     model = User
     serializer_class = UserSerializer
 
+# I Added this stuff --------------------------------------
+class LocationList(generics.ListCreateAPIView):
+    """List all Locations or create a new Location"""
+    permission_classes = (permissions.IsAuthenticated,)
+    model = Location
+    serializer_class = LocationSerializer
+
+class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
+    """Retrieve, update or delete an Address."""
+    permission_classes = (permissions.IsAuthenticated,)
+    model = Location
+    serializer_class = LocationSerializer
+
+# I Added the stuff above --------------------------------------
+
 
 class AddressList(generics.ListCreateAPIView):
     """List all addresses or create a new Address"""

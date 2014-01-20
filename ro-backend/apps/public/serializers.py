@@ -14,3 +14,9 @@ class AddressSerializer(serializers.ModelSerializer):
     """Serializes an Address object"""
     class Meta:
         model = Address
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    """Serializes a User object"""
+    class Meta:
+        model = Location
