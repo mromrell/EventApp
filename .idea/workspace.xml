@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e757360b-728d-48f6-986d-2a2da5700ddc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ro-backend/db.sqlite3" afterPath="$PROJECT_DIR$/ro-backend/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ro-backend/apps/public/admin.py" afterPath="$PROJECT_DIR$/ro-backend/apps/public/admin.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ro-backend/apps/public/models.py" afterPath="$PROJECT_DIR$/ro-backend/apps/public/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ro-backend/apps/public/serializers.py" afterPath="$PROJECT_DIR$/ro-backend/apps/public/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ro-backend/apps/public/urls.py" afterPath="$PROJECT_DIR$/ro-backend/apps/public/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ro-backend/apps/public/views.py" afterPath="$PROJECT_DIR$/ro-backend/apps/public/views.py" />
     </list>
     <ignored path="travelapp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,7 +28,7 @@
       <file leaf-file-name="models.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ro-backend/apps/public/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="26" selection-start="1427" selection-end="1427" vertical-scroll-proportion="0.4269103" vertical-offset="328" max-vertical-offset="930">
+            <state line="47" column="35" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.6511628" vertical-offset="313" max-vertical-offset="930">
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -516,7 +511,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32978722" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32978722" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -602,7 +597,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ro-backend/apps/public/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="26" selection-start="1427" selection-end="1427" vertical-scroll-proportion="0.4269103" vertical-offset="328" max-vertical-offset="930">
+        <state line="47" column="35" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.6511628" vertical-offset="313" max-vertical-offset="930">
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>

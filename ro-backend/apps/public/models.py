@@ -20,7 +20,7 @@ class Address(models.Model):
     gps = models.CharField(max_length=300)
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.street, self.city, self.state)
+        return u'%s, %s, %s' % (self.city, self.state, self.gps)
 
     class Meta:
         verbose_name_plural = 'Address'
@@ -38,14 +38,14 @@ class LocationList(models.Model):
     author = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return u'%s' % self.description
+        return u'%s, %s, %s' % (self.locationName, self.author, self.description)
 
     class Meta:
         verbose_name_plural = 'LocationList'
 
 class CommentList(models.Model):
     ''' Model features for an address '''
-    user = models.CharField(max_length=200)
+    user = models.ForeignKey(Users)
     locationPostID = models.CharField(max_length=200)
     commentId = models.CharField(max_length=200)
     commentText = models.CharField(max_length=200)
