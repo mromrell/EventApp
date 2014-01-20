@@ -17,7 +17,7 @@ urlpatterns = patterns(
     url(r'^users/(?P<pk>[0-9]+)$', UserDetail.as_view(), name='user-detail'),
 
     url(r'^location$', LocationList.as_view(), name='location-list'),
-    url(r'^location/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-Detail'),
+    # url(r'^location/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-Detail'),
 )
 
 urlpatterns += patterns('', url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'))
