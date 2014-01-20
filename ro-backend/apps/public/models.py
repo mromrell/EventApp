@@ -17,6 +17,7 @@ class Address(models.Model):
     city = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
+    gps = models.CharField(max_length=300)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.street, self.city, self.state)
@@ -24,15 +25,33 @@ class Address(models.Model):
     class Meta:
         verbose_name_plural = 'Address'
 
-class Location(models.Model):
+class LocationList(models.Model):
     ''' Model features for an address '''
-    street = models.CharField(max_length=200)
-    city = models.CharField(max_length=200)
-    state = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
+    locationName = models.CharField(max_length=200)
+    address = models.CharField(max_length=400)
+    photos = models.CharField(max_length=200)
+    description = models.CharField(max_length=1000)
+    comments = models.CharField(max_length=500)
+    sponsored = models.CharField(max_length=200)
+    upVoteCount = models.CharField(max_length=200)
+    downVoteCount = models.CharField(max_length=200)
+    author = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return u'%s' % self.description
+
+    class Meta:
+        verbose_name_plural = 'LocationList'
+
+class CommentList(models.Model):
+    ''' Model features for an address '''
+    user = models.CharField(max_length=200)
+    locationPostID = models.CharField(max_length=200)
+    commentId = models.CharField(max_length=200)
+    commentText = models.CharField(max_length=200)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.street, self.city, self.state)
 
     class Meta:
-        verbose_name_plural = 'Locations'
+        verbose_name_plural = 'LocationDetail'
