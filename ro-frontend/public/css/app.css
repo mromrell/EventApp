@@ -64,3 +64,8 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+.bs-callout-info {
+    background-color: #dff0d8;
+    border-color: #666666;
+    margin-top: 70px;
+}

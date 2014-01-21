@@ -16,6 +16,26 @@ var roApp = angular.module('roApp', [
                 controller: 'HomeController',
                 title: 'Home Page'
             })
+            .when('/accountProfile', {
+                templateUrl: 'partials/accountProfile.html',
+                controller: 'HomeController',
+                title: 'Account Profile'
+            })
+            .when('/createLocation', {
+                templateUrl: 'partials/createLocation.html',
+                controller: 'HomeController',
+                title: 'Create a Location'
+            })
+            .when('/locationDetails', {
+                templateUrl: 'partials/locationDetails.html',
+                controller: 'HomeController',
+                title: 'Location Details'
+            })
+            .when('/login', {
+                templateUrl: 'partials/login.tpl.html',
+                controller: 'HomeController',
+                title: 'Login'
+            })
             .otherwise({
                 redirectTo: '/home'
             });
