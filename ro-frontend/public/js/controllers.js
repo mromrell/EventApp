@@ -45,7 +45,22 @@ angular.module('roApp.controllers', [])
                 console.log($scope.locationList);
             })
 
+    }])
+    .controller('LocationDetailsController', ['$scope', 'SessionService', '$routeParams', function($scope, SessionService, $routeParams) {
+//        $scope.session = SessionService.getSession();
+//        $scope.user = {};
+
+        $scope.locationList = {};
+        $scope.id = $routeParams.id;
+
+        ProjectService.success(function(data) {
+            $scope.locationList = data;
+            $scope.location = $scope.locationList[$scope.id];
+            })
     }]);
+
+
+
 
 //    // I PULLED IN THIS CONTROLLER From another projects, some for the pieces still need to be updated
 //    .controller('LoginController', ['$scope', '$window', 'loginTitle', 'Restangular', 'SessionService', function($scope, $window, loginTitle, Restangular, SessionService) {

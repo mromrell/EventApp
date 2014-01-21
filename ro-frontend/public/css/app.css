@@ -168,6 +168,9 @@ body {
   color: #333;
 }
 
-footer {
+.footer {
   margin: 50px 0;
+}
+.title {
+    text-align: center
 }
