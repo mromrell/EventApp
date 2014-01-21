@@ -4,5 +4,5 @@
 
 angular.module('roApp.constants', [])
     .constant('version', '0.1')
-    .constant('baseTitle', 'Recipe Organizer Project | ')
-    .constant('brand', 'Recipe Organizer');
+    .constant('baseTitle', 'Placer: The Travel App | ')
+    .constant('brand', 'Placer');

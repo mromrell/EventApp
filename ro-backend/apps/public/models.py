@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from settings.base import AUTH_USER_MODEL
 
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -10,6 +11,8 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
+class ExtendedUser(AbstractUser):
+   testField = models.CharField(max_length=200)
 
 class Address(models.Model):
     ''' Model features for an address '''
@@ -35,7 +38,7 @@ class Location(models.Model):
     sponsored = models.CharField(max_length=200)
     upVoteCount = models.CharField(max_length=200)
     downVoteCount = models.CharField(max_length=200)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(AUTH_USER_MODEL)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.locationName, self.user, self.description)
@@ -45,7 +48,7 @@ class Location(models.Model):
 
 class Comment(models.Model):
     ''' Model features for an address '''
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(AUTH_USER_MODEL)
     locationPostID = models.ForeignKey(Location)
     commentText = models.CharField(max_length=200)
 

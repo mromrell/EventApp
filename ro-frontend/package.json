@@ -1,6 +1,6 @@
 {
-    "name": "recipe-organizer-seed",
-    "description": "A starter project for the Recipe Organizer project",
+    "name": "Placer | Travel App",
+    "description": "Find little-known tresures all around you",
     "repository": "https://github.com/dstephenson/recipe-organizer-seed.git",
     "engines": {
         "node": "~0.10.23"
