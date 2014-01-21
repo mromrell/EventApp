@@ -9,7 +9,7 @@ var roApp = angular.module('roApp', [
         'roApp.filters',
         'roApp.directives'
     ])
-    .config(['$routeProvider', function($routeProvider) {
+    .config(['$routeProvider', 'RestangularProvider', function($routeProvider, RestangularProvider) {
         $routeProvider
             .when('/home', {
                 templateUrl: 'partials/home.tpl.html',
@@ -33,13 +33,18 @@ var roApp = angular.module('roApp', [
             })
             .when('/login', {
                 templateUrl: 'partials/login.tpl.html',
-                controller: 'HomeController',
+                controller: 'LoginController',
                 title: 'Login'
             })
             .otherwise({
                 redirectTo: '/home'
             });
-    }])
+
+
+            RestangularProvider.setBaseUrl("http://localhost:8001/")
+
+            }])
+
     .run(['$location', '$rootScope', 'baseTitle', function ($location, $rootScope, baseTitle) {
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
             // Check to see if the 'title' attribute exists on the route

@@ -11,7 +11,17 @@ angular.module('roApp.controllers', [])
             $window.location = '/';
         };
     }])
-    .controller('HomeController', ['$scope', 'SessionService', function($scope, SessionService) {
+    .controller('LoginController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
+        $scope.session = SessionService.getSession();
+
+        $scope.user = {};
+
+        $scope.$on('event:login-confirmed', function() {
+            console.log('event has been broadcast to Home Controller');
+            $scope.session = SessionService.getSession();
+        });
+    }])
+    .controller('HomeController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
 
         $scope.user = {};
@@ -20,6 +30,21 @@ angular.module('roApp.controllers', [])
 //            console.log('event has been broadcast to Home Controller');
 //            $scope.session = SessionService.getSession();
 //        });
+
+        $scope.locationList = {};
+//        Restangular.all('location').get()
+//            .then(function(data) {
+//                $scope.locationList = data;
+//                console.log("Success! you got data");
+//                console.log($scope.locationList);
+//            })
+        Restangular.all('location').getList()
+            .then(function(data) {
+                $scope.locationList = data;
+                console.log("Success! you got data");
+                console.log($scope.locationList);
+            })
+
     }]);
 
 //    // I PULLED IN THIS CONTROLLER From another projects, some for the pieces still need to be updated
