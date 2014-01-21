@@ -16,7 +16,8 @@ urlpatterns = patterns(
     url(r'^users$', UserList.as_view(), name='user-list'),
     url(r'^users/(?P<pk>[0-9]+)$', UserDetail.as_view(), name='user-detail'),
 
-    url(r'^location$', LocationList.as_view(), name='location-list'),
+    url(r'^location$', Location.as_view(), name='location-list'),
+    url(r'^Comment$', Comment.as_view(), name='comment-list'),
     # url(r'^location/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-Detail'),
 )
 

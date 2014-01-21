@@ -8,4 +8,5 @@ class AddressAdmin(admin.ModelAdmin):
 
 ''' Register Admin layouts into django'''
 admin.site.register(Address, AddressAdmin)
-admin.site.register(LocationList)
+admin.site.register(Location)
+admin.site.register(Comment)

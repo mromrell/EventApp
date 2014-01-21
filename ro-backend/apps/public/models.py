@@ -25,33 +25,32 @@ class Address(models.Model):
     class Meta:
         verbose_name_plural = 'Address'
 
-class LocationList(models.Model):
+class Location(models.Model):
     ''' Model features for an address '''
     locationName = models.CharField(max_length=200)
-    address = models.CharField(max_length=400)
+    address = models.ForeignKey(Address)
     photos = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     comments = models.CharField(max_length=500)
     sponsored = models.CharField(max_length=200)
     upVoteCount = models.CharField(max_length=200)
     downVoteCount = models.CharField(max_length=200)
-    author = models.CharField(max_length=200)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.locationName, self.author, self.description)
+        return u'%s, %s, %s' % (self.locationName, self.user, self.description)
 
     class Meta:
-        verbose_name_plural = 'LocationList'
+        verbose_name_plural = 'Location'
 
-class CommentList(models.Model):
+class Comment(models.Model):
     ''' Model features for an address '''
-    user = models.ForeignKey(Users)
-    locationPostID = models.CharField(max_length=200)
-    commentId = models.CharField(max_length=200)
+    user = models.ForeignKey(User)
+    locationPostID = models.ForeignKey(Location)
     commentText = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.street, self.city, self.state)
+        return u'%s, %s, %s' % (self.user, self.LocationPostId, self.commentText)
 
     class Meta:
-        verbose_name_plural = 'LocationDetail'
+        verbose_name_plural = 'Comment'
