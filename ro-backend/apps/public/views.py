@@ -25,14 +25,14 @@ class JSONResponse(HttpResponse):
 
 class UserList(generics.ListCreateAPIView):
     """List all users or create a new User"""
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     model = User
     serializer_class = UserSerializer
 
 
 class UserDetail(generics.RetrieveAPIView):
     """Retrieve, update or delete a User instance."""
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     model = User
     serializer_class = UserSerializer
 
@@ -41,13 +41,13 @@ class UserDetail(generics.RetrieveAPIView):
 
 class Location(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     model = Location
     serializer_class = LocationSerializer
 
 class Comment(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     model = Comment
     serializer_class = CommentSerializer
 
@@ -57,14 +57,14 @@ class Comment(generics.ListCreateAPIView):
 
 class AddressList(generics.ListCreateAPIView):
     """List all addresses or create a new Address"""
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     model = Address
     serializer_class = AddressSerializer
 
 
 class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
     """Retrieve, update or delete an Address."""
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     model = Address
     serializer_class = AddressSerializer
 
