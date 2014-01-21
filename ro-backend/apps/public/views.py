@@ -57,14 +57,14 @@ class Comment(generics.ListCreateAPIView):
 
 class AddressList(generics.ListCreateAPIView):
     """List all addresses or create a new Address"""
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     model = Address
     serializer_class = AddressSerializer
 
 
 class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
     """Retrieve, update or delete an Address."""
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     model = Address
     serializer_class = AddressSerializer
 

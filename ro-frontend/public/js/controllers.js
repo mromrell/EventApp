@@ -1,5 +1,6 @@
 'use strict';
 
+
 /* Controllers */
 
 angular.module('roApp.controllers', [])
@@ -11,6 +12,11 @@ angular.module('roApp.controllers', [])
             $window.location = '/';
         };
     }])
+    .controller('DragnDropCtrl', function($scope) {
+            $scope.image = null
+//            $scope.image = {};
+            $scope.imageFileName = ''
+        })
     .controller('LoginController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
 
@@ -20,6 +26,17 @@ angular.module('roApp.controllers', [])
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
         });
+    }])
+    .controller('CreateLocationController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
+        $scope.session = SessionService.getSession();
+
+        $scope.user = {};
+
+        $scope.$on('event:login-confirmed', function() {
+            console.log('event has been broadcast to Home Controller');
+            $scope.session = SessionService.getSession();
+        });
+
     }])
     .controller('HomeController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
