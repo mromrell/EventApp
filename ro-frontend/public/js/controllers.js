@@ -16,10 +16,10 @@ angular.module('roApp.controllers', [])
 
         $scope.user = {};
 
-        $scope.$on('event:login-confirmed', function() {
-            console.log('event has been broadcast to Home Controller');
-            $scope.session = SessionService.getSession();
-        });
+//        $scope.$on('event:login-confirmed', function() {
+//            console.log('event has been broadcast to Home Controller');
+//            $scope.session = SessionService.getSession();
+//        });
     }]);
 
 //    // I PULLED IN THIS CONTROLLER From another projects, some for the pieces still need to be updated
