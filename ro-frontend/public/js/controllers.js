@@ -28,14 +28,14 @@ angular.module('roApp.controllers', [])
         });
     }])
     .controller('CreateLocationController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
-        $scope.session = SessionService.getSession();
+//        $scope.session = SessionService.getSession();
+//
+//        $scope.user = {};
 
-        $scope.user = {};
-
-        $scope.$on('event:login-confirmed', function() {
-            console.log('event has been broadcast to Home Controller');
-            $scope.session = SessionService.getSession();
-        });
+//        $scope.$on('event:login-confirmed', function() {
+//            console.log('event has been broadcast to Home Controller');
+//            $scope.session = SessionService.getSession();
+//        });
 
     }])
     .controller('HomeController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
