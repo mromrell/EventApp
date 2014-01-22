@@ -31,14 +31,14 @@ class Address(models.Model):
 class Location(models.Model):
     ''' Model features for an address '''
     locationName = models.CharField(max_length=200)
-    address = models.ForeignKey(Address)
+    address = models.CharField(max_length=200)
     photos = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     comments = models.CharField(max_length=500)
     sponsored = models.CharField(max_length=200)
     upVoteCount = models.CharField(max_length=200)
     downVoteCount = models.CharField(max_length=200)
-    user = models.ForeignKey(AUTH_USER_MODEL)
+    user = models.CharField(max_length=200)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.locationName, self.user, self.description)
