@@ -26,6 +26,11 @@ var roApp = angular.module('roApp', [
                 controller: 'CreateLocationController',
                 title: 'Create a Location'
             })
+            .when('/exampleRecipe', {
+                templateUrl: 'partials/exampleRecipe.html',
+                controller: 'addRecipeCtrl',
+                title: 'Create a Recipe'
+            })
             .when('/locationDetails/:id', {
                 templateUrl: 'partials/locationDetails.html',
                 controller: 'LocationDetailsController',

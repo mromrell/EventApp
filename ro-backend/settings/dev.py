@@ -59,7 +59,7 @@ SECRET_KEY = '4444444444444444444'
 DEBUG_APPS = ()
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8000',
+    'localhost:8001',
     'localhost/',
 )
 

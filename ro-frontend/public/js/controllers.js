@@ -27,15 +27,85 @@ angular.module('roApp.controllers', [])
             $scope.session = SessionService.getSession();
         });
     }])
-    .controller('CreateLocationController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
-        $scope.session = SessionService.getSession();
-
+    .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', function($scope, $http, SessionService, Restangular) {
+//        $scope.session = SessionService.getSession();
+//        $http.post();
         $scope.user = {};
 
-        $scope.$on('event:login-confirmed', function() {
-            console.log('event has been broadcast to Home Controller');
-            $scope.session = SessionService.getSession();
-        });
+//        $scope.$on('event:login-confirmed', function() {
+//            console.log('event has been broadcast to Home Controller');
+//            $scope.session = SessionService.getSession();
+//        });
+
+        $scope.location = Object();
+        $scope.address = null;
+        $scope.locationName = null;
+        $scope.description = null;
+        $scope.photos = "http://placekitten.com/400/600";
+        $scope.comments = "none";
+        $scope.sponsored = null;
+        $scope.user = "JimmyGoop";
+        $scope.upVoteCount = 0;
+        $scope.downVoteCount = 0;
+        $scope.submitted = false;
+
+        $scope.uploadFile = function (files) {
+            $scope.location.photos = files[0];
+            alert(files[0])
+        }
+
+        $scope.save = function () {
+            if ($scope.submitted == false) {
+                $scope.location.locationName = $scope.locationName;
+                $scope.location.description = $scope.description;
+//                $scope.location.city = $scope.city;
+//                $scope.location.state = $scope.state;
+//                $scope.location.country = $scope.country;
+                $scope.location.address = $scope.address;
+                $scope.location.photos = $scope.photos;
+                $scope.location.comments = $scope.comments;
+                $scope.location.sponsored = $scope.sponsored;
+                $scope.location.user = $scope.user;
+                $scope.location.upVoteCount = $scope.upVoteCount;
+                $scope.location.downVoteCount = $scope.downVoteCount;
+
+                var fd = {};
+                fd["locationName"] = $scope.location.locationName;
+                fd["description"] = $scope.location.description;
+                fd["address"] = $scope.location.address;
+                fd["photos"] = $scope.location.photos;
+                fd["comments"] = $scope.location.comments;
+                fd["sponsored"] = $scope.location.sponsored;
+                fd["user"] = $scope.location.user;
+                fd["upVoteCount"] = $scope.location.upVoteCount;
+                fd["downVoteCount"] = $scope.location.downVoteCount;
+                $http({
+                    method: 'POST',
+                    url: 'http://localhost:8001/location',
+                    data: fd
+                }).success(function(response) {
+                        console.log("the form was Successfully Posted!")
+                }).error(function(response) {
+                    console.log("there was an Error! Run!!")
+                });
+
+
+//
+//                $http.post('http://localhost:8001/locations', fd, {
+////                    withCredentials: true,
+//                    headers: {'Content-Type': undefined },
+//                    transformRequest: angular.identity
+//                }).success(function(response) {
+////                        alert('Success response: ' + response);
+//                        console.log("the form was Successfully Posted!")
+////                        $window.location = '/app/index.html';
+////                        /locations/:locationID
+//                    }).error(function(response) {
+////                        alert('Response: ' + response);
+//                    })
+
+            }
+        }
 
     }])
     .controller('HomeController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
@@ -63,6 +133,91 @@ angular.module('roApp.controllers', [])
             })
 
     }])
+    .controller('addRecipeCtrl', function ($scope, $http, Recipe, $routeParams, Restangular, $window) {
+
+        $scope.recipe = Object();
+        $scope.recipeList = null;
+        $scope.tag = null;
+        $scope.name = null;
+        $scope.submitted = false;
+
+        Restangular.all('tags').getList().then(function (response) {
+            $scope.tags = response;
+        });
+
+
+        Restangular.all('recipelists').getList().then(function (response) {
+            $scope.recipeLists = response;
+        });
+
+
+        $scope.uploadFile = function (files) {
+            $scope.recipe.photo = files[0];
+            alert(files[0])
+        }
+
+        $scope.save = function () {
+            if ($scope.submitted == false) {
+                $scope.recipe.recipe_name = $scope.name;
+
+//                alert($scope.photo);
+                $scope.recipe.recipe_description = $scope.description;
+                $scope.recipe.recipe_prep_time = $scope.prep;
+                $scope.recipe.recipe_cook_time = $scope.cook;
+                $scope.recipe.recipe_total_time = $scope.total;
+                $scope.recipe.tag = $scope.tag;
+                $scope.recipe.recipe_list = $scope.recipeList;
+                $scope.recipe.user = 1;
+//                Restangular.one('recipes').customPOST($scope.recipe).then(function (data) {
+//                    $scope.submitted = true;
+//                });
+
+                var fd = new FormData();
+                //Take the first selected file
+                fd.append("recipe_name", $scope.recipe.recipe_name);
+                fd.append("user", 1);
+                fd.append("tag", $scope.recipe.tag);
+                fd.append("recipe_lists", $scope.recipe.recipe_list);
+                fd.append("photo", $scope.recipe.photo);
+//                alert($scope.recipe.recipe_list);
+
+                $http.post('http://localhost:8001/recipes', fd, {
+//                    withCredentials: true,
+                    headers: {'Content-Type': undefined },
+                    transformRequest: angular.identity
+                }).success(function(response) {
+//                        alert('Success response: ' + response);
+                        $window.location = '/app/index.html';
+//                        /recipes/:recipeID
+                    }).error(function(response) {
+//                        alert('Response: ' + response);
+                    })
+
+
+            }
+        }
+
+        $scope.addTag = function () {
+            $scope.newTag = Object();
+            $scope.newTag.tag_name = $scope.newTagName;
+
+
+            Restangular.one('tags').customPOST($scope.newTag).then(function (response) {
+                $scope.tags.push(response);
+            })
+        };
+
+
+        $scope.addList = function () {
+            $scope.newList = Object();
+            $scope.newList.recipe_list_name = $scope.newListName;
+
+
+            Restangular.one('recipelists').customPOST($scope.newList).then(function (response) {
+                $scope.recipeLists.push(response);
+            })
+        }
+    })
     .controller('LocationDetailsController', ['$scope', 'SessionService', '$routeParams', function($scope, SessionService, $routeParams) {
 //        $scope.session = SessionService.getSession();
 //        $scope.user = {};
@@ -75,45 +230,3 @@ angular.module('roApp.controllers', [])
             $scope.location = $scope.locationList[$scope.id];
             })
     }]);
-
-
-
-
-//    // I PULLED IN THIS CONTROLLER From another projects, some for the pieces still need to be updated
-//    .controller('LoginController', ['$scope', '$window', 'loginTitle', 'Restangular', 'SessionService', function($scope, $window, loginTitle, Restangular, SessionService) {
-//        $scope.user = {}
-//
-//        $scope.register = function() {
-//            $window.location = '/register';
-//        }
-//
-//        $scope.doLogin = function() {
-//            console.log('Logging in user: ' + $scope.user.email);
-//            var user = {
-//                'email': $scope.user.email,
-//                'password': $scope.user.password
-//            };
-//
-//            Restangular.all('account/login').customPOST(user)
-//                .then(function(data) {
-//                    if (data == 'Unauthorized') {
-//                        $scope.errorMessage = 'Invalid username and/or password';
-//                    } else {
-//                        SessionService.saveUserSession(data);
-//                        $scope.userSession = data;
-//                        $window.location = '/home';
-//                    }
-//                }), function(response) {
-//                    $scope.errorMessage = response;
-//                };
-//        }
-//
-//        $scope.hasError = function (field, validation) {
-//            if (validation) {
-//                return $scope.loginForm[field].$dirty && $scope.loginForm[field].$error[validation];
-//            }
-//            return $scope.loginForm[field].$dirty && $scope.loginForm[field].$invalid;
-//        };
-//
-//        $scope.loginTitle = loginTitle;
-//    }]);

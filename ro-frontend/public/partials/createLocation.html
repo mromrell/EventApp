@@ -1,40 +1,43 @@
 <div class="container">
     <!--<div logged-out>
         <login></login>
-    </div> -->
+    </div>
 
     <div ng-hide="session">
         <div login></div>
-    </div>
-    <div ng-show="session" class="center">
+    </div>  ng-show="session"   -->
+    <div class="center">
         <h1>Share your Favorite Place</h1>
         <h3>Add a place to your Placer profile, and share it with the world!</h3>
 
         <div>
-            <form role="form" name="locationForm" ng-submit="addLocation()" ng-disabled="disabled" class="form-register">
+            <form ng-submit="save()" enctype="multipart/form-data" class="form-register">
                 <div class="form-group">
-                  <input type="text" name="location_name" ng-model="location.location_name" placeholder="Location name" required="required" class="form-control"/><span ng-show="hasError('location_name')">Location name is required</span><span ng-show="errorProposalName">{{ errorProposalName }}</span>
+                    <input class="form-control" id="locationName" type="text" ng-model="locationName" required="required" placeholder="Location Name">
+                    <span ng-show="hasError('locationName')">Location name is required</span><span ng-show="errorLocationName">{{ errorLocationName }}</span>
                 </div>
                 <div class="form-group">
-                  <input type="text" name="address" ng-model="location.address" placeholder="Address" required="required" class="form-control"/><span ng-show="hasError('address')">An Address is required</span><span ng-show="errorAddress">{{ errorAddress }}</span>
+                    <input class="form-control" id="address" type="text" ng-model="address" required="required" placeholder="Address">
+                    <span ng-show="hasError('address')">An Address is required</span><span ng-show="errorAddress">{{ errorAddress }}</span>
                 </div>
                 <div class="form-group">
-                  <input type="text" name="description" ng-model="location.description" placeholder="Description" required="required" class="form-control"/><span ng-show="hasError('description')">Description is required</span><span ng-show="errorDescription">{{ errorDescription }}</span>
+                    <input class="form-control" id="description" type="text" ng-model="description" required="required" placeholder="Description">
+                    <span ng-show="hasError('description')">Description is required</span><span ng-show="errorDescription">{{ errorDescription }}</span>
                 </div>
-
-
-
+                <div class="form-group">
+                    <input class="form-control" id="comments" value="nocomments" type="hidden" ng-model="comments">
+                    <input class="form-control" id="downVoteCount" value="0" type="hidden" ng-model="downVoteCount">
+                    <input class="form-control" id="upVoteCount" value="0" type="hidden" ng-model="upVoteCount">
+                    <input class="form-control" id="user" value="testrobot" type="hidden" ng-model="user">
+                    <input class="form-control" id="photos" value="http://placekitten.com/400/600" type="hidden" ng-model="photos">
+                </div>
                 <div class="center">Do you want to sponsor this place?
                     <br/>
-                        <li class="no-decoration">
-                            <input type="radio" name="location.sponsored" value="false" checked/> No
-                        </li>
-                        <li class="no-decoration">
-                            <input type="radio" name="location.sponsored" value="true"/> Yes
-                        </li>
+                    <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="false" checked/> No</li>
+                    <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="true"/> Yes</li>
                 </div>
 
-                <div ng-controller="DragnDropCtrl">
+ <!--               <div ng-controller="DragnDropCtrl">
                     <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]"
                                   file="image" file-name="imageFileName" data-max-file-size="3">
                     </div>
@@ -46,10 +49,28 @@
               <hr/>
 
               <button ng-click="questionAdder(4)" class="btn btn-default">Add a Photo</button>
+         -->
               <hr/>
-              <button type="submit" class="btn btn-success">Create Location</button>&nbsp;<a href="/">
-                <button type="button" class="btn btn-primary">Cancel</button></a>
+              <button type="submit" class="btn btn-success" value="Save">Create Location</button>
             </form>
         </div>
     </div>
+
+
+<!--
+    <form ng-submit="save()" enctype="multipart/form-data">
+        <input type="file" ng-model="photo" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+        <p><input class="form-control" id="locationName" type="text" ng-model="locationName" placeholder="Location Name" style="width:250px;"></p>
+
+        <div class="well">
+        <p><input class="form-control input-sm" type="text" ng-model="description" placeholder="Description" style="width:250px;"></p>
+        <p>
+            <!--<input type="text" ng-model="city" placeholder="City" style="width:80px;">
+            <input type="text" ng-model="state" placeholder="State" style="width:80px;">
+            <input type="text" ng-model="country" placeholder="Country" style="width:80px; ">--> <!--
+            <input type="text" ng-model="address" placeholder="Address" style="width:80px; ">
+        </p>
+        <button type="submit" class="btn btn-success" value="Save">Create Location</button>
+    </form>
+-->
 </div>
