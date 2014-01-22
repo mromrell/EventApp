@@ -63,17 +63,23 @@ angular.module('roApp.controllers', [])
             })
 
     }])
-    .controller('LocationDetailsController', ['$scope', 'SessionService', '$routeParams', function($scope, SessionService, $routeParams) {
-//        $scope.session = SessionService.getSession();
-//        $scope.user = {};
+    .controller('LocationDetailsController', ['$scope', 'SessionService', 'Restangular', '$routeParams', function($scope, SessionService, Restangular, $routeParams) {
+        $scope.session = SessionService.getSession();
+        $scope.user = {};
 
         $scope.locationList = {};
-        $scope.id = $routeParams.id;
 
-        ProjectService.success(function(data) {
-            $scope.locationList = data;
-            $scope.location = $scope.locationList[$scope.id];
+
+        Restangular.all('location').getList()
+            .then(function(data) {
+                $scope.locationList = data;
             })
+        $scope.id = $routeParams.id-1;
+//
+//        SessionService.success(function(data) {
+//            $scope.locationList = data;
+//            $scope.location = $scope.locationList[$scope.id];
+//            })
     }]);
 
 
