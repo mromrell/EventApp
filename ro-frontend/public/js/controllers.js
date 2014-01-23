@@ -69,18 +69,31 @@ angular.module('roApp.controllers', [])
                 $scope.location.user = $scope.user;
                 $scope.location.upVoteCount = $scope.upVoteCount;
                 $scope.location.downVoteCount = $scope.downVoteCount;
+//
+//                var fd = {};
+//                fd["locationName"] = $scope.location.locationName;
+//                fd["description"] = $scope.location.description;
+//                fd["address"] = $scope.location.address;
+////                fd["photos"] = $scope.imageFileName;
+//                fd["photos"] = $scope.location.photos;
+//                fd["comments"] = $scope.location.comments;
+//                fd["sponsored"] = $scope.location.sponsored;
+//                fd["user"] = $scope.location.user;
+//                fd["upVoteCount"] = $scope.location.upVoteCount;
+//                fd["downVoteCount"] = $scope.location.downVoteCount;
+//
+                var fd = new FormData();
+                fd.append("locationName", $scope.location.locationName);
+                fd.append("description", $scope.location.description);
+                fd.append("address", $scope.location.address);
+                fd.append("photos", $scope.location.photos);
+                fd.append("comments", $scope.location.comments);
+                fd.append("sponsored", $scope.location.sponsored);
+                fd.append("user", $scope.location.user);
+                fd.append("upVoteCount", $scope.location.upVoteCount);
+                fd.append("downVoteCount", $scope.location.downVoteCount);
 
-                var fd = {};
-                fd["locationName"] = $scope.location.locationName;
-                fd["description"] = $scope.location.description;
-                fd["address"] = $scope.location.address;
-//                fd["photos"] = $scope.imageFileName;
-                fd["photos"] = $scope.location.photos;
-                fd["comments"] = $scope.location.comments;
-                fd["sponsored"] = $scope.location.sponsored;
-                fd["user"] = $scope.location.user;
-                fd["upVoteCount"] = $scope.location.upVoteCount;
-                fd["downVoteCount"] = $scope.location.downVoteCount;
+
 //                $http({
 //                    method: 'POST',
 //                    url: 'http://localhost:8001/location',
@@ -93,7 +106,7 @@ angular.module('roApp.controllers', [])
 //                });
                 console.log(JSON.stringify(fd));
                 $http.post('http://localhost:8001/location', fd, {
-                    withCredentials: true,
+                   // withCredentials: true,
                     headers: {'Content-Type': 'application/json' },
                     transformRequest: angular.identity
                 }).success(function (response) {
@@ -143,6 +156,9 @@ angular.module('roApp.controllers', [])
                 console.log("Success! you got data");
                 console.log($scope.locationList);
             })
+        $scope.upVoteCounter = function(){
+            $scope.upVoteCount += 1;
+        }
 
     }])
     .controller('AccountProfileController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
