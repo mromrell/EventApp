@@ -21,13 +21,18 @@
     <div id="wrapper">
         <div id="columns">
             <div class="pin" ng-repeat="location in locationList">
+                <div class="image">
                     <a href="#/locationDetails/{{location.id}}"><img src={{location.photos}}></a>
-                    <h3 class="title">{{ location.locationName }}</h3>
+                </div>
+                <h3 class="title btn-success">{{ location.locationName }}</h3>
+                <div class="padding15">
+
                     <p>{{ location.description }}</p>
                     <span>
-                        <div class="glyphicon glyphicon-thumbs-up">{{location.upVoteCount}}</div>
-                        <div class="glyphicon glyphicon-thumbs-down">{{location.downVoteCount }}</div>
+                        <a ng-click="upCount += 1" ng-init="upCount=location.upVoteCount" class="btn btn-success"><div class="glyphicon glyphicon-thumbs-up">{{upCount}}</div></a>
+                        <a ng-click="downCount = downCount - 1" ng-init="downCount=location.downVoteCount" class="btn btn-danger"><div class="glyphicon glyphicon-thumbs-down">{{downCount}}</div></a>
                     </span>
+                </div>
             </div>
          </div>
     </div>

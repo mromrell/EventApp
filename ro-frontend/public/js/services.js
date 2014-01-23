@@ -14,6 +14,9 @@ angular.module('roApp.services', ['angularLocalStorage'])
             getSession: function () {
                 return storage.get('token');
             },
+            getUserSession: function() {
+                return storage.get('user');
+            },
             removeSession: function () {
                 storage.clearAll();
             },

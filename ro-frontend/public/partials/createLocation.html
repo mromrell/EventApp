@@ -30,25 +30,28 @@
                     <input class="form-control" id="downVoteCount" value="0" type="hidden" ng-model="downVoteCount">
                     <input class="form-control" id="upVoteCount" value="0" type="hidden" ng-model="upVoteCount">
                     <input class="form-control" id="user" value="testrobot" type="hidden" ng-model="user">
-                    <input class="form-control" id="photos" value="http://placekitten.com/400/600" type="hidden" ng-model="photos">
                 </div>
                 <div class="center">Do you want to sponsor this place?
                     <br/>
                     <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="false" checked/> No</li>
                     <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="true"/> Yes</li>
                 </div>
+                <input type="file" ng-model="photo" id="photos" required="required" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+    <!--            <div>
+                    <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3" onchange="angular.element(this).scope().uploadFile(this.files)">
 
- <!--               <div ng-controller="DragnDropCtrl">
-                    <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]"
-                                  file="image" file-name="imageFileName" data-max-file-size="3">
+
+
                     </div>
                     <div class="image-container">
                         <img ng-src={{image}} />
                         <span class="file-name">{{imageFileName}}</span>
+
                     </div>
                 </div>
+                <input class="form-control" id="photos" value="{{imageFileName}}" type="hidden" ng-model="photos">
               <hr/>
-
+<!--
               <button ng-click="questionAdder(4)" class="btn btn-default">Add a Photo</button>
          -->
               <hr/>

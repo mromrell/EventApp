@@ -101,7 +101,6 @@ body {
 	-webkit-column-break-inside: avoid;
 	-moz-column-break-inside: avoid;
 	column-break-inside: avoid;
-	padding: 15px;
 	padding-bottom: 5px;
 	background: -webkit-linear-gradient(45deg, #FFF, #F9F9F9);
 	opacity: 1;
@@ -111,12 +110,24 @@ body {
 	-o-transition: all .2s ease;
 	transition: all .2s ease;
 }
+.pin .padding15{
+    padding: 15px;
+}
+.pin .image{
 
+}
+.pin h3{
+    color: #ffffff;
+    background-color: #222222;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 0px;
+}
 .pin img {
 	width: 100%;
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 15px;
-	margin-bottom: 5px;
+	/*border-bottom: 1px solid #ccc;*/
+	/*padding-bottom: 15px;
+	margin-bottom: 5px;*/
 }
 
 .pin p {
@@ -141,9 +152,9 @@ body {
 	}
 }
 
-#columns:hover .pin:not(:hover) {
-	opacity: 0.4;
-}
+/*#columns:hover .pin:not(:hover) {*/
+	/*opacity: 0.4;*/
+/*}*/
 
 body {
   padding-top: 70px

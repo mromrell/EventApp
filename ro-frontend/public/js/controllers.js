@@ -12,12 +12,13 @@ angular.module('roApp.controllers', [])
             $window.location = '/';
         };
     }])
-    .controller('DragnDropCtrl', function ($scope) {
-        $scope.image = null
-//            $scope.image = {};
-        $scope.imageFileName = ''
-    })
-    .controller('LoginController', ['$scope', 'SessionService', 'Restangular', function ($scope, SessionService, Restangular) {
+
+    .controller('DragnDropCtrl', function($scope) {
+            $scope.image = null
+            $scope.imageFileName = ''
+        })
+    .controller('LoginController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
+
         $scope.session = SessionService.getSession();
 
         $scope.user = {};
@@ -28,7 +29,7 @@ angular.module('roApp.controllers', [])
         });
     }])
 
-    .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', function ($scope, $http, SessionService, Restangular) {
+    .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
 //        $scope.session = SessionService.getSession();
 //        $http.post();
         $scope.user = {};
@@ -37,13 +38,14 @@ angular.module('roApp.controllers', [])
 //            console.log('event has been broadcast to Home Controller');
 //            $scope.session = SessionService.getSession();
 //        });
-
+        $scope.image = null;
+        $scope.imageFileName = '';
 
         $scope.location = Object();
         $scope.address = null;
         $scope.locationName = null;
         $scope.description = null;
-        $scope.photos = "http://placekitten.com/400/600";
+        $scope.photos = null;
         $scope.comments = "none";
         $scope.sponsored = null;
         $scope.user = "JimmyGoop";
@@ -53,9 +55,8 @@ angular.module('roApp.controllers', [])
 
         $scope.uploadFile = function (files) {
             $scope.location.photos = files[0];
-            alert(files[0])
+            console.log($scope.location.photos);
         }
-
         $scope.save = function () {
             if ($scope.submitted == false) {
                 $scope.location.locationName = $scope.locationName;
@@ -64,36 +65,61 @@ angular.module('roApp.controllers', [])
 //                $scope.location.state = $scope.state;
 //                $scope.location.country = $scope.country;
                 $scope.location.address = $scope.address;
-                $scope.location.photos = $scope.photos;
+                //$scope.location.photos = $scope.photos;
                 $scope.location.comments = $scope.comments;
                 $scope.location.sponsored = $scope.sponsored;
                 $scope.location.user = $scope.user;
                 $scope.location.upVoteCount = $scope.upVoteCount;
                 $scope.location.downVoteCount = $scope.downVoteCount;
 
-                var fd = {};
-                fd["locationName"] = $scope.location.locationName;
-                fd["description"] = $scope.location.description;
-                fd["address"] = $scope.location.address;
-                fd["photos"] = $scope.location.photos;
-                fd["comments"] = $scope.location.comments;
-                fd["sponsored"] = $scope.location.sponsored;
-                fd["user"] = $scope.location.user;
-                fd["upVoteCount"] = $scope.location.upVoteCount;
-                fd["downVoteCount"] = $scope.location.downVoteCount;
-                $http({
-                    method: 'POST',
-                    url: 'http://localhost:8001/location',
-                    data: fd
+//
+//                var fd = {};
+//                fd["locationName"] = $scope.location.locationName;
+//                fd["description"] = $scope.location.description;
+//                fd["address"] = $scope.location.address;
+////                fd["photos"] = $scope.imageFileName;
+//                fd["photos"] = $scope.location.photos;
+//                fd["comments"] = $scope.location.comments;
+//                fd["sponsored"] = $scope.location.sponsored;
+//                fd["user"] = $scope.location.user;
+//                fd["upVoteCount"] = $scope.location.upVoteCount;
+//                fd["downVoteCount"] = $scope.location.downVoteCount;
+//
+                var fd = new FormData();
+                fd.append("locationName", $scope.location.locationName);
+                fd.append("description", $scope.location.description);
+                fd.append("address", $scope.location.address);
+                fd.append("photos", $scope.location.photos);
+                fd.append("comments", $scope.location.comments);
+                fd.append("sponsored", $scope.location.sponsored);
+                fd.append("user", $scope.location.user);
+                fd.append("upVoteCount", $scope.location.upVoteCount);
+                fd.append("downVoteCount", $scope.location.downVoteCount);
+
+
+//                $http({
+//                    method: 'POST',
+//                    url: 'http://localhost:8001/location',
+//                    data: fd
+//                }).success(function(response) {
+//                        console.log("the form was Successfully Posted!")
+//                        $window.location = 'index.html#/accountProfile';
+//                }).error(function(response) {
+//                    console.log("there was an Error! Run!!")
+//                });
+                console.log(JSON.stringify(fd));
+                $http.post('http://localhost:8001/location', fd, {
+                   // withCredentials: true,
+                    headers: {'Content-Type': 'application/json' },
+                    transformRequest: angular.identity
                 }).success(function (response) {
-                        console.log("the form was Successfully Posted!")
+                        $window.location = 'index.html#/home';
                     }).error(function (response) {
-                        console.log("there was an Error! Run!!")
+                        console.log('Response: ' + response);
                     });
 
-
 //
-//                $http.post('http://localhost:8001/locations', fd, {
+//                $http.post('http://localhost:8001/location', fd, {
 ////                    withCredentials: true,
 //                    headers: {'Content-Type': undefined },
 //                    transformRequest: angular.identity
@@ -132,6 +158,29 @@ angular.module('roApp.controllers', [])
                 $scope.locationList = data;
                 console.log("Success! you got data");
                 console.log($scope.locationList);
+            })
+        $scope.upVoteCounter = function(){
+            $scope.upVoteCount += 1;
+        }
+
+    }])
+    .controller('AccountProfileController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
+        $scope.session = SessionService.getSession();
+        $scope.currentUserInfo = SessionService.getUserSession();
+
+        $scope.user = {};
+
+//        $scope.$on('event:login-confirmed', function() {
+//            console.log('event has been broadcast to Home Controller');
+//            $scope.session = SessionService.getSession();
+//        });
+
+        $scope.userList = {};
+        Restangular.all('users').getList()
+            .then(function(data) {
+                $scope.userList = data;
+                console.log("Success! you got data");
+                console.log($scope.userList);
             })
 
     }])
