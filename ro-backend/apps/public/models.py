@@ -51,6 +51,7 @@ class Comment(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL)
     locationPostID = models.ForeignKey(Location)
     commentText = models.CharField(max_length=200)
+    commentDate = models.CharField(max_length=200)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.user, self.LocationPostId, self.commentText)
