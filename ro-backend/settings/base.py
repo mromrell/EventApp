@@ -2,7 +2,7 @@ import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 # Django settings for project.
 
-AUTH_USER_MODEL = 'public.ExtendedUser'
+# AUTH_USER_MODEL = 'public.ExtendedUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

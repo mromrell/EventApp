@@ -28,14 +28,19 @@ angular.module('roApp.controllers', [])
     }])
 
     .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
-//        $scope.session = SessionService.getSession();
-//        $http.post();
-        $scope.user = {};
+        $scope.session = SessionService.getSession();
 
-//        $scope.$on('event:login-confirmed', function() {
-//            console.log('event has been broadcast to Home Controller');
-//            $scope.session = SessionService.getSession();
-//        });
+
+
+        Restangular.one('getuserid',$scope.session).get()
+        .then(function(data) {
+            $scope.user = data;
+        })
+
+        $scope.$on('event:login-confirmed', function() {
+            console.log('event has been broadcast to Home Controller');
+            $scope.session = SessionService.getSession();
+        });
         $scope.image = null;
         $scope.imageFileName = '';
 
@@ -46,7 +51,7 @@ angular.module('roApp.controllers', [])
         $scope.photos = null;
         $scope.comments = "none";
         $scope.sponsored = null;
-        $scope.user = "JimmyGoop";
+        //$scope.user = "JimmyGoop";
         $scope.upVoteCount = 0;
         $scope.downVoteCount = 0;
         $scope.submitted = false;
@@ -69,65 +74,53 @@ angular.module('roApp.controllers', [])
                 $scope.location.user = $scope.user;
                 $scope.location.upVoteCount = $scope.upVoteCount;
                 $scope.location.downVoteCount = $scope.downVoteCount;
-//
-//                var fd = {};
-//                fd["locationName"] = $scope.location.locationName;
-//                fd["description"] = $scope.location.description;
-//                fd["address"] = $scope.location.address;
-////                fd["photos"] = $scope.imageFileName;
+
+                var fd = {};
+                fd["locationName"] = $scope.location.locationName;
+                fd["description"] = $scope.location.description;
+                fd["address"] = $scope.location.address;
+                fd["photos"] = 'http://www.placekitten.com/400/600';
 //                fd["photos"] = $scope.location.photos;
-//                fd["comments"] = $scope.location.comments;
-//                fd["sponsored"] = $scope.location.sponsored;
-//                fd["user"] = $scope.location.user;
-//                fd["upVoteCount"] = $scope.location.upVoteCount;
-//                fd["downVoteCount"] = $scope.location.downVoteCount;
-//
-                var fd = new FormData();
-                fd.append("locationName", $scope.location.locationName);
-                fd.append("description", $scope.location.description);
-                fd.append("address", $scope.location.address);
-                fd.append("photos", $scope.location.photos);
-                fd.append("comments", $scope.location.comments);
-                fd.append("sponsored", $scope.location.sponsored);
-                fd.append("user", $scope.location.user);
-                fd.append("upVoteCount", $scope.location.upVoteCount);
-                fd.append("downVoteCount", $scope.location.downVoteCount);
+                fd["comments"] = $scope.location.comments;
+                fd["sponsored"] = $scope.location.sponsored;
+                fd["user"] = $scope.location.user;
+                fd["upVoteCount"] = $scope.location.upVoteCount;
+                fd["downVoteCount"] = $scope.location.downVoteCount;
+
+//                var fd = new FormData();
+//                fd.append("locationName", $scope.location.locationName);
+//                fd.append("description", $scope.location.description);
+//                fd.append("address", $scope.location.address);
+//                fd.append("photos", $scope.location.photos);
+//                fd.append("comments", $scope.location.comments);
+//                fd.append("sponsored", $scope.location.sponsored);
+//                fd.append("user", $scope.location.user);
+//                fd.append("upVoteCount", $scope.location.upVoteCount);
+//                fd.append("downVoteCount", $scope.location.downVoteCount);
 
 
-//                $http({
-//                    method: 'POST',
-//                    url: 'http://localhost:8001/location',
-//                    data: fd
-//                }).success(function(response) {
-//                        console.log("the form was Successfully Posted!")
-//                        $window.location = 'index.html#/accountProfile';
-//                }).error(function(response) {
-//                    console.log("there was an Error! Run!!")
-//                });
-                console.log(JSON.stringify(fd));
-                $http.post('http://localhost:8001/location', fd, {
-                   // withCredentials: true,
-                    headers: {'Content-Type': 'application/json' },
-                    transformRequest: angular.identity
-                }).success(function (response) {
-                        $window.location = 'index.html#/home';
-                    }).error(function (response) {
-                        console.log('Response: ' + response);
-                    });
-
-//
+                $http({
+                    method: 'POST',
+                    url: 'http://localhost:8001/location',
+                    data: fd
+                }).success(function(response) {
+                        console.log("the form was Successfully Posted!")
+                        $window.location = 'index.html#/accountProfile';
+                }).error(function(response) {
+                    console.log("there was an Error! Run!!")
+                });
+//                console.log(JSON.stringify(fd));
 //                $http.post('http://localhost:8001/location', fd, {
-////                    withCredentials: true,
-//                    headers: {'Content-Type': undefined },
+//                   // withCredentials: true,
+//                    headers: {'Content-Type': 'application/json' },
 //                    transformRequest: angular.identity
-//                }).success(function(response) {
-////                        alert('Success response: ' + response);
-//                        console.log("the form was Successfully Posted!")
-////                        $window.location = '/app/index.html';
-////                        /locations/:locationID
-//                    }).error(function(response) {
-////                        alert('Response: ' + response);
-//                    })
+//                }).success(function (response) {
+//                        $window.location = 'index.html#/home';
+//                    }).error(function (response) {
+//                        console.log('Response: ' + response);
+//                    });
+
+
 
             }
         }

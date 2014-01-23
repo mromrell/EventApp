@@ -18,6 +18,7 @@ urlpatterns = patterns(
 
     url(r'^location$', Location.as_view(), name='location-list'),
     url(r'^comment$', Comment.as_view(), name='comment-list'),
+    url(r'^getuserid/(?P<token>.+)$', obtain_user_from_token, name='getUserId'),
     # url(r'^location/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-Detail'),
 )
 
