@@ -39,7 +39,12 @@
                     </h4>
 
                     <p>{{ location.description }}</p>
+                    <span>
+                        <div class="glyphicon glyphicon-thumbs-up">{{ location.upVoteCount }}</div>
+                        <div class="glyphicon glyphicon-thumbs-down">{{ location.downVoteCount }}</div>
+                    </span>
                 </div>
+
                 <div class="ratings">
                     <p class="pull-right">3 reviews</p>
 
@@ -56,11 +61,15 @@
                     <div>
                     <div ng-submit="save()" enctype="form-data" class="form-register">
                         <div class="form-group">
-                            <input class="form-control" id="" type="text" ng-model=""
-                                   required="required" placeholder="Comment">
+                            <input class="form-control" id="commentText" type="text" ng-model="commentText"required="required" placeholder="Comment">
+                        <div class="form-group">
+                            <input class="form-control" id="locationRating" value="0" type="hidden" ng-model="locationRating">
+                            <input class="form-control" id="locationPostID" value="0" type="hidden" ng-model="locationPostID">
+                            <input class="form-control" id="commentDate" value="0" type="hidden" ng-model="commentDate">
+                            <input class="form-control" id="user" value="testrobot" type="hidden" ng-model="user">
+                        </div>
 <!--                            <span ng-show="hasError('Comment')">Comment is required</span><span
                                 ng-show="Comment">{{ errorComment }}</span> -->
-        <!-- NEED TO ADD COMMENT DATE AND USER -->
                         </div>
 
                         <div class="text-right">
@@ -69,7 +78,7 @@
                     </div>
                         <hr>
 
-                <div class="row">
+                <div class="row" ng-repeat="comment in commentList">
                     <div class="col-md-12">
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
@@ -77,43 +86,15 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star-empty"></span>
                         Anonymous
-                        <span class="pull-right">10 days ago</span>
+                        <span class="pull-right">{{ comment.commentDate }}</span>
 
-                        <p>This product was great in terms of quality. I would definitely buy another!</p>
+                        <p>{{ comment.commentText }}</p>
                     </div>
                 </div>
 
                 <hr>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star-empty"></span>
-                        Anonymous
-                        <span class="pull-right">12 days ago</span>
 
-                        <p>I've alredy ordered another one!</p>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star-empty"></span>
-                        Anonymous
-                        <span class="pull-right">15 days ago</span>
-
-                        <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
-                    </div>
-                </div>
 
             </div>
 
