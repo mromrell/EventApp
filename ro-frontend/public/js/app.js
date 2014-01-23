@@ -50,7 +50,7 @@ var roApp = angular.module('roApp', [
 
             }])
 
-    .run(['$location', '$rootScope', 'baseTitle', function ($location, $rootScope, baseTitle) {
+    .run(['$location', '$rootScope', 'baseTitle', '$http', '$cookies',function ($location, $rootScope, baseTitle, $http, $cookies) {
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
             // Check to see if the 'title' attribute exists on the route
             if (current.hasOwnProperty('$route')) {
@@ -58,6 +58,7 @@ var roApp = angular.module('roApp', [
             } else {
                 $rootScope.title = baseTitle.substring(0, baseTitle.length - 3);
             }
+
         });
         $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];
     }]);

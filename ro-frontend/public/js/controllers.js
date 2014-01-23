@@ -27,7 +27,7 @@ angular.module('roApp.controllers', [])
         });
     }])
 
-    .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', function($scope, $http, SessionService, Restangular) {
+    .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
 //        $scope.session = SessionService.getSession();
 //        $http.post();
         $scope.user = {};
@@ -91,10 +91,10 @@ angular.module('roApp.controllers', [])
 //                }).error(function(response) {
 //                    console.log("there was an Error! Run!!")
 //                });
-
+                console.log(JSON.stringify(fd));
                 $http.post('http://localhost:8001/location', fd, {
                     withCredentials: true,
-                    headers: {'Content-Type': undefined },
+                    headers: {'Content-Type': 'application/json' },
                     transformRequest: angular.identity
                 }).success(function (response) {
                         $window.location = 'index.html#/home';
