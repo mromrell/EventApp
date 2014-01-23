@@ -256,15 +256,12 @@ angular.module('roApp.controllers', [])
         $scope.session = SessionService.getSession();
         $scope.user = {};
 
-        $scope.locationList = {};
-
+        $scope.id = $routeParams.id-1;
 
         Restangular.all('location').getList()
-            .then(function(data) {
-                $scope.locationList = data;
+            .then(function(locationList) {
+                $scope.location = locationList[$scope.id];
             })
-
-        $scope.id = $routeParams.id-1;
 //
 //        SessionService.success(function(data) {
 //            $scope.locationList = data;
