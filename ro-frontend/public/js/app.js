@@ -18,7 +18,7 @@ var roApp = angular.module('roApp', [
             })
             .when('/accountProfile', {
                 templateUrl: 'partials/accountProfile.html',
-                controller: 'HomeController',
+                controller: 'AccountProfileController',
                 title: 'Account Profile'
             })
             .when('/createLocation', {
@@ -59,4 +59,5 @@ var roApp = angular.module('roApp', [
                 $rootScope.title = baseTitle.substring(0, baseTitle.length - 3);
             }
         });
+        $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];
     }]);

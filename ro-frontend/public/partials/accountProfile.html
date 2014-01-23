@@ -6,13 +6,13 @@
     <div ng-hide="session">
         <div login></div>
     </div>-->
-    <p>Hey this is the Account Profile page!</p>
-
     <div ng-show="session">
-        <h1>Placer | Travel App</h1>
+        <h1>My Profile</h1>
 
         <div>
             This is the Apps default content, should change based on the user's authentication status.
+            Current User Info {{ currentUserInfo.id }}
+            Current User Info.name {{ session }}
         </div>
     </div>
 </div>
