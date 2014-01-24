@@ -70,10 +70,9 @@ angular.module('roApp.controllers', [])
                 fd.append("upVoteCount", $scope.upVoteCount);
                 fd.append("downVoteCount", $scope.downVoteCount);
 
-                console.log(JSON.stringify(fd));
                 $http.post('http://localhost:8001/location', fd, {
-                   // withCredentials: true,
-                    headers: {'Content-Type': 'undefined' },
+//                   withCredentials: true,
+                    headers: {'Content-Type': undefined },
                     transformRequest: angular.identity
                 }).success(function (response) {
                         $window.location = 'index.html#/home';
