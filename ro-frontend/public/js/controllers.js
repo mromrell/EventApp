@@ -42,7 +42,6 @@ angular.module('roApp.controllers', [])
         });
         $scope.image = null;
         $scope.imageFileName = '';
-
         $scope.location = Object();
         $scope.address = null;
         $scope.locationName = null;
@@ -60,57 +59,21 @@ angular.module('roApp.controllers', [])
         }
         $scope.save = function () {
             if ($scope.submitted == false) {
-                $scope.location.locationName = $scope.locationName;
-                $scope.location.description = $scope.description;
-//                $scope.location.city = $scope.city;
-//                $scope.location.state = $scope.state;
-//                $scope.location.country = $scope.country;
-                $scope.location.address = $scope.address;
-                $scope.location.photos = $scope.photos;
-                $scope.location.comments = $scope.comments;
-                $scope.location.sponsored = $scope.sponsored;
-                $scope.location.user = $scope.user;
-                $scope.location.upVoteCount = $scope.upVoteCount;
-                $scope.location.downVoteCount = $scope.downVoteCount;
-
-//                var fd = {};
-//                fd["locationName"] = $scope.location.locationName;
-//                fd["description"] = $scope.location.description;
-//                fd["address"] = $scope.location.address;
-//               // fd["photos"] = 'http://www.placekitten.com/400/600';
-//                fd["photos"] = $scope.location.photos;
-//                fd["comments"] = $scope.location.comments;
-//                fd["sponsored"] = $scope.location.sponsored;
-//                fd["user"] = $scope.location.user;
-//                fd["upVoteCount"] = $scope.location.upVoteCount;
-//                fd["downVoteCount"] = $scope.location.downVoteCount;
-//
-//                $http({
-//                    method: 'POST',
-//                    url: 'http://localhost:8001/location',
-//                    data: fd
-//                }).success(function(response) {
-//                        console.log("the form was Successfully Posted!")
-//                        $window.location = 'index.html#/accountProfile';
-//                }).error(function(response) {
-//                    console.log("there was an Error! Run!!")
-//                });
-
                 var fd = new FormData();
-                fd.append("locationName", $scope.location.locationName);
-                fd.append("description", $scope.location.description);
-                fd.append("address", $scope.location.address);
+                fd.append("locationName", $scope.locationName);
+                fd.append("description", $scope.description);
+                fd.append("address", $scope.address);
                 fd.append("photos", $scope.location.photos);
-                fd.append("comments", $scope.location.comments);
-                fd.append("sponsored", $scope.location.sponsored);
-                fd.append("user", $scope.location.user);
-                fd.append("upVoteCount", $scope.location.upVoteCount);
-                fd.append("downVoteCount", $scope.location.downVoteCount);
+                fd.append("comments", $scope.comments);
+                fd.append("sponsored", $scope.sponsored);
+                fd.append("user", $scope.user);
+                fd.append("upVoteCount", $scope.upVoteCount);
+                fd.append("downVoteCount", $scope.downVoteCount);
 
                 console.log(JSON.stringify(fd));
                 $http.post('http://localhost:8001/location', fd, {
                    // withCredentials: true,
-                    headers: {'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'undefined' },
                     transformRequest: angular.identity
                 }).success(function (response) {
                         $window.location = 'index.html#/home';
@@ -143,6 +106,9 @@ angular.module('roApp.controllers', [])
                 s.removeClass("stick");
             }
         });
+
+        $scope.predicate = '-upVoteCount';
+
         $scope.locationList = {};
         Restangular.all('location').getList()
             .then(function (data) {

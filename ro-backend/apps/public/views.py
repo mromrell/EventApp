@@ -42,7 +42,7 @@ class UserDetail(generics.RetrieveAPIView):
 
 class Location(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
-    #permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
     model = Location
     serializer_class = LocationSerializer
 

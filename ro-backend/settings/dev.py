@@ -64,6 +64,7 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'localhost:8001',
+    'localhost:8000',
     'localhost/',
 )
 
