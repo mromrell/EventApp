@@ -233,9 +233,7 @@ angular.module('roApp.controllers', [])
 
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
-        $scope.user = {};
-
-        $scope.id = $routeParams.id - 1;
+        $scope.id = $routeParams.id;
 
         Restangular.all('location').getList()
             .then(function (locationList) {
@@ -247,23 +245,22 @@ angular.module('roApp.controllers', [])
 //            $scope.location = $scope.locationList[$scope.id];
 //            })
         $scope.comment = Object();
-        $scope.locationPostID = null;
+        $scope.locationPostID = $scope.id;
         $scope.commentText = null;
-        $scope.commentDate = null;
-        $scope.locationRating = null;
-        $scope.user = "Jimmy Goop";
+        $scope.submitted = false;
+        $scope.user = 1;
+
+//        console.log('USER: ' + JSON.stringify($scope.session));
 
         $scope.save = function () {
             if ($scope.submitted == false) {
                 $scope.comment.locationPostID = $scope.locationPostID;
                 $scope.comment.commentText = $scope.commentText;
-                $scope.comment.locationRating = $scope.locationRating;
                 $scope.comment.user = $scope.user;
 
                 var fd = {};
                 fd["locationPostID"] = $scope.comment.locationPostID;
                 fd["commentText"] = $scope.comment.commentText;
-                fd["locationRating"] = $scope.comment.locationRating;
                 fd["user"] = $scope.comment.user;
 
                 $http({
@@ -271,19 +268,15 @@ angular.module('roApp.controllers', [])
                     url: 'http://localhost:8001/comment',
                     data: fd
                 }).success(function (response) {
-                        console.log("the form was Successfully Posted!")
+                        $scope.commentList[$scope.commentList.length] = response;
+                        $scope.submitted = true;
                     }).error(function (response) {
-                        console.log("there was an Error! Run!!")
+                        console.log("there was an Error! Run!!" + response);
                     });
             }
-        }
+        };
+
         $scope.commentList = {};
-//        Restangular.all('comment').get()
-//            .then(function(data) {
-//                $scope.commentList = data;
-//                console.log("Success! you got data");
-//                console.log($scope.locationList);
-//            })
         Restangular.all('comment').getList()
             .then(function (data) {
                 $scope.commentList = data;

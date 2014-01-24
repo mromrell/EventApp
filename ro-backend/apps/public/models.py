@@ -6,6 +6,7 @@ from django.dispatch import receiver
 # from settings.base import AUTH_USER_MODEL
 #from django import forms
 #from django.contrib.localflavor.us.forms import USStateSelect
+from datetime import datetime
 
 
 @receiver(post_save, sender=User)
@@ -56,11 +57,11 @@ class Comment(models.Model):
     user = models.ForeignKey(User)
     locationPostID = models.ForeignKey(Location)
     commentText = models.CharField(max_length=200)
-    commentDate = models.DateField()
+    commentDate = models.DateField(default=datetime.now)
     locationRating = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.user, self.LocationPostId, self.commentText)
+        return u'%s, %s, %s' % (self.user, self.locationPostID, self.commentText)
 
     class Meta:
         verbose_name_plural = 'Comment'
