@@ -4,6 +4,9 @@ This is your project's master URL configuration, it defines the set of "root" UR
 from django.conf.urls import patterns, url
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import *
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+
 
 urlpatterns = patterns(
     'apps.public.views',
@@ -25,3 +28,4 @@ urlpatterns = patterns(
 urlpatterns += patterns('', url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'))
 
 urlpatterns = format_suffix_patterns(urlpatterns)
+urlpatterns += staticfiles_urlpatterns()

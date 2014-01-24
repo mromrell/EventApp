@@ -112,8 +112,11 @@ angular.module('roApp.controllers', [])
         Restangular.all('location').getList()
             .then(function (data) {
                 $scope.locationList = data;
-                console.log("Success! you got data");
-                console.log($scope.locationList);
+            })
+        $scope.userList = {};
+        Restangular.all('users').getList()
+            .then(function (data) {
+                $scope.userList = data;
             })
     }])
     .controller('AccountProfileController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
