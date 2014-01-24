@@ -1,12 +1,12 @@
 <div class="container">
     <div class="row">
-        <div class="-sm-2 pull-left">
-            <img src="img/logo.png" alt="Placer Logo"/>
+        <div class="col-xs-12 col-sm-2 pull-left">
+            <img src="img/logo.png" class="img-responsive center" alt="Placer Logo"/>
         </div>
-        <div class="col-sm-10 pull-right">
-            <h1>Welcome to Placer</h1>
+        <div class="col-sm-10 col-xs-12 pull-right">
+            <h1 class="homeh1">Welcome to Placer</h1>
             <h3>Find awesome places that you never knew existed!</h3>
-            <p>This is the Apps default content, should change based on the user's authentication status.</p>
+            <p>Learn about interesting places near you, share your favorite hidden gems and start exploring new things today!</p>
             <br/>
 
             <!--<div logged-out>
@@ -26,16 +26,31 @@
     <br/>
     <br/>
     <div class="row">
-        <div class="filterbox col-md-3 pull-left">
+        <div class="filterbox col-sm-3 pull-left">
             <h3>Filter Places</h3>
-            <form class="navbar-form navbar-right" role="form">
+            <hr/>
+            <form class="navbar-form center" role="form">
                 <div class="form-group">
                     <input type="text" placeholder="Search" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Search</button>
             </form>
+            <br/>
+            <h4>Sort by Proximity</h4>
+            <form class="navbar-form center" role="form">
+                <div class="form-group">
+                    <input type="text" placeholder="I live in..." class="form-control formresize">
+                </div>
+                <select class="form-control">
+                  <option>5 miles</option>
+                  <option>10 miles</option>
+                  <option>50 miles</option>
+                  <option>100 miles</option>
+                </select>
+            </form>
+            <br/><br/>
         </div>
-        <div class="pinlist col-md-9 pull-right">
+        <div class="pinlist col-sm-9 pull-right">
             <div id="columns">
                 <div class="pin" ng-repeat="location in locationList">
                     <div class="image">
@@ -46,7 +61,7 @@
 
                         <p>{{ location.description }}</p>
                         <span>
-                            <a ng-click="upCount += 1" ng-init="upCount=location.upVoteCount" class="btn btn-success"><div class="glyphicon glyphicon-thumbs-up">{{upCount}}</div></a>
+                            <a ng-click="upCount = upCount + 1" ng-init="upCount=location.upVoteCount" class="btn btn-success"><div class="glyphicon glyphicon-thumbs-up">{{upCount}}</div></a>
                             <a ng-click="downCount = downCount - 1" ng-init="downCount=location.downVoteCount" class="btn btn-danger"><div class="glyphicon glyphicon-thumbs-down">{{downCount}}</div></a>
                         </span>
                     </div>

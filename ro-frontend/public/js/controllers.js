@@ -182,7 +182,16 @@ angular.module('roApp.controllers', [])
 //            console.log('event has been broadcast to Home Controller');
 //            $scope.session = SessionService.getSession();
 //        });
-
+        var s = $(".filterbox");
+        var pos = s.position();
+        $(window).scroll(function() {
+            var windowpos = $(window).scrollTop();
+            if (windowpos >= pos.top-40) {
+                s.addClass("stick");
+            } else {
+                s.removeClass("stick");
+            }
+        });
         $scope.locationList = {};
 //        Restangular.all('location').get()
 //            .then(function(data) {
