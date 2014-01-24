@@ -234,6 +234,7 @@ body {
 .stick {
     position:fixed;
     top:70px;
+    width: 292px;
 }
 .homeh1{
     font-family: 'Love Ya Like A Sister', cursive;

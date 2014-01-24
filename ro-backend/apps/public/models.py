@@ -35,8 +35,8 @@ class Location(models.Model):
     ''' Model features for an address '''
     locationName = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    photos = models.CharField(max_length=200)
-    # photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
+    # photos = models.CharField(max_length=200)
+    photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
     description = models.CharField(max_length=1000)
     # comments = models.ForeignKey(Comment, blank=True, null=True)
     comments = models.CharField(max_length=1000, blank=True, null=True)
