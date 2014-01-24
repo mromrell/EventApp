@@ -108,6 +108,11 @@ angular.module('roApp.controllers', [])
 
         $scope.predicate = '-upVoteCount';
 
+//        Restangular.all('uploadedimages',$scope.locationList[13].id).customGET()
+//            .then(function (data) {
+//                $scope.locationList = data;
+//            })
+
         $scope.locationList = {};
         Restangular.all('location').getList()
             .then(function (data) {
