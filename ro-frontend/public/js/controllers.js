@@ -34,7 +34,7 @@ angular.module('roApp.controllers', [])
         Restangular.one('getuserid',$scope.session).get()
         .then(function(data) {
             $scope.user = data;
-        })
+        });
 
         $scope.$on('event:login-confirmed', function() {
             console.log('event has been broadcast to Home Controller');
@@ -144,12 +144,6 @@ angular.module('roApp.controllers', [])
             }
         });
         $scope.locationList = {};
-//        Restangular.all('location').get()
-//            .then(function(data) {
-//                $scope.locationList = data;
-//                console.log("Success! you got data");
-//                console.log($scope.locationList);
-//            })
         Restangular.all('location').getList()
             .then(function (data) {
                 $scope.locationList = data;

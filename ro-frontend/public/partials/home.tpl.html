@@ -1,4 +1,11 @@
 <div class="container">
+    <!--<div logged-out>
+        <login></login>
+    </div>
+
+    <div ng-hide="session">
+        <div login></div>
+    </div>-->
     <div class="row">
         <div class="col-xs-12 col-sm-2 pull-left">
             <img src="img/logo.png" class="img-responsive center" alt="Placer Logo"/>
@@ -18,7 +25,7 @@
             <hr/>
             <form class="navbar-form center" role="form">
                 <div class="form-group">
-                    <input type="text" placeholder="Search" class="form-control">
+                    <input type="text" ng-model="searchText" placeholder="Search" class="form-control">
                 </div>
             </form>
             <br/>
@@ -43,7 +50,7 @@
         </div>
         <div class="pinlist col-sm-9 pull-right">
             <div id="columns">
-                <div class="pin" ng-repeat="location in locationList">
+                <div class="pin" ng-repeat="location in locationList | filter:searchText">
                     <div class="image">
                         <a href="#/locationDetails/{{location.id}}"><img src={{location.photos}}></a>
                     </div>
