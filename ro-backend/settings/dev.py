@@ -1,4 +1,21 @@
 import os
+from os.path import abspath, basename, dirname, join, normpath
+from sys import path
+
+########## PATH CONFIGURATION
+# Absolute filesystem path to the Django project directory:
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+
+# Absolute filesystem path to the top-level project folder:
+SITE_ROOT = dirname(DJANGO_ROOT)
+
+# Site name:
+SITE_NAME = basename(DJANGO_ROOT)
+
+# Add our project to our pythonpath, this way we don't need to type our project
+# name in our dotted import paths:
+path.append(DJANGO_ROOT)
+########## END PATH CONFIGURATION
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -48,11 +65,21 @@ STATIC_ROOT = ''
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
+print "Dir: %s" % join(SITE_ROOT, 'ro-backend', 'img', 'locations')
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    # Don't forget to use absolute paths, not relative paths
+    normpath(join(SITE_ROOT, 'ro-backend', 'img', 'locations')),
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+   # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
