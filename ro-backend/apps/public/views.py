@@ -42,7 +42,7 @@ class UserDetail(generics.RetrieveAPIView):
 
 class Location(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
-    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAuthenticated,)
     model = Location
     serializer_class = LocationSerializer
 
@@ -92,6 +92,17 @@ def obtain_user_from_token(r, token):
    response = auth.authenticate_credentials(token)
    user_id = response[0].id
    return Response(user_id)
+
+@api_view(('GET',))
+def uploadedimages(request, company_id):
+    # company = Company.objects.get(id=company_id)
+    logoUrl = []
+    # if request.method == 'GET':
+    #     logo = Logo.objects.get(consultant_id=company.consultant_id)
+    # if request.is_secure():
+    #     logoUrl = ''.join(['https://', request.META['HTTP_HOST'], logo.image.url]) else:
+    #     logoUrl = ''.join(['http://', request.META['HTTP_HOST'], logo.image.url])
+    return Response(logoUrl)
 
 def logout(request):
     auth.logout(request)

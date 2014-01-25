@@ -36,7 +36,6 @@ class Location(models.Model):
     ''' Model features for an address '''
     locationName = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    # photos = models.CharField(max_length=200)
     photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
     description = models.CharField(max_length=1000)
     # comments = models.ForeignKey(Comment, blank=True, null=True)
@@ -45,6 +44,7 @@ class Location(models.Model):
     upVoteCount = models.IntegerField(blank=True, null=True)
     downVoteCount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User)
+    datecreated = models.DateField(default=datetime.now)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.locationName, self.user, self.description)
