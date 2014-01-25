@@ -11,20 +11,15 @@
         <h1>Share your Favorite Place</h1>
         <h3>Add a place to your Placer profile, and share it with the world!</h3>
 
-        <div>
+        <div class="mainform center">
             <form ng-submit="save()" enctype="multipart/form-data" class="form-register">
-                <div class="form-group">
-                    <input class="form-control" id="locationName" type="text" ng-model="locationName" required="required" placeholder="Location Name">
-                    <span ng-show="hasError('locationName')">Location name is required</span><span ng-show="errorLocationName">{{ errorLocationName }}</span>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" id="address" type="text" ng-model="address" required="required" placeholder="Address">
-                    <span ng-show="hasError('address')">An Address is required</span><span ng-show="errorAddress">{{ errorAddress }}</span>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" id="description" type="text" ng-model="description" required="required" placeholder="Description">
-                    <span ng-show="hasError('description')">Description is required</span><span ng-show="errorDescription">{{ errorDescription }}</span>
-                </div>
+                    <input class="form-control form-group" id="locationName" type="text" ng-model="locationName" required="required" placeholder="Location Name">
+                    <input class="form-control form-group" id="gps" type="text" ng-model="gps" placeholder="GPS Coordinates: 37.235065, -115.811117">
+                    <input class="form-control form-group" id="street" type="text" required="required" ng-model="street" placeholder="Street Address">
+                    <input class="form-control form-group" id="city" type="text" required="required" ng-model="city" placeholder="City">
+                    <input class="form-control form-group" id="state" type="text" required="required" ng-model="state" placeholder="State">
+                    <input class="form-control form-group" id="country" type="text" required="required" ng-model="country" placeholder="Country">
+                    <input class="form-control form-group" id="description" type="text" ng-model="description" required="required" placeholder="Description">
                 <div class="form-group">
                     <input class="form-control" id="comments" value="nocomments" type="hidden" ng-model="comments">
                     <input class="form-control" id="downVoteCount" value="0" type="hidden" ng-model="downVoteCount">
@@ -43,14 +38,10 @@
                <div>
                    <!--
                     <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3" onchange="angular.element(this).scope().uploadFile(this.files)">
-
-
-
                     </div>
                     <div class="image-container">
                         <img ng-src={{image}} />
                         <span class="file-name">{{imageFileName}}</span>
-
                     </div>
                 </div>
                 <input class="form-control" id="photos" value="{{imageFileName}}" type="hidden" ng-model="photos">
@@ -63,22 +54,4 @@
             </form>
         </div>
     </div>
-
-
-<!--
-    <form ng-submit="save()" enctype="multipart/form-data">
-        <input type="file" ng-model="photo" onchange="angular.element(this).scope().uploadFile(this.files)"/>
-        <p><input class="form-control" id="locationName" type="text" ng-model="locationName" placeholder="Location Name" style="width:250px;"></p>
-
-        <div class="well">
-        <p><input class="form-control input-sm" type="text" ng-model="description" placeholder="Description" style="width:250px;"></p>
-        <p>
-            <!--<input type="text" ng-model="city" placeholder="City" style="width:80px;">
-            <input type="text" ng-model="state" placeholder="State" style="width:80px;">
-            <input type="text" ng-model="country" placeholder="Country" style="width:80px; ">--> <!--
-            <input type="text" ng-model="address" placeholder="Address" style="width:80px; ">
-        </p>
-        <button type="submit" class="btn btn-success" value="Save">Create Location</button>
-    </form>
--->
 </div>
