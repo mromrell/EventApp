@@ -241,7 +241,7 @@ angular.module('roApp.controllers', [])
 
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
-        $scope.id = $routeParams.id;
+        $scope.id = $routeParams.id-1;
 
         Restangular.all('location').getList()
             .then(function (locationList) {
@@ -267,7 +267,7 @@ angular.module('roApp.controllers', [])
                 $scope.comment.user = $scope.user;
 
                 var fd = {};
-                fd["locationPostID"] = $scope.comment.locationPostID;
+                fd["locationPostID"] = $scope.comment.locationPostID+1;
                 fd["commentText"] = $scope.comment.commentText;
                 fd["user"] = $scope.comment.user;
 
