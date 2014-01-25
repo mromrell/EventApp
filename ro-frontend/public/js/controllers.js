@@ -28,9 +28,6 @@ angular.module('roApp.controllers', [])
 
     .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
         $scope.session = SessionService.getSession();
-
-
-
         Restangular.one('getuserid',$scope.session).get()
         .then(function(data) {
             $scope.user = data;
@@ -43,7 +40,11 @@ angular.module('roApp.controllers', [])
         $scope.image = null;
         $scope.imageFileName = '';
         $scope.location = Object();
-        $scope.address = null;
+        $scope.gps = null;
+        $scope.street = null;
+        $scope.city = null;
+        $scope.state = null;
+        $scope.country = null;
         $scope.locationName = null;
         $scope.description = null;
         $scope.photos = null;
@@ -62,7 +63,11 @@ angular.module('roApp.controllers', [])
                 var fd = new FormData();
                 fd.append("locationName", $scope.locationName);
                 fd.append("description", $scope.description);
-                fd.append("address", $scope.address);
+                fd.append("gps", $scope.gps);
+                fd.append("street", $scope.street);
+                fd.append("city", $scope.city);
+                fd.append("state", $scope.state);
+                fd.append("country", $scope.country);
                 fd.append("photos", $scope.location.photos);
                 fd.append("comments", $scope.comments);
                 fd.append("sponsored", $scope.sponsored);
@@ -79,9 +84,6 @@ angular.module('roApp.controllers', [])
                     }).error(function (response) {
                         console.log('Response: ' + response);
                     });
-
-
-
             }
         }
 

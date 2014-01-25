@@ -35,11 +35,14 @@ class Address(models.Model):
 class Location(models.Model):
     ''' Model features for an address '''
     locationName = models.CharField(max_length=200)
-    address = models.CharField(max_length=200)
+    # address = models.USStateSelect()
+    gps = models.CharField(max_length=200)
+    street = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
     photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
     description = models.CharField(max_length=1000)
-    # comments = models.ForeignKey(Comment, blank=True, null=True)
-    comments = models.CharField(max_length=1000, blank=True, null=True)
     sponsored = models.BooleanField()
     upVoteCount = models.IntegerField(blank=True, null=True)
     downVoteCount = models.IntegerField(blank=True, null=True)
