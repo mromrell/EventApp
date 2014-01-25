@@ -59,7 +59,7 @@ class Comment(models.Model):
     ''' Model features for an address '''
     user = models.ForeignKey(User)
     locationPostID = models.ForeignKey(Location)
-    commentText = models.CharField(max_length=200)
+    commentText = models.CharField(max_length=900)
     commentDate = models.DateField(default=datetime.now)
     locationRating = models.IntegerField(blank=True, null=True)
 

@@ -286,6 +286,11 @@ angular.module('roApp.controllers', [])
                 console.log("Success! you got data");
                 console.log($scope.commentList);
             })
+        $scope.userList = {};
+        Restangular.all('users').getList()
+            .then(function (data) {
+                $scope.userList = data;
+            })
     }]);
 
 
