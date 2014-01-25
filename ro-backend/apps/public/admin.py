@@ -10,4 +10,3 @@ class AddressAdmin(admin.ModelAdmin):
 admin.site.register(Address, AddressAdmin)
 admin.site.register(Location)
 admin.site.register(Comment)
-# admin.site.register(ExtendedUser)

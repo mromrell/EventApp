@@ -111,15 +111,20 @@ angular.module('roApp.controllers', [])
         $scope.predicate = '-upVoteCount';
         $scope.predicate = '-datecreated';
 
-//        Restangular.all('uploadedimages',$scope.locationList[13].id).customGET()
-//            .then(function (data) {
-//                $scope.locationList = data;
-//            })
+        $scope.imagefinder = function() {
 
+            for (var i = 0; i < $scope.locationList.length; i++) {
+                Restangular.one('uploadedimages', i+1).customGET()
+                    .then(function (photo_url) {
+                        $scope.locationList[photo_url[1]-1].photo_url = photo_url[0];
+                    })
+            }
+        }
         $scope.locationList = {};
         Restangular.all('location').getList()
             .then(function (data) {
                 $scope.locationList = data;
+                $scope.imagefinder();
             })
         $scope.userList = {};
         Restangular.all('users').getList()

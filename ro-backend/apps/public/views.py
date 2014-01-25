@@ -40,13 +40,13 @@ class UserDetail(generics.RetrieveAPIView):
 
 # I Added this stuff --------------------------------------
 
-class Location(generics.ListCreateAPIView):
+class LocationList(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
     #permission_classes = (permissions.IsAuthenticated,)
     model = Location
     serializer_class = LocationSerializer
 
-class Comment(generics.ListCreateAPIView):
+class CommentList(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
     permission_classes = (permissions.IsAuthenticated,)
     model = Comment
@@ -94,15 +94,18 @@ def obtain_user_from_token(r, token):
    return Response(user_id)
 
 @api_view(('GET',))
-def uploadedimages(request, company_id):
-    # company = Company.objects.get(id=company_id)
-    logoUrl = []
+def uploadedimages(request, location_id):
+    location = Location.objects.get(id=location_id)
+    photo_name = location.photos.name.split("/")[-1]
     # if request.method == 'GET':
     #     logo = Logo.objects.get(consultant_id=company.consultant_id)
-    # if request.is_secure():
-    #     logoUrl = ''.join(['https://', request.META['HTTP_HOST'], logo.image.url]) else:
-    #     logoUrl = ''.join(['http://', request.META['HTTP_HOST'], logo.image.url])
-    return Response(logoUrl)
+    if request.is_secure():
+        photo_url = ''.join(['https://', request.META['HTTP_HOST'], '/static/', photo_name])
+    else:
+        photo_url = ''.join(['http://', request.META['HTTP_HOST'], '/static/', photo_name])
+
+    response = [photo_url, location_id]
+    return Response(response)
 
 def logout(request):
     auth.logout(request)
