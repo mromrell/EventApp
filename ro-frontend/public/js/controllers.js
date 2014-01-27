@@ -176,10 +176,14 @@ angular.module('roApp.controllers', [])
         // allows images to show up on the homepage
         $scope.imagefinder = function() {
             for (var i = 0; i < $scope.locationList.length; i++) {
-                Restangular.one('uploadedimages', i+1).customGET()
-                    .then(function (photo_url) {
-                        $scope.locationList[photo_url[1]-1].photo_url = photo_url[0];
-                    })
+                Restangular.one('uploadedimages', $scope.locationList[i].id).customGET()
+                    .then(function(photo_url) {
+                        for (var j = 0; j < $scope.locationList.length; j++) {
+                            if ($scope.locationList[j].id == photo_url[1]) {
+                                $scope.locationList[j].photo_url = photo_url[0];
+                            }
+                        }
+                    });
             }
         }
 
