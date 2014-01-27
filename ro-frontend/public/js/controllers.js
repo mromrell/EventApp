@@ -130,10 +130,11 @@ angular.module('roApp.controllers', [])
 
         // Saves the Up Votes and down Votes back to the server
         var vote = false;
+
         $scope.countChoculaUp = function(location){
-            if (vote==false){
+            if (location.voted==null){
                 location.upVoteCount += 1;
-                vote = true;
+                location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
                 .then(function (data) {
@@ -142,9 +143,9 @@ angular.module('roApp.controllers', [])
             }
         };
         $scope.countChoculaDown = function(location){
-            if (vote==false){
+            if (location.voted==null){
                 location.downVoteCount -= 1;
-                vote = true;
+                location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
                 .then(function (data) {
