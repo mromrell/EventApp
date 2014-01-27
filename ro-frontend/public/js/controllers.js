@@ -107,12 +107,12 @@ angular.module('roApp.controllers', [])
                 s.removeClass("stick");
             }
         });
-
+        // for the filters / sorting functionality
         $scope.predicate = '-upVoteCount';
         $scope.predicate = '-datecreated';
 
+        // allows images to show up on the homepage
         $scope.imagefinder = function() {
-
             for (var i = 0; i < $scope.locationList.length; i++) {
                 Restangular.one('uploadedimages', i+1).customGET()
                     .then(function (photo_url) {
@@ -120,6 +120,8 @@ angular.module('roApp.controllers', [])
                     })
             }
         }
+        //upCount = upCount + 1
+        //$scope.
         $scope.locationList = {};
         Restangular.all('location').getList()
             .then(function (data) {
