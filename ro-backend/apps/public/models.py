@@ -7,7 +7,14 @@ from django.dispatch import receiver
 #from django import forms
 #from django.contrib.localflavor.us.forms import USStateSelect
 from datetime import datetime
+from django.contrib.auth.hashers import make_password, is_password_usable
 
+@receiver(post_save, sender=User)
+def hash_password(sender, instance=None, created=False, **kwargs):
+   ''' Hashes the password given when a User is created or updated '''
+   if not is_password_usable(instance.password):
+       instance.password = make_password(instance.password)
+       instance.save()
 
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
