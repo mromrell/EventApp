@@ -26,7 +26,7 @@ class JSONResponse(HttpResponse):
 
 class UserList(generics.ListCreateAPIView):
     """List all users or create a new User"""
-    permission_classes = (permissions.IsAuthenticated,)
+   # permission_classes = (permissions.IsAuthenticated,)
     model = User
     serializer_class = UserSerializer
 
