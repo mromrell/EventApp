@@ -46,6 +46,12 @@ class LocationList(generics.ListCreateAPIView):
     model = Location
     serializer_class = LocationSerializer
 
+class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
+    """List all Locations or create a new Location"""
+    #permission_classes = (permissions.IsAuthenticated,)
+    model = Location
+    serializer_class = LocationSerializer
+
 class CommentList(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
     permission_classes = (permissions.IsAuthenticated,)

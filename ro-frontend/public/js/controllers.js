@@ -120,14 +120,39 @@ angular.module('roApp.controllers', [])
                     })
             }
         }
-        //upCount = upCount + 1
-        //$scope.
+
         $scope.locationList = {};
         Restangular.all('location').getList()
             .then(function (data) {
                 $scope.locationList = data;
                 $scope.imagefinder();
             })
+
+        // Saves the Up Votes and down Votes back to the server
+        var vote = false;
+        $scope.countChoculaUp = function(location){
+            if (vote==false){
+                location.upVoteCount += 1;
+                vote = true;
+                delete location.photos;
+                Restangular.one('location-detail', location.id).customPUT(location)
+                .then(function (data) {
+                  console.log(data);
+                })
+            }
+        };
+        $scope.countChoculaDown = function(location){
+            if (vote==false){
+                location.downVoteCount -= 1;
+                vote = true;
+                delete location.photos;
+                Restangular.one('location-detail', location.id).customPUT(location)
+                .then(function (data) {
+                  console.log(data);
+                })
+            }
+        };
+
         $scope.userList = {};
         Restangular.all('users').getList()
             .then(function (data) {

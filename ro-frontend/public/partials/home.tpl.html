@@ -73,8 +73,8 @@
                     <div class="pininfo">
                         <div class="pull-left">
 
-                            <a ng-click="upCount = upCount + 1" ng-init="upCount=location.upVoteCount" class=""><div class="glyphicon glyphicon-thumbs-up"></div></a>{{upCount}}<br/>
-                            <a ng-click="downCount = downCount - 1" ng-init="downCount=location.downVoteCount" class=""><div class="glyphicon glyphicon-thumbs-down"></div></a>{{downCount}}
+                            <a ng-click="countChoculaUp(location)" ng-init="upCount=location.upVoteCount" class=""><div class="glyphicon glyphicon-thumbs-up"></div></a>{{location.upVoteCount}}<br/>
+                            <a ng-click="countChoculaDown(location)" ng-init="downCount=location.downVoteCount" class=""><div class="glyphicon glyphicon-thumbs-down"></div></a>{{location.downVoteCount}}
 
                         </div>
                         <div class="pull-right">
