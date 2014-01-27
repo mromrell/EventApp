@@ -149,12 +149,16 @@ angular.module('roApp.controllers', [])
         $scope.predicate = '-datecreated';
 
         // allows images to show up on the homepage
-        $scope.imagefinder = function() {
+        $scope.imagefinder = function () {
             for (var i = 0; i < $scope.locationList.length; i++) {
-                Restangular.one('uploadedimages', i+1).customGET()
+                Restangular.one('uploadedimages', $scope.locationList[i].id).customGET()
                     .then(function (photo_url) {
-                        $scope.locationList[photo_url[1]-1].photo_url = photo_url[0];
-                    })
+                        for (var j = 0; j < $scope.locationList.length; j++) {
+                            if ($scope.locationList[j].id == photo_url[1]) {
+                                $scope.locationList[j].photo_url = photo_url[0];
+                            }
+                        }
+                    });
             }
         }
 
@@ -200,6 +204,11 @@ angular.module('roApp.controllers', [])
     .controller('AccountProfileController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
         $scope.currentUserInfo = SessionService.getUserSession();
+
+        Restangular.one('getuserid',$scope.session).get()
+        .then(function(data) {
+            $scope.user = data;
+        });
 
         $scope.user = {};
 
