@@ -381,7 +381,7 @@ angular.module('roApp.controllers', [])
         };
 
         $scope.commentList = {};
-        Restangular.all('comment').getList()
+        Restangular.all('comments-by-location').getList({'locationID':$scope.locationPostID+1})
             .then(function (data) {
                 $scope.commentList = data;
                 console.log("Success! you got data");

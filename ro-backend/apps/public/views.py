@@ -57,9 +57,23 @@ class CommentList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     model = Comment
     serializer_class = CommentSerializer
+    # queryset = Comment.objects.filter(locationPostID = location_id)
+
+    # def get(self, request):
+    #     print "%s" % request.QUERY_PARAMS['locationID']
+    #     location_id = request.QUERY_PARAMS['locationID']
+    #     return query_set
 
 # I Added the stuff above --------------------------------------
 
+@api_view(('GET',))
+def comments_by_location(request):
+    location_id = request.QUERY_PARAMS['locationID']
+    queryset = Comment.objects.filter(locationPostID = location_id)
+    serializer_class = CommentSerializer(queryset)
+
+        # print "%s" % request.QUERY_PARAMS['locationID']
+    return Response(serializer_class.data)
 
 
 class AddressList(generics.ListCreateAPIView):
