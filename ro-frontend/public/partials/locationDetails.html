@@ -19,13 +19,13 @@
 
                     <p>{{ location.description }}</p>
                     <span>
-                        <div class="glyphicon glyphicon-thumbs-up">{{ location.upVoteCount }} </div>
-                        <div class="glyphicon glyphicon-thumbs-down">{{ location.downVoteCount }} </div>
+                        <a ng-click="countChoculaUp(location)" ng-init="upCount=location.upVoteCount" class=""><div class="glyphicon glyphicon-thumbs-up"></div></a>{{location.upVoteCount}}
+                        <a ng-click="countChoculaDown(location)" ng-init="downCount=location.downVoteCount" class=""><div class="glyphicon glyphicon-thumbs-down"></div></a>{{location.downVoteCount}}
                     </span>
                 </div>
 
                 <div class="ratings">
-                    <p class="pull-right">3 reviews</p>
+                   <p class="pull-right">{{ commentList.length }} reviews</p>
 
                     <p>
                         <span class="glyphicon glyphicon-star"></span>

@@ -307,7 +307,7 @@ angular.module('roApp.controllers', [])
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
         $scope.id = $routeParams.id-1;
-
+        //to display images from Home page
         Restangular.one('uploadedimages', $routeParams.id).customGET()
             .then(function (photo_url) {
                 $scope.photo_url = photo_url[0];
@@ -352,6 +352,32 @@ angular.module('roApp.controllers', [])
                     }).error(function (response) {
                         console.log("there was an Error! Run!!" + response);
                     });
+            }
+        };
+        //to save upvotes and downvotes to server
+        var vote = false;
+
+
+        $scope.countChoculaUp = function(location){
+            if (location.voted==null){
+                location.upVoteCount += 1;
+                location.voted = true;
+                delete location.photos;
+                Restangular.one('location-detail', location.id).customPUT(location)
+                .then(function (data) {
+                  console.log(data);
+                })
+            }
+        };
+        $scope.countChoculaDown = function(location){
+            if (location.voted==null){
+                location.downVoteCount -= 1;
+                location.voted = true;
+                delete location.photos;
+                Restangular.one('location-detail', location.id).customPUT(location)
+                .then(function (data) {
+                  console.log(data);
+                })
             }
         };
 
