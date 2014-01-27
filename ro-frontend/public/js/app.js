@@ -41,6 +41,11 @@ var roApp = angular.module('roApp', [
                 controller: 'LoginController',
                 title: 'Login'
             })
+            .when('/register', {
+                templateUrl: 'partials/register.html',
+                controller: 'RegisterController',
+                title: "Create an Account"
+            })
             .otherwise({
                 redirectTo: '/home'
             });
