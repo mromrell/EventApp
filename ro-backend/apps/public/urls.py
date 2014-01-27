@@ -22,6 +22,7 @@ urlpatterns = patterns(
     url(r'^location$', LocationList.as_view(), name='location-list'),
     url(r'^location-detail/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-detail'),
     url(r'^comment$', CommentList.as_view(), name='comment-list'),
+    url(r'^comments-by-location$', comments_by_location, name='comments-by-location'),
     url(r'^getuserid/(?P<token>.+)$', obtain_user_from_token, name='getUserId'),
     # url(r'^location/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-Detail'),
 )
