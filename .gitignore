@@ -50,6 +50,7 @@ coverage.xml
 ro-backend/apps/public/migrations/*
 ro-backend/settings/local_settings.py
 ro-backend/db.sqlite3
+ro-backend/settings/local_settings.py
 
 # Sphinx documentation
 docs/_build/

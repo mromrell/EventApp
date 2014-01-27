@@ -270,6 +270,12 @@ angular.module('roApp.controllers', [])
         $scope.session = SessionService.getSession();
         $scope.id = $routeParams.id-1;
 
+        Restangular.one('uploadedimages', $routeParams.id).customGET()
+            .then(function (photo_url) {
+                $scope.photo_url = photo_url[0];
+        })
+
+
         Restangular.all('location').getList()
             .then(function (locationList) {
                 $scope.location = locationList[$scope.id];
