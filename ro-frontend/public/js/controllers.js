@@ -27,58 +27,33 @@ angular.module('roApp.controllers', [])
         });
     }])
 
-    .controller('RegisterController', ['$scope', '$window', 'registerConstants', 'Restangular', 'SessionService', function($scope, $window, registerConstants, Restangular, SessionService) {
+    .controller('RegisterController', ['$scope', '$window', 'Restangular', 'SessionService', function($scope, $window, Restangular, SessionService) {
         $scope.user = {}
 
-        $scope.doRegister = function () {
-            if ($scope.submitted == false) {
-                var fd = new FormData();
-                fd.append("locationName", $scope.locationName);
-                fd.append("description", $scope.description);
-                fd.append("gps", $scope.gps);
-                fd.append("street", $scope.street);
-                fd.append("city", $scope.city);
-                fd.append("state", $scope.state);
-                fd.append("country", $scope.country);
-                fd.append("photos", $scope.location.photos);
-                fd.append("comments", $scope.comments);
-                fd.append("sponsored", $scope.sponsored);
-                fd.append("user", $scope.user);
-                fd.append("upVoteCount", $scope.upVoteCount);
-                fd.append("downVoteCount", $scope.downVoteCount);
+        $scope.username = null;
+        $scope.password = null;
+        $scope.first_name = null;
+        $scope.last_name = null;
+        $scope.email = null;
 
-                $http.post('http://localhost:8001/location', fd, {
-//                   withCredentials: true,
-                    headers: {'Content-Type': undefined },
-                    transformRequest: angular.identity
-                }).success(function (response) {
-                        $window.location = 'index.html#/home';
-                    }).error(function (response) {
-                        console.log('Response: ' + response);
-                    });
-            }
+        $scope.doRegister = function() {
+            $scope.user = {
+                'email': $scope.email,
+                'password': $scope.password,
+                'username': $scope.username,
+                'date_joined': new Date(),
+                'first_name': $scope.first_name,
+                'last_name': $scope.last_name
+            };
+            Restangular.all('users').customPOST($scope.user)
+                .then(function(data) {
+                    $window.location = 'index.html#/accountProfile';
+                    console.log('Register Success: ' + response);
+                }), function(response) {
+                    console.log('Register error: ' + response);
+                    $scope.errorMessage = response;
+                };
         }
-
-//        $scope.doRegister = function() {
-//            var user = {
-//                'email': $scope.user.email,
-//                'password': $scope.user.password,
-//                'username': $scope.user.email,
-//                'created': new Date(),
-//                'first_name': $scope.user.first_name,
-//                'last_name': $scope.user.last_name
-//            };
-//
-//            Restangular.all('users').customPOST(user)
-//                .then(function(data) {
-//                    SessionService.saveUserSession(data);
-//                    $window.location = '/home';
-//                    console.log('Register Success: ' + response);
-//                }), function(response) {
-//                    console.log('Register error: ' + response);
-//                    $scope.errorMessage = response;
-//                };
-//        }
 
         $scope.hasError = function (field, validation) {
             if (validation) {
@@ -174,12 +149,16 @@ angular.module('roApp.controllers', [])
         $scope.predicate = '-datecreated';
 
         // allows images to show up on the homepage
-        $scope.imagefinder = function() {
+        $scope.imagefinder = function () {
             for (var i = 0; i < $scope.locationList.length; i++) {
-                Restangular.one('uploadedimages', i+1).customGET()
+                Restangular.one('uploadedimages', $scope.locationList[i].id).customGET()
                     .then(function (photo_url) {
-                        $scope.locationList[photo_url[1]-1].photo_url = photo_url[0];
-                    })
+                        for (var j = 0; j < $scope.locationList.length; j++) {
+                            if ($scope.locationList[j].id == photo_url[1]) {
+                                $scope.locationList[j].photo_url = photo_url[0];
+                            }
+                        }
+                    });
             }
         }
 
@@ -225,6 +204,11 @@ angular.module('roApp.controllers', [])
     .controller('AccountProfileController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
         $scope.currentUserInfo = SessionService.getUserSession();
+
+        Restangular.one('getuserid',$scope.session).get()
+        .then(function(data) {
+            $scope.user = data;
+        });
 
         $scope.user = {};
 
