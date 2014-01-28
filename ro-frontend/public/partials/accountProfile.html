@@ -22,6 +22,7 @@
                     <th>Place</th>
                     <th>Description</th>
                     <th>Date Created</th>
+                    <th>Edit this Place</th>
                 </tr>
                 </thead>
                 <tbody ng-repeat="location in myLocationList">
@@ -31,6 +32,7 @@
                         <td><a href="#/locationDetails/{{location.id}}">{{ location.locationName }}</a></td>
                         <td>{{ location.description }}</td>
                         <td>{{ location.datecreated }}</td>
+                        <td><a href="#/editLocation/{{ location.id }}"><span class="glyphicon glyphicon-edit"></span><span class="glyphicon-class"> Edit</span></a></td>
                     </tr>
 
                 </tbody>

@@ -1,0 +1,112 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-4 pull-left bs-example">
+            <h2>Edit {{ location.locationName }}</h2>
+
+            <form ng-submit="save()" enctype="multipart/form-data" class="form-register">
+                <table>
+                <tbody>
+                    <tr>
+                        <td>Place Name</td><td class="tablemanners2"><input class="form-control form-group" id="locationName" type="text" value="{{ location.locationName }}"></td>
+                    </tr>
+                    <tr>
+                        <td>GPS Coordinates</td><td><input class="form-control form-group" id="gps" type="text" value="{{ location.gps }}"></td>
+                    </tr>
+                    <tr>
+                        <td>Street</td><td><input class="form-control form-group" id="street" type="text" value="{{ location.street }}"></td>
+                    </tr>
+                    <tr>
+                        <td>City</td><td><input class="form-control form-group" id="city" type="text" value="{{ location.city }}"></td>
+                    </tr>
+                    <tr>
+                        <td>State</td><td><input class="form-control form-group" id="state" type="text" value="{{ location.state }}"></td>
+                    </tr>
+                    <tr>
+                        <td>Country</td><td><input class="form-control form-group" id="country" type="text" value="{{ location.country }}"></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td><td><input class="form-control form-group" id="description" type="text" value="{{ location.description }}"></td>
+                    </tr>
+                </tbody>
+                </table>
+                    <input class="form-control" id="comments" value="nocomments" type="hidden" ng-model="comments">
+                    <input class="form-control" id="downVoteCount" value="0" type="hidden" ng-model="downVoteCount">
+                    <input class="form-control" id="upVoteCount" value="0" type="hidden" ng-model="upVoteCount">
+                    <input class="form-control" id="user" value="testrobot" type="hidden" ng-model="user">
+                    <!--
+                    <input class="form-control" id="photos" value="http://www.placekitten.com/400/600" type="hidden" ng-model="photos">
+                    -->
+                 <div class="center">Do you want to sponsor this place?
+                    <br/>
+                    <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="false" checked/> No</li>
+                    <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="true"/> Yes</li>
+                </div>
+                <br/>
+                <input class="center" id="photos" type="file" ng-model="photos" required="required" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+
+                <hr/>
+                <button type="submit" class="btn btn-success center" value="Save">Update Location</button>
+            </form>
+            <br/>
+        </div>
+        <div class="col-md-8 pull-right">
+            <div class="thumbnail">
+                <img class="img-responsive" src="{{ photo_url }}" alt="">
+
+                <div class="caption-full">
+                    <h4><a href="#">{{ location.locationName }}</a>
+                    </h4>
+
+                    <p>{{ location.description }}</p>
+                    <span>
+                        <a ng-click="countChoculaUp(location)" ng-init="upCount=location.upVoteCount" class=""><div class="glyphicon glyphicon-thumbs-up"></div></a>{{location.upVoteCount}}
+                        <a ng-click="countChoculaDown(location)" ng-init="downCount=location.downVoteCount" class=""><div class="glyphicon glyphicon-thumbs-down"></div></a>{{location.downVoteCount}}
+                    </span>
+                </div>
+
+                <div class="ratings">
+                   <p class="pull-right">{{ commentList.length }} reviews</p>
+
+                    <p>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                        4.0 stars
+                    </p>
+                    <br>
+                    <hr>
+                </div>
+
+                <div class="caption-full">
+                    <div class="row" ng-repeat="comment in commentList">
+                        <div class="col-md-12">
+                            <span class="pull-right">{{ comment.commentDate }}</span>
+                            <br>
+                            <br>
+                            <p>{{ comment.commentText }}</p>
+                            <br>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <p>{{ userList[location.user - 1].username }}</p>
+                            <hr>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+
+    </div>
+
+</div>
+
