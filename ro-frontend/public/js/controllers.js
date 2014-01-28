@@ -204,26 +204,43 @@ angular.module('roApp.controllers', [])
     .controller('AccountProfileController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
         $scope.currentUserInfo = SessionService.getUserSession();
+        $scope.myLocationList = [];
+        $scope.locationList = {};
 
         Restangular.one('getuserid',$scope.session).get()
         .then(function(data) {
-            $scope.user = data;
+            $scope.userId = data;
+            Restangular.one('users',$scope.userId).get()
+            .then(function(data) {
+                $scope.user = data;
+            });
+            Restangular.all('location').getList()
+            .then(function (data) {
+                $scope.locationList = data;
+                for (var i = 0; i < $scope.locationList.length; i++){
+                    if ($scope.locationList[i].user==$scope.userId){
+                        $scope.myLocationList.push($scope.locationList[i]);
+                        console.log($scope.myLocationList);
+//                fd.append("locationName", $scope.locationName);
+                    }
+                }
+//          $scope.imagefinder();
+            })
         });
-
-        $scope.user = {};
 
         $scope.$on('event:login-confirmed', function() {
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
         });
 
-        $scope.userList = {};
-        Restangular.all('users').getList()
-            .then(function(data) {
-                $scope.userList = data;
-                console.log("Success! you got data");
-                console.log($scope.userList);
-            })
+
+//        $scope.userList = {};
+//        Restangular.all('users').getList()
+//            .then(function(data) {
+//                $scope.userList = data;
+//                console.log("Success! you got data");
+//                console.log($scope.userList);
+//            })
 
     }])
 
