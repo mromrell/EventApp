@@ -67,8 +67,8 @@ var roApp = angular.module('roApp', [
         });
         $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];
 
-        if (SessionService.isLoggedIn()) {
-            var token = SessionService.getSession();
-            $http.defaults.headers.common['Authorization'] = 'Token ' + token;
-        }
+//        if (SessionService.isLoggedIn()) {
+//            var token = SessionService.getSession();
+//            $http.defaults.headers.common['Authorization'] = 'Token ' + token;
+//        }
     }]);

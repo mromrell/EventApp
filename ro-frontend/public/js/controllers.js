@@ -65,10 +65,6 @@ angular.module('roApp.controllers', [])
 
     .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
         $scope.session = SessionService.getSession();
-        Restangular.one('getuserid',$scope.session).get()
-        .then(function(data) {
-            $scope.user = data;
-        });
 
         $scope.$on('event:login-confirmed', function() {
             console.log('event has been broadcast to Home Controller');
@@ -108,12 +104,12 @@ angular.module('roApp.controllers', [])
                 fd.append("photos", $scope.location.photos);
                 fd.append("comments", $scope.comments);
                 fd.append("sponsored", $scope.sponsored);
-                fd.append("user", $scope.user);
+                fd.append("user", $scope.session.id);
                 fd.append("upVoteCount", $scope.upVoteCount);
                 fd.append("downVoteCount", $scope.downVoteCount);
 
                 $http.post('http://localhost:8001/location', fd, {
-//                   withCredentials: true,
+                    withCredentials: true,
                     headers: {'Content-Type': undefined },
                     transformRequest: angular.identity
                 }).success(function (response) {
@@ -203,37 +199,33 @@ angular.module('roApp.controllers', [])
     }])
     .controller('AccountProfileController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
-//        $scope.currentUserInfo = SessionService.getUserSession();
-        $scope.myLocationList = [];
-        $scope.locationList = {};
+        $scope.currentUserInfo = SessionService.getSession();
 
-        Restangular.one('getuserid',$scope.session).get()
-        .then(function(data) {
-            $scope.userId = data;
-            Restangular.one('users',$scope.userId).get()
-            .then(function(data) {
-                $scope.user = data;
-            });
+        $scope.myLocationList = [];
+        if (SessionService.getUserLocations()){
+            $scope.myLocationList=SessionService.getUserLocations();
+        }
+
+        $scope.$on('event:login-confirmed', function() {
+            console.log('event has been broadcast to Home Controller');
+            $scope.session = SessionService.getSession();
+
             Restangular.all('location').getList()
             .then(function (data) {
                 $scope.locationList = data;
                 for (var i = 0; i < $scope.locationList.length; i++){
-                    if ($scope.locationList[i].user==$scope.userId){
+                    if ($scope.locationList[i].user==$scope.session.id){
                         $scope.myLocationList.push($scope.locationList[i]);
                         console.log($scope.myLocationList);
 //                fd.append("locationName", $scope.locationName);
                     }
                 }
+                SessionService.saveUserLocations($scope.myLocationList);
 //          $scope.imagefinder();
             })
         });
 
-        $scope.$on('event:login-confirmed', function() {
-            console.log('event has been broadcast to Home Controller');
-            $scope.session = SessionService.getSession();
-        });
-
-
+            console.log("Success  "+$scope.myLocationList.length);
 //        $scope.userList = {};
 //        Restangular.all('users').getList()
 //            .then(function(data) {
@@ -246,7 +238,6 @@ angular.module('roApp.controllers', [])
 
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
-        $scope.id = $routeParams.id-1;
         //to display images from Home page
         Restangular.one('uploadedimages', $routeParams.id).customGET()
             .then(function (photo_url) {
@@ -254,33 +245,27 @@ angular.module('roApp.controllers', [])
         })
 
 
-        Restangular.all('location').getList()
-            .then(function (locationList) {
-                $scope.location = locationList[$scope.id];
-            });
+                Restangular.one('location-detail', $routeParams.id).customGET()
+                .then(function (location) {
+                  $scope.location = location;
+                })
 //
 //        SessionService.success(function(data) {
 //            $scope.locationList = data;
 //            $scope.location = $scope.locationList[$scope.id];
 //            })
-        $scope.comment = Object();
-        $scope.locationPostID = $scope.id;
         $scope.commentText = null;
         $scope.submitted = false;
-        $scope.user = 1;
 
 //        console.log('USER: ' + JSON.stringify($scope.session));
 
         $scope.save = function () {
             if ($scope.submitted == false) {
-                $scope.comment.locationPostID = $scope.locationPostID;
-                $scope.comment.commentText = $scope.commentText;
-                $scope.comment.user = $scope.user;
 
                 var fd = {};
-                fd["locationPostID"] = $scope.comment.locationPostID+1;
-                fd["commentText"] = $scope.comment.commentText;
-                fd["user"] = $scope.comment.user;
+                fd["locationPostID"] = $routeParams.id;
+                fd["commentText"] = $scope.commentText;
+                fd["user"] = $scope.session.id;
 
                 $http({
                     method: 'POST',
@@ -322,17 +307,12 @@ angular.module('roApp.controllers', [])
         };
 
         $scope.commentList = {};
-        Restangular.all('comments-by-location').getList({'locationID':$scope.locationPostID+1})
+        Restangular.all('comments-by-location').getList({'locationID':$routeParams.id})
             .then(function (data) {
                 $scope.commentList = data;
                 console.log("Success! you got data");
                 console.log($scope.commentList);
-            })
-        $scope.userList = {};
-        Restangular.all('users').getList()
-            .then(function (data) {
-                $scope.userList = data;
-            })
+            });
     }]);
 
 
