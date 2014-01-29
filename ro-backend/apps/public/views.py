@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import status
 
+from rest_framework.authtoken.views import ObtainAuthToken
+
 from rest_framework import generics
 from rest_framework import permissions
 
@@ -130,3 +132,15 @@ def uploadedimages(request, location_id):
 def logout(request):
     auth.logout(request)
     return JSONResponse([{'success': 'Logged out!'}])
+
+class NewAuthToken(ObtainAuthToken):
+   def post(self, request):
+       serializer = self.serializer_class(data=request.DATA)
+       if serializer.is_valid():
+           token, created = Token.objects.get_or_create(user=serializer.object['user'])
+           data = {
+               'user': UserSerializer(User.objects.filter(auth_token=token)).data,
+               'token': token.key,
+           }
+           return Response(data)
+       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

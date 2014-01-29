@@ -65,10 +65,6 @@ angular.module('roApp.controllers', [])
 
     .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
         $scope.session = SessionService.getSession();
-        Restangular.one('getuserid',$scope.session).get()
-        .then(function(data) {
-            $scope.user = data;
-        });
 
         $scope.$on('event:login-confirmed', function() {
             console.log('event has been broadcast to Home Controller');
@@ -108,12 +104,12 @@ angular.module('roApp.controllers', [])
                 fd.append("photos", $scope.location.photos);
                 fd.append("comments", $scope.comments);
                 fd.append("sponsored", $scope.sponsored);
-                fd.append("user", $scope.user);
+                fd.append("user", $scope.session.id);
                 fd.append("upVoteCount", $scope.upVoteCount);
                 fd.append("downVoteCount", $scope.downVoteCount);
 
                 $http.post('http://localhost:8001/location', fd, {
-//                   withCredentials: true,
+                    withCredentials: true,
                     headers: {'Content-Type': undefined },
                     transformRequest: angular.identity
                 }).success(function (response) {
@@ -149,10 +145,10 @@ angular.module('roApp.controllers', [])
         $scope.predicate = '-datecreated';
 
         // allows images to show up on the homepage
-        $scope.imagefinder = function() {
+        $scope.imagefinder = function () {
             for (var i = 0; i < $scope.locationList.length; i++) {
                 Restangular.one('uploadedimages', $scope.locationList[i].id).customGET()
-                    .then(function(photo_url) {
+                    .then(function (photo_url) {
                         for (var j = 0; j < $scope.locationList.length; j++) {
                             if ($scope.locationList[j].id == photo_url[1]) {
                                 $scope.locationList[j].photo_url = photo_url[0];
@@ -203,114 +199,45 @@ angular.module('roApp.controllers', [])
     }])
     .controller('AccountProfileController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
-        $scope.currentUserInfo = SessionService.getUserSession();
+        $scope.currentUserInfo = SessionService.getSession();
 
-        $scope.user = {};
+        $scope.myLocationList = [];
+        if (SessionService.getUserLocations()){
+            $scope.myLocationList=SessionService.getUserLocations();
+        }
 
         $scope.$on('event:login-confirmed', function() {
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
+
+            Restangular.all('location').getList()
+            .then(function (data) {
+                $scope.locationList = data;
+                for (var i = 0; i < $scope.locationList.length; i++){
+                    if ($scope.locationList[i].user==$scope.session.id){
+                        $scope.myLocationList.push($scope.locationList[i]);
+                        console.log($scope.myLocationList);
+//                fd.append("locationName", $scope.locationName);
+                    }
+                }
+                SessionService.saveUserLocations($scope.myLocationList);
+//          $scope.imagefinder();
+            })
         });
 
-        $scope.userList = {};
-        Restangular.all('users').getList()
-            .then(function(data) {
-                $scope.userList = data;
-                console.log("Success! you got data");
-                console.log($scope.userList);
-            })
+            console.log("Success  "+$scope.myLocationList.length);
+//        $scope.userList = {};
+//        Restangular.all('users').getList()
+//            .then(function(data) {
+//                $scope.userList = data;
+//                console.log("Success! you got data");
+//                console.log($scope.userList);
+//            })
 
     }])
 
-    .controller('addRecipeCtrl', function ($scope, $http, Recipe, $routeParams, Restangular, $window) {
-
-        $scope.recipe = Object();
-        $scope.recipeList = null;
-        $scope.tag = null;
-        $scope.name = null;
-        $scope.submitted = false;
-
-        Restangular.all('tags').getList().then(function (response) {
-            $scope.tags = response;
-        });
-
-
-        Restangular.all('recipelists').getList().then(function (response) {
-            $scope.recipeLists = response;
-        });
-
-
-        $scope.uploadFile = function (files) {
-            $scope.recipe.photo = files[0];
-            alert(files[0])
-        }
-
-        $scope.save = function () {
-            if ($scope.submitted == false) {
-                $scope.recipe.recipe_name = $scope.name;
-
-//                alert($scope.photo);
-                $scope.recipe.recipe_description = $scope.description;
-                $scope.recipe.recipe_prep_time = $scope.prep;
-                $scope.recipe.recipe_cook_time = $scope.cook;
-                $scope.recipe.recipe_total_time = $scope.total;
-                $scope.recipe.tag = $scope.tag;
-                $scope.recipe.recipe_list = $scope.recipeList;
-                $scope.recipe.user = 1;
-//                Restangular.one('recipes').customPOST($scope.recipe).then(function (data) {
-//                    $scope.submitted = true;
-//                });
-
-                var fd = new FormData();
-                //Take the first selected file
-                fd.append("recipe_name", $scope.recipe.recipe_name);
-                fd.append("user", 1);
-                fd.append("tag", $scope.recipe.tag);
-                fd.append("recipe_lists", $scope.recipe.recipe_list);
-                fd.append("photo", $scope.recipe.photo);
-//                alert($scope.recipe.recipe_list);
-
-                $http.post('http://localhost:8001/recipes', fd, {
-//                    withCredentials: true,
-                    headers: {'Content-Type': undefined },
-                    transformRequest: angular.identity
-                }).success(function (response) {
-//                        alert('Success response: ' + response);
-                        $window.location = '/app/index.html';
-//                        /recipes/:recipeID
-                    }).error(function (response) {
-//                        alert('Response: ' + response);
-                    })
-
-
-            }
-        }
-
-        $scope.addTag = function () {
-            $scope.newTag = Object();
-            $scope.newTag.tag_name = $scope.newTagName;
-
-
-            Restangular.one('tags').customPOST($scope.newTag).then(function (response) {
-                $scope.tags.push(response);
-            })
-        };
-
-
-        $scope.addList = function () {
-            $scope.newList = Object();
-            $scope.newList.recipe_list_name = $scope.newListName;
-
-
-            Restangular.one('recipelists').customPOST($scope.newList).then(function (response) {
-                $scope.recipeLists.push(response);
-            })
-        }
-    })
-
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
-        $scope.id = $routeParams.id-1;
         //to display images from Home page
         Restangular.one('uploadedimages', $routeParams.id).customGET()
             .then(function (photo_url) {
@@ -318,33 +245,27 @@ angular.module('roApp.controllers', [])
         })
 
 
-        Restangular.all('location').getList()
-            .then(function (locationList) {
-                $scope.location = locationList[$scope.id];
-            });
+                Restangular.one('location-detail', $routeParams.id).customGET()
+                .then(function (location) {
+                  $scope.location = location;
+                })
 //
 //        SessionService.success(function(data) {
 //            $scope.locationList = data;
 //            $scope.location = $scope.locationList[$scope.id];
 //            })
-        $scope.comment = Object();
-        $scope.locationPostID = $scope.id;
         $scope.commentText = null;
         $scope.submitted = false;
-        $scope.user = 1;
 
 //        console.log('USER: ' + JSON.stringify($scope.session));
 
         $scope.save = function () {
             if ($scope.submitted == false) {
-                $scope.comment.locationPostID = $scope.locationPostID;
-                $scope.comment.commentText = $scope.commentText;
-                $scope.comment.user = $scope.user;
 
                 var fd = {};
-                fd["locationPostID"] = $scope.comment.locationPostID+1;
-                fd["commentText"] = $scope.comment.commentText;
-                fd["user"] = $scope.comment.user;
+                fd["locationPostID"] = $routeParams.id;
+                fd["commentText"] = $scope.commentText;
+                fd["user"] = $scope.session.id;
 
                 $http({
                     method: 'POST',
@@ -386,17 +307,12 @@ angular.module('roApp.controllers', [])
         };
 
         $scope.commentList = {};
-        Restangular.all('comments-by-location').getList({'locationID':$scope.locationPostID+1})
+        Restangular.all('comments-by-location').getList({'locationID':$routeParams.id})
             .then(function (data) {
                 $scope.commentList = data;
                 console.log("Success! you got data");
                 console.log($scope.commentList);
-            })
-        $scope.userList = {};
-        Restangular.all('users').getList()
-            .then(function (data) {
-                $scope.userList = data;
-            })
+            });
     }]);
 
 
