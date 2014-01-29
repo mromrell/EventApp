@@ -22,7 +22,11 @@ class LocationSerializer(serializers.ModelSerializer):
         model = Location
 
 class CommentSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField('get_username')
+
     """Serializes a User object"""
     class Meta:
         model = Comment
-        depth = 1
+
+    def get_username(self, obj):
+        return obj.user.username
