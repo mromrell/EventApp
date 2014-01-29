@@ -38,7 +38,7 @@
                                 <li><a href="index.html#/createLocation">Add a Place</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
+                        <li class="dropdown" ng-show="session">
                             <a class="dropdown-toggle" data-toggle="dropdown">My Account <b
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -51,6 +51,9 @@
                                 <li><a href="#">See Places I Added</a></li>
                                 <li><a href="#">See Places I Starred</a></li>
                             </ul>
+                        </li>
+                        <li class="dropdown" ng-hide="session">
+                            <a href="index.html#/accountProfile">Login</a>
                         </li>
                     </ul>
 

@@ -5,12 +5,17 @@
 
 angular.module('roApp.controllers', [])
     .controller('BaseController', ['$scope', '$window', 'brand', 'SessionService', function ($scope, $window, brand, SessionService) {
+        $scope.session = SessionService.getSession();
         $scope.brand = brand;
 
         $scope.doLogout = function () {
             SessionService.removeSession();
             $window.location = '/';
         };
+        $scope.$on('event:login-confirmed', function () {
+            console.log('event has been broadcast to Home Controller');
+            $scope.session = SessionService.getSession();
+        });
     }])
 
     .controller('DragnDropCtrl', function($scope) {
