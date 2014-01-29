@@ -71,7 +71,7 @@ class CommentList(generics.ListCreateAPIView):
 @api_view(('GET',))
 def comments_by_location(request):
     location_id = request.QUERY_PARAMS['locationID']
-    queryset = Comment.objects.filter(locationPostID = location_id)
+    queryset = Comment.objects.filter(locationPostID=location_id)
     serializer_class = CommentSerializer(queryset)
 
         # print "%s" % request.QUERY_PARAMS['locationID']
