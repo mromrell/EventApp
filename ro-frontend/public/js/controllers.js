@@ -120,6 +120,166 @@ angular.module('roApp.controllers', [])
             }
         }
 
+        // this bit is used on the EditLocation Page:
+        $scope.update = function () {
+            if ($scope.submitted == false) {
+                var fd = new FormData();
+                fd.append("locationName", $scope.locationName);
+                fd.append("description", $scope.description);
+                fd.append("gps", $scope.gps);
+                fd.append("street", $scope.street);
+                fd.append("city", $scope.city);
+                fd.append("state", $scope.state);
+                fd.append("country", $scope.country);
+                fd.append("photos", $scope.location.photos);
+                fd.append("comments", $scope.comments);
+                fd.append("sponsored", $scope.sponsored);
+                fd.append("user", $scope.session.id);
+                fd.append("upVoteCount", $scope.upVoteCount);
+                fd.append("downVoteCount", $scope.downVoteCount);
+
+                $http.post('http://localhost:8001/location', fd, {
+                    withCredentials: true,
+                    headers: {'Content-Type': undefined },
+                    transformRequest: angular.identity
+                }).success(function (response) {
+                        $window.location = 'index.html#/home';
+                    }).error(function (response) {
+                        console.log('Response: ' + response);
+                    });
+            }
+        }
+
+    }])
+    .controller('EditLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', '$routeParams', function($scope, $http, SessionService, Restangular, $window, $routeParams) {
+        $scope.session = SessionService.getSession();
+
+        $scope.$on('event:login-confirmed', function() {
+            console.log('event has been broadcast to Home Controller');
+            $scope.session = SessionService.getSession();
+        });
+        $scope.oldLocationName = '';
+//        $scope.image = null;
+//        $scope.imageFileName = '';
+//        $scope.location = Object();
+//        $scope.gps = null;
+//        $scope.street = null;
+//        $scope.city = null;
+//        $scope.state = null;
+//        $scope.country = null;
+//        $scope.locationName = null;
+//        $scope.description = null;
+//        $scope.photos = null;
+//        $scope.comments = "none";
+//        $scope.sponsored = null;
+//        $scope.upVoteCount = 0;
+//        $scope.downVoteCount = 0;
+//        $scope.submitted = false;
+
+        $scope.uploadFile = function (files) {
+            $scope.location.photos = files[0];
+        }
+
+        // this bit is used on the EditLocation Page:
+        $scope.update = function () {
+            if ($scope.submitted == false) {
+                var fd = new FormData();
+                fd.append("locationName", $scope.location.locationName);
+                fd.append("description", $scope.location.description);
+                fd.append("gps", $scope.location.gps);
+                fd.append("street", $scope.location.street);
+                fd.append("city", $scope.location.city);
+                fd.append("state", $scope.location.state);
+                fd.append("country", $scope.location.country);
+                if ($scope.location.photos.hasOwnProperty('type')) {
+                    fd.append("photos", $scope.location.photos);
+                }
+                fd.append("comments", $scope.location.comments);
+                fd.append("sponsored", $scope.location.sponsored);
+                fd.append("user", $scope.location.user);
+                fd.append("upVoteCount", $scope.location.upVoteCount);
+                fd.append("downVoteCount", $scope.location.downVoteCount);
+
+                var locationUrl = 'http://localhost:8001/location-detail/' + $routeParams.id;
+                $http.put(locationUrl, fd, {
+                    withCredentials: true,
+                    headers: {'Content-Type': undefined },
+                    transformRequest: angular.identity
+                }).success(function (response) {
+                        $window.location = 'index.html#/home';
+                    }).error(function (response) {
+                        console.log('Response: ' + response);
+                    });
+            }
+        }
+        $scope.session = SessionService.getSession();
+        //to display images from Home page
+        Restangular.one('uploadedimages', $routeParams.id).customGET()
+            .then(function (photo_url) {
+                $scope.photo_url = photo_url[0];
+        });
+
+        Restangular.one('location-detail', $routeParams.id).customGET()
+        .then(function (location) {
+          $scope.location = location;
+          $scope.oldLocationName = $scope.location.locationName;
+        });
+
+        $scope.commentText = null;
+        $scope.submitted = false;
+
+        // This saves a Comment
+        $scope.save = function () {
+            if ($scope.submitted == false) {
+
+                var fd = {};
+                fd["locationPostID"] = $routeParams.id;
+                fd["commentText"] = $scope.commentText;
+                fd["user"] = $scope.session.id;
+
+                $http({
+                    method: 'POST',
+                    url: 'http://localhost:8001/comment',
+                    data: fd
+                }).success(function (response) {
+                        $scope.commentList[$scope.commentList.length] = response;
+                        $scope.submitted = true;
+                    }).error(function (response) {
+                        console.log("there was an Error! Run!!" + response);
+                    });
+            }
+        };
+        $scope.countChoculaUp = function(location){
+            if (location.voted==null){
+                location.upVoteCount += 1;
+                location.voted = true;
+                delete location.photos;
+                Restangular.one('location-detail', location.id).customPUT(location)
+                .then(function (data) {
+                  console.log(data);
+                })
+            }
+        };
+        $scope.countChoculaDown = function(location){
+            if (location.voted==null){
+                location.downVoteCount -= 1;
+                location.voted = true;
+                delete location.photos;
+                Restangular.one('location-detail', location.id).customPUT(location)
+                .then(function (data) {
+                  console.log(data);
+                })
+            }
+        };
+
+        $scope.commentList = {};
+        Restangular.all('comments-by-location').getList({'locationID':$routeParams.id})
+            .then(function (data) {
+                $scope.commentList = data;
+                console.log("Success! you got data");
+                console.log($scope.commentList);
+            });
+
     }])
     .controller('HomeController', ['$scope', 'SessionService', 'Restangular', function ($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
@@ -235,20 +395,18 @@ angular.module('roApp.controllers', [])
 //            })
 
     }])
-
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
         //to display images from Home page
         Restangular.one('uploadedimages', $routeParams.id).customGET()
             .then(function (photo_url) {
                 $scope.photo_url = photo_url[0];
-        })
+        });
 
-
-                Restangular.one('location-detail', $routeParams.id).customGET()
-                .then(function (location) {
-                  $scope.location = location;
-                })
+        Restangular.one('location-detail', $routeParams.id).customGET()
+        .then(function (location) {
+          $scope.location = location;
+        });
 //
 //        SessionService.success(function(data) {
 //            $scope.locationList = data;

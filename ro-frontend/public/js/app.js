@@ -33,7 +33,7 @@ var roApp = angular.module('roApp', [
             })
             .when('/editLocation/:id', {
                 templateUrl: 'partials/editLocation.html',
-                controller: 'LocationDetailsController',
+                controller: 'EditLocationController',
                 title: 'Edit a Location'
             })
             .when('/login', {

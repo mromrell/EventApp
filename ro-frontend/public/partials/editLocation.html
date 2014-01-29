@@ -3,13 +3,13 @@
     <div class="row">
 
         <div class="col-md-4 pull-left bs-example">
-            <h2>Edit {{ location.locationName }}</h2>
+            <h2>Edit:</h2><h4 ng-bind="oldLocationName"></h4>
 
-            <form ng-submit="save()" enctype="multipart/form-data" class="form-register">
+            <form ng-submit="update()" enctype="multipart/form-data" class="form-register">
                 <table>
                 <tbody>
                     <tr>
-                        <td>Place Name</td><td class="tablemanners2"><input class="form-control form-group" id="locationName" type="text" value="{{ location.locationName }}"></td>
+                        <td>Place Name</td><td class="tablemanners2"><input class="form-control form-group" id="locationName" type="text" ng-model="location.locationName"></td>
                     </tr>
                     <tr>
                         <td>GPS Coordinates</td><td><input class="form-control form-group" id="gps" type="text" value="{{ location.gps }}"></td>
@@ -31,11 +31,11 @@
                     </tr>
                 </tbody>
                 </table>
+                <!--
                     <input class="form-control" id="comments" value="nocomments" type="hidden" ng-model="comments">
                     <input class="form-control" id="downVoteCount" value="0" type="hidden" ng-model="downVoteCount">
                     <input class="form-control" id="upVoteCount" value="0" type="hidden" ng-model="upVoteCount">
                     <input class="form-control" id="user" value="testrobot" type="hidden" ng-model="user">
-                    <!--
                     <input class="form-control" id="photos" value="http://www.placekitten.com/400/600" type="hidden" ng-model="photos">
                     -->
                  <div class="center">Do you want to sponsor this place?
@@ -44,7 +44,7 @@
                     <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="true"/> Yes</li>
                 </div>
                 <br/>
-                <input class="center" id="photos" type="file" ng-model="photos" required="required" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+                <input class="center" id="photos" type="file" ng-model="photos" onchange="angular.element(this).scope().uploadFile(this.files)"/>
 
                 <hr/>
                 <button type="submit" class="btn btn-success center" value="Save">Update Location</button>
