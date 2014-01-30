@@ -373,9 +373,54 @@ angular.module('roApp.controllers', [])
                 $scope.photo_url = photo_url[0];
         });
 
+        $scope.gpsValue = "none";
+
         Restangular.one('location-detail', $routeParams.id).customGET()
         .then(function (location) {
-          $scope.location = location;
+            $scope.location = location;
+
+
+            // Maps the Location --------------------------------------------------------------------------------->
+            var geocoder = new google.maps.Geocoder();
+            var locateMe = $scope.location.city + ", "+ $scope.location.state;
+
+            console.log("hey"+locateMe);
+            var geocoderRequest = { address: locateMe };
+            geocoder.geocode(geocoderRequest, function (results, status) {
+                $scope.geoLocater = results;
+                //do your result related activities here, maybe push the coordinates to the backend for later use, etc.
+                console.log($scope.geoLocater[0]);
+
+                var lng = $scope.geoLocater[0].geometry.location.e;
+                var lat = $scope.geoLocater[0].geometry.location.d;
+                var myLatlng = new google.maps.LatLng(lat, lng);
+                var mapOptions = {
+                    zoom: 6,
+                    center: myLatlng
+                };
+                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: 'Check me out here!' //$scope.location.locationName
+                });
+
+                if ($scope.location.gps==''){
+                    $scope.gpsValue = "Appoximated: "+ (lat).toFixed(2) +" "+ (lng).toFixed(2);
+                    console.log($scope.gpsValue);
+                }
+                else{
+                    $scope.gpsValue = $scope.location.gps;
+                }
+
+            });
+
+
+
+
+
+            // Ends Maps the Location --------------------------------------------------------------------------------->
         });
 
 
@@ -439,43 +484,6 @@ angular.module('roApp.controllers', [])
             .then(function (data) {
                 $scope.commentList = data;
             });
-
-        // Maps the Location --------------------------------------------------------------------------------->
-//        var googleLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=false';
-        Restangular.setBaseUrl('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=false');
-
-        Restangular.one().get()
-            .then(function (data) {
-                $scope.geoLocation = data;
-                console.log("Success! you got a Geo Location");
-                console.log($scope.geoLocation);
-            });
-
-//        $http({
-//            method: 'GET',
-//            url: googleLocationAPI
-//        }).success(function (response) {
-//                $scope.geoLocation = data;
-//                console.log("Success! you got a Geo Location");
-//                console.log($scope.geoLocation);
-//            }).error(function (response) {
-//                console.log("there was an Error! Run!!" + response);
-//            });
-
-        var myLatlng = new google.maps.LatLng(-25.363882, 131.044922);
-        var mapOptions = {
-            zoom: 5,
-            center: myLatlng
-        };
-        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            map: map,
-            title: 'Check me out here!' //$scope.location.locationName
-        });
-        // Ends Maps the Location --------------------------------------------------------------------------------->
-
     }]);
 
 

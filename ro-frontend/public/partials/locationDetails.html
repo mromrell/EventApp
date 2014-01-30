@@ -8,9 +8,11 @@
                 <div id="map-canvas"></div>
                 <a href="#" class="list-group-item active">Get Directions</a>
                 <div class="list-group-item">
-                    {{ location.gps }}<br/>
+                    <strong>GPS:</strong> {{ location.gps }}<br/>
+                  <!-- <strong>GPS:</strong> {{ gpsValue }}<br/> -->
+
                     {{ location.street }}<br/>
-                    {{ location.city }}<br/>
+                    {{ location.city }}, {{ location.state }}<br/>
                     {{ location.country }}<br/>
                 </div>
             </div>
@@ -33,14 +35,10 @@
                     <div class="col-sm-11">
                         <h4><a href="#">{{ location.locationName }}</a>
                         </h4>
-
                         <p>{{ location.description }}</p>
-
-
                     </div>
 
                 </div>
-
 
                 <hr/>
                 <div class="caption-full">
@@ -72,19 +70,6 @@
                                   <p>{{ comment.commentText }}</p>
                                 </div>
                             </div>
-                            <!--
-                            <span class="pull-right">{{ comment.commentDate }}</span>
-                            <br>
-                            <br>
-                            <p>{{ comment.commentText }}</p>
-                            <br>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            <p>{{ comment.username }}</p>
-                            -->
 
                         </div>
                     </div>

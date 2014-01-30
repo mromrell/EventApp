@@ -15,7 +15,6 @@
         <script src="lib/restangular/dist/restangular.min.js"></script>
 
         <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
-	    <script src="lib/angular-google-maps/dist/angular-google-maps.js"></script>
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -32,7 +31,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                    <!-- <li class="active"><a href="#/home">Home</a></li>   -->
-                        <li ng-show="session">
+                        <li >
                             <a href="index.html#/createLocation">Add a Place</a>
                         </li>
                         <li class="dropdown" ng-show="session">
