@@ -8,8 +8,7 @@
         "angular-route": "latest",
         "underscore": "latest",
         "restangular": "latest",
-        "bootstrap": "latest",
-        "angular-google-maps": "latest"
+        "bootstrap": "latest"
     },
     "resolutions": {
         "angular": "1.2.9"

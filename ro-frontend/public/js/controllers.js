@@ -436,7 +436,6 @@ angular.module('roApp.controllers', ["google-maps"])
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
                 .then(function (data) {
-                  console.log(data);
                 })
             }
         };
@@ -447,7 +446,6 @@ angular.module('roApp.controllers', ["google-maps"])
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
                 .then(function (data) {
-                  console.log(data);
                 })
             }
         };
@@ -456,28 +454,41 @@ angular.module('roApp.controllers', ["google-maps"])
         Restangular.all('comments-by-location').getList({'locationID':$routeParams.id})
             .then(function (data) {
                 $scope.commentList = data;
-                console.log("Success! you got data");
-                console.log($scope.commentList);
             });
 
-        // Map Locations
-        function initialize() {
-            var myLatlng = new google.maps.LatLng(-25.363882, 131.044922);
-            var mapOptions = {
-                zoom: 5,
-                center: myLatlng
-            };
-            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        // Maps the Location --------------------------------------------------------------------------------->
+        var googleLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=false';
+//        Restangular.all(googleLocationAPI).getList()
+//            .then(function (data) {
+//                $scope.geoLocation = data;
+//                console.log("Success! you got a Geo Location");
+//                console.log($scope.geoLocation);
+//            });
 
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                title: 'Hello World!'
-            });
-        }
+//        $http({
+//            method: 'GET',
+//            url: googleLocationAPI
+//        }).success(function (response) {
+//                $scope.geoLocation = data;
+//                console.log("Success! you got a Geo Location");
+//                console.log($scope.geoLocation);
+//            }).error(function (response) {
+//                console.log("there was an Error! Run!!" + response);
+//            });
 
-        google.maps.event.addDomListener(window, 'load', initialize);
+        var myLatlng = new google.maps.LatLng(-25.363882, 131.044922);
+        var mapOptions = {
+            zoom: 5,
+            center: myLatlng
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: 'Check me out here!' //$scope.location.locationName
+        });
+        // Ends Maps the Location --------------------------------------------------------------------------------->
 
     }]);
 
