@@ -441,13 +441,15 @@ angular.module('roApp.controllers', ["google-maps"])
             });
 
         // Maps the Location --------------------------------------------------------------------------------->
-        var googleLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=false';
-//        Restangular.all(googleLocationAPI).getList()
-//            .then(function (data) {
-//                $scope.geoLocation = data;
-//                console.log("Success! you got a Geo Location");
-//                console.log($scope.geoLocation);
-//            });
+//        var googleLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=false';
+        Restangular.setBaseUrl('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=false');
+
+        Restangular.one().get()
+            .then(function (data) {
+                $scope.geoLocation = data;
+                console.log("Success! you got a Geo Location");
+                console.log($scope.geoLocation);
+            });
 
 //        $http({
 //            method: 'GET',

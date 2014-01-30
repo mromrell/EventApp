@@ -67,6 +67,8 @@ var roApp = angular.module('roApp', [
 
         });
         $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];
+//        $http.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://localhost:8000';
+//        Restangular.setDefaultHeaders({ 'Access-Control-Allow-Origin': 'http://localhost:8000' });
 
 //        if (SessionService.isLoggedIn()) {
 //            var token = SessionService.getSession();
