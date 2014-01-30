@@ -49,7 +49,7 @@ class Location(models.Model):
     state = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
     photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=5000)
     sponsored = models.BooleanField()
     voteCount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User)

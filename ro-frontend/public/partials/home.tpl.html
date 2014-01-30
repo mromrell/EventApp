@@ -74,11 +74,11 @@
                             <img src="{{ location.photo_url }}">
                         </div>
                         <h3 class="title btn-success">{{ location.locationName }}</h3>
-
-                        <div class="padding15">
-                            <p>{{ location.description }}</p>
-                        </div>
                     </a>
+                    <div class="padding15">
+                        <p>{{ location.description | lenLimit100}}</p>
+                    </div>
+
                     <div class="pininfo">
                         <div class="pull-left">
                             <div class="center">
