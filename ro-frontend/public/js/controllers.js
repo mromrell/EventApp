@@ -3,7 +3,7 @@
 
 /* Controllers */
 
-angular.module('roApp.controllers', ["google-maps"])
+angular.module('roApp.controllers', [])
     .controller('BaseController', ['$scope', '$window', 'brand', 'SessionService', function ($scope, $window, brand, SessionService) {
         $scope.session = SessionService.getSession();
         $scope.brand = brand;
