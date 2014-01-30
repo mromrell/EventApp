@@ -32,27 +32,18 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                    <!-- <li class="active"><a href="#/home">Home</a></li>   -->
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                Places <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="index.html#/home">Browse Places</a></li>
-                                <li><a href="index.html#/createLocation">Add a Place</a></li>
-                            </ul>
+                        <li ng-show="session">
+                            <a href="index.html#/createLocation">Add a Place</a>
                         </li>
                         <li class="dropdown" ng-show="session">
                             <a class="dropdown-toggle" data-toggle="dropdown">My Account <b
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="index.html#/accountProfile">View My Account</a></li>
-                                <li><a href="#">Edit My Account</a></li>
-                                <li><a href="index.html#/accountProfile">Login</a></li>
-                                <li><a href="javascript:void(0);" ng-click="doLogout();">Logout</a></li>
+                                <li><a href="#">Places I've Starred</a></li>
                                 <li class="divider"></li>
-                                <li class="dropdown-header">My Places</li>
-                                <li><a href="#">See Places I Added</a></li>
-                                <li><a href="#">See Places I Starred</a></li>
+                                <li><a href="javascript:void(0);" ng-click="doLogout();" ng-show="session">Logout</a></li>
+
                             </ul>
                         </li>
                         <li class="dropdown" ng-hide="session">

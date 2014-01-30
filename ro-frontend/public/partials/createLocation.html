@@ -30,10 +30,9 @@
                     -->
                 </div>
                 <div class="center">Do you want to sponsor this place?
-                    <br/>
-                    <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="false" checked/> No</li>
-                    <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="true"/> Yes</li>
+                    <li class="no-decoration"><input type="checkbox" ng-model="value1"> Yes</li>
                 </div>
+                <br/>
                     <input id="photos" type="file" ng-model="photos" required="required" onchange="angular.element(this).scope().uploadFile(this.files)"/>
                <div>
                    <!--

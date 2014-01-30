@@ -12,36 +12,27 @@
                         <td>Place Name</td><td class="tablemanners2"><input class="form-control form-group" id="locationName" type="text" ng-model="location.locationName"></td>
                     </tr>
                     <tr>
-                        <td>GPS Coordinates</td><td><input class="form-control form-group" id="gps" type="text" value="{{ location.gps }}"></td>
+                        <td>GPS Coordinates</td><td><input class="form-control form-group" id="gps" type="text" ng-model="location.gps"></td>
                     </tr>
                     <tr>
-                        <td>Street</td><td><input class="form-control form-group" id="street" type="text" value="{{ location.street }}"></td>
+                        <td>Street</td><td><input class="form-control form-group" id="street" type="text" ng-model="location.street"></td>
                     </tr>
                     <tr>
-                        <td>City</td><td><input class="form-control form-group" id="city" type="text" value="{{ location.city }}"></td>
+                        <td>City</td><td><input class="form-control form-group" id="city" type="text" ng-model="location.city"></td>
                     </tr>
                     <tr>
-                        <td>State</td><td><input class="form-control form-group" id="state" type="text" value="{{ location.state }}"></td>
+                        <td>State</td><td><input class="form-control form-group" id="state" type="text" ng-model="location.state"></td>
                     </tr>
                     <tr>
-                        <td>Country</td><td><input class="form-control form-group" id="country" type="text" value="{{ location.country }}"></td>
+                        <td>Country</td><td><input class="form-control form-group" id="country" type="text" ng-model="location.country"></td>
                     </tr>
                     <tr>
-                        <td>Description</td><td><input class="form-control form-group" id="description" type="text" value="{{ location.description }}"></td>
+                        <td>Description</td><td><input class="form-control form-group" id="description" type="text" ng-model="location.description"></td>
                     </tr>
                 </tbody>
                 </table>
-                <!--
-                    <input class="form-control" id="comments" value="nocomments" type="hidden" ng-model="comments">
-                    <input class="form-control" id="downVoteCount" value="0" type="hidden" ng-model="downVoteCount">
-                    <input class="form-control" id="upVoteCount" value="0" type="hidden" ng-model="upVoteCount">
-                    <input class="form-control" id="user" value="testrobot" type="hidden" ng-model="user">
-                    <input class="form-control" id="photos" value="http://www.placekitten.com/400/600" type="hidden" ng-model="photos">
-                    -->
                  <div class="center">Do you want to sponsor this place?
-                    <br/>
-                    <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="false" checked/> No</li>
-                    <li class="no-decoration"><input type="radio" id="sponsored" name="sponsored" ng-model="sponsored" value="true"/> Yes</li>
+                    <li class="no-decoration"><input type="checkbox" ng-model="value1"> Yes</li>
                 </div>
                 <br/>
                 <input class="center" id="photos" type="file" ng-model="photos" onchange="angular.element(this).scope().uploadFile(this.files)"/>

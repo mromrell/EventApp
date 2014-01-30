@@ -92,7 +92,7 @@ angular.module('roApp.controllers', ["google-maps"])
         $scope.uploadFile = function (files) {
             $scope.location.photos = files[0];
             console.log($scope.location.photos);
-        }
+        };
         $scope.save = function () {
             if ($scope.submitted == false) {
                 var fd = new FormData();
@@ -121,36 +121,36 @@ angular.module('roApp.controllers', ["google-maps"])
                     });
             }
         }
-
-        // this bit is used on the EditLocation Page:
-        $scope.update = function () {
-            if ($scope.submitted == false) {
-                var fd = new FormData();
-                fd.append("locationName", $scope.locationName);
-                fd.append("description", $scope.description);
-                fd.append("gps", $scope.gps);
-                fd.append("street", $scope.street);
-                fd.append("city", $scope.city);
-                fd.append("state", $scope.state);
-                fd.append("country", $scope.country);
-                fd.append("photos", $scope.location.photos);
-                fd.append("comments", $scope.comments);
-                fd.append("sponsored", $scope.sponsored);
-                fd.append("user", $scope.session.id);
-                fd.append("upVoteCount", $scope.upVoteCount);
-                fd.append("downVoteCount", $scope.downVoteCount);
-
-                $http.post('http://localhost:8001/location', fd, {
-                    withCredentials: true,
-                    headers: {'Content-Type': undefined },
-                    transformRequest: angular.identity
-                }).success(function (response) {
-                        $window.location = 'index.html#/home';
-                    }).error(function (response) {
-                        console.log('Response: ' + response);
-                    });
-            }
-        }
+//
+//        // this bit is used on the EditLocation Page:
+//        $scope.update = function () {
+//            if ($scope.submitted == false) {
+//                var fd = new FormData();
+//                fd.append("locationName", $scope.locationName);
+//                fd.append("description", $scope.description);
+//                fd.append("gps", $scope.gps);
+//                fd.append("street", $scope.street);
+//                fd.append("city", $scope.city);
+//                fd.append("state", $scope.state);
+//                fd.append("country", $scope.country);
+//                fd.append("photos", $scope.location.photos);
+//                fd.append("comments", $scope.comments);
+//                fd.append("sponsored", $scope.sponsored);
+//                fd.append("user", $scope.session.id);
+//                fd.append("upVoteCount", $scope.upVoteCount);
+//                fd.append("downVoteCount", $scope.downVoteCount);
+//
+//                $http.post('http://localhost:8001/location', fd, {
+//                    withCredentials: true,
+//                    headers: {'Content-Type': undefined },
+//                    transformRequest: angular.identity
+//                }).success(function (response) {
+//                        $window.location = 'index.html#/home';
+//                    }).error(function (response) {
+//                        console.log('Response: ' + response);
+//                    });
+//            }
+//        }
 
     }])
     .controller('EditLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', '$routeParams', function($scope, $http, SessionService, Restangular, $window, $routeParams) {
@@ -192,7 +192,7 @@ angular.module('roApp.controllers', ["google-maps"])
                     headers: {'Content-Type': undefined },
                     transformRequest: angular.identity
                 }).success(function (response) {
-                        $window.location = 'index.html#/home';
+                        $window.location = 'index.html#/locationDetails/' + $scope.location.id;
                     }).error(function (response) {
                         console.log('Response: ' + response);
                     });
@@ -363,23 +363,11 @@ angular.module('roApp.controllers', ["google-maps"])
                     if ($scope.locationList[i].user==$scope.session.id){
                         $scope.myLocationList.push($scope.locationList[i]);
                         console.log($scope.myLocationList);
-//                fd.append("locationName", $scope.locationName);
                     }
                 }
                 SessionService.saveUserLocations($scope.myLocationList);
-//          $scope.imagefinder();
             })
         });
-
-            console.log("Success  "+$scope.myLocationList.length);
-//        $scope.userList = {};
-//        Restangular.all('users').getList()
-//            .then(function(data) {
-//                $scope.userList = data;
-//                console.log("Success! you got data");
-//                console.log($scope.userList);
-//            })
-
     }])
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
