@@ -3,7 +3,7 @@
 
 /* Controllers */
 
-angular.module('roApp.controllers', [])
+angular.module('roApp.controllers', ["google-maps"])
     .controller('BaseController', ['$scope', '$window', 'brand', 'SessionService', function ($scope, $window, brand, SessionService) {
         $scope.session = SessionService.getSession();
         $scope.brand = brand;
@@ -17,7 +17,6 @@ angular.module('roApp.controllers', [])
             $scope.session = SessionService.getSession();
         });
     }])
-
     .controller('DragnDropCtrl', function($scope) {
             $scope.image = null
             $scope.imageFileName = ''
@@ -31,7 +30,6 @@ angular.module('roApp.controllers', [])
             $scope.session = SessionService.getSession();
         });
     }])
-
     .controller('RegisterController', ['$scope', '$window', 'Restangular', 'SessionService', function($scope, $window, Restangular, SessionService) {
         $scope.user = {}
 
@@ -67,7 +65,6 @@ angular.module('roApp.controllers', [])
             return $scope.registerForm[field].$dirty && $scope.registerForm[field].$invalid;
         };
     }])
-
     .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
         $scope.session = SessionService.getSession();
 
@@ -164,26 +161,10 @@ angular.module('roApp.controllers', [])
             $scope.session = SessionService.getSession();
         });
         $scope.oldLocationName = '';
-//        $scope.image = null;
-//        $scope.imageFileName = '';
-//        $scope.location = Object();
-//        $scope.gps = null;
-//        $scope.street = null;
-//        $scope.city = null;
-//        $scope.state = null;
-//        $scope.country = null;
-//        $scope.locationName = null;
-//        $scope.description = null;
-//        $scope.photos = null;
-//        $scope.comments = "none";
-//        $scope.sponsored = null;
-//        $scope.upVoteCount = 0;
-//        $scope.downVoteCount = 0;
-//        $scope.submitted = false;
 
         $scope.uploadFile = function (files) {
             $scope.location.photos = files[0];
-        }
+        };
 
         // this bit is used on the EditLocation Page:
         $scope.update = function () {
@@ -216,7 +197,7 @@ angular.module('roApp.controllers', [])
                         console.log('Response: ' + response);
                     });
             }
-        }
+        };
         $scope.session = SessionService.getSession();
         //to display images from Home page
         Restangular.one('uploadedimages', $routeParams.id).customGET()
@@ -412,6 +393,8 @@ angular.module('roApp.controllers', [])
         .then(function (location) {
           $scope.location = location;
         });
+
+
 //
 //        SessionService.success(function(data) {
 //            $scope.locationList = data;
@@ -476,6 +459,26 @@ angular.module('roApp.controllers', [])
                 console.log("Success! you got data");
                 console.log($scope.commentList);
             });
+
+        // Map Locations
+        function initialize() {
+            var myLatlng = new google.maps.LatLng(-25.363882, 131.044922);
+            var mapOptions = {
+                zoom: 5,
+                center: myLatlng
+            };
+            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: 'Hello World!'
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+
     }]);
 
 
