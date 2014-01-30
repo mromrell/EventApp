@@ -85,8 +85,7 @@ angular.module('roApp.controllers', ["google-maps"])
         $scope.photos = null;
         $scope.comments = "none";
         $scope.sponsored = null;
-        $scope.upVoteCount = 0;
-        $scope.downVoteCount = 0;
+        $scope.voteCount = 0;
         $scope.submitted = false;
 
         $scope.uploadFile = function (files) {
@@ -107,8 +106,7 @@ angular.module('roApp.controllers', ["google-maps"])
                 fd.append("comments", $scope.comments);
                 fd.append("sponsored", $scope.sponsored);
                 fd.append("user", $scope.session.id);
-                fd.append("upVoteCount", $scope.upVoteCount);
-                fd.append("downVoteCount", $scope.downVoteCount);
+                fd.append("voteCount", $scope.voteCount);
 
                 $http.post('http://localhost:8001/location', fd, {
                     withCredentials: true,
@@ -137,8 +135,7 @@ angular.module('roApp.controllers', ["google-maps"])
 //                fd.append("comments", $scope.comments);
 //                fd.append("sponsored", $scope.sponsored);
 //                fd.append("user", $scope.session.id);
-//                fd.append("upVoteCount", $scope.upVoteCount);
-//                fd.append("downVoteCount", $scope.downVoteCount);
+//                fd.append("voteCount", $scope.voteCount);
 //
 //                $http.post('http://localhost:8001/location', fd, {
 //                    withCredentials: true,
@@ -183,8 +180,7 @@ angular.module('roApp.controllers', ["google-maps"])
                 fd.append("comments", $scope.location.comments);
                 fd.append("sponsored", $scope.location.sponsored);
                 fd.append("user", $scope.location.user);
-                fd.append("upVoteCount", $scope.location.upVoteCount);
-                fd.append("downVoteCount", $scope.location.downVoteCount);
+                fd.append("voteCount", $scope.location.voteCount);
 
                 var locationUrl = 'http://localhost:8001/location-detail/' + $routeParams.id;
                 $http.put(locationUrl, fd, {
@@ -237,7 +233,7 @@ angular.module('roApp.controllers', ["google-maps"])
         };
         $scope.countChoculaUp = function(location){
             if (location.voted==null){
-                location.upVoteCount += 1;
+                location.voteCount += 1;
                 location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
@@ -248,7 +244,7 @@ angular.module('roApp.controllers', ["google-maps"])
         };
         $scope.countChoculaDown = function(location){
             if (location.voted==null){
-                location.downVoteCount -= 1;
+                location.voteCount -= 1;
                 location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
@@ -276,18 +272,18 @@ angular.module('roApp.controllers', ["google-maps"])
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
         });
-        var s = $(".filterbox");
-        var pos = s.position();
-        $(window).scroll(function() {
-            var windowpos = $(window).scrollTop();
-            if (windowpos >= pos.top-40) {
-                s.addClass("stick");
-            } else {
-                s.removeClass("stick");
-            }
-        });
+//        var s = $(".filterbox");
+//        var pos = s.position();
+//        $(window).scroll(function() {
+//            var windowpos = $(window).scrollTop();
+//            if (windowpos >= pos.top-40) {
+//                s.addClass("stick");
+//            } else {
+//                s.removeClass("stick");
+//            }
+//        });
         // for the filters / sorting functionality
-        $scope.predicate = '-upVoteCount';
+        $scope.predicate = '-voteCount';
         $scope.predicate = '-datecreated';
 
         // allows images to show up on the homepage
@@ -316,7 +312,7 @@ angular.module('roApp.controllers', ["google-maps"])
 
         $scope.countChoculaUp = function(location){
             if (location.voted==null){
-                location.upVoteCount += 1;
+                location.voteCount += 1;
                 location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
@@ -327,7 +323,7 @@ angular.module('roApp.controllers', ["google-maps"])
         };
         $scope.countChoculaDown = function(location){
             if (location.voted==null){
-                location.downVoteCount -= 1;
+                location.voteCount -= 1;
                 location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
@@ -419,7 +415,7 @@ angular.module('roApp.controllers', ["google-maps"])
 
         $scope.countChoculaUp = function(location){
             if (location.voted==null){
-                location.upVoteCount += 1;
+                location.voteCount += 1;
                 location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
@@ -429,7 +425,7 @@ angular.module('roApp.controllers', ["google-maps"])
         };
         $scope.countChoculaDown = function(location){
             if (location.voted==null){
-                location.downVoteCount -= 1;
+                location.voteCount -= 1;
                 location.voted = true;
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)

@@ -51,8 +51,7 @@ class Location(models.Model):
     photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
     description = models.CharField(max_length=1000)
     sponsored = models.BooleanField()
-    upVoteCount = models.IntegerField(blank=True, null=True)
-    downVoteCount = models.IntegerField(blank=True, null=True)
+    voteCount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User)
     datecreated = models.DateField(default=datetime.now)
 
