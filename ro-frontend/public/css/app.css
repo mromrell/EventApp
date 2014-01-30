@@ -271,3 +271,9 @@ body {
 .tablemanners2{
     width: 70%;
 }
+#map-canvas {
+    height: 260px;
+    width: 260px;
+    margin: 0px;
+    padding: 0px
+}
