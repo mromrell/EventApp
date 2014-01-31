@@ -76,78 +76,100 @@ angular.module('roApp.controllers', [])
         $scope.imageFileName = '';
         $scope.location = Object();
         $scope.gps = null;
-        $scope.street = null;
-        $scope.city = null;
-        $scope.state = null;
-        $scope.country = null;
-        $scope.locationName = null;
-        $scope.description = null;
+        $scope.street = "fake Street"; //null;
+        $scope.city = "Denver"; //null;
+        $scope.state = "Colorado"; //null;
+        $scope.country = "USA"; //null;
+        $scope.locationName = "Test Place"; //null;
+        $scope.description = "Test Place"; //null;
         $scope.photos = null;
         $scope.comments = "none";
         $scope.sponsored = null;
         $scope.voteCount = 0;
         $scope.submitted = false;
+        $scope.reliableGPS = false;
 
         $scope.uploadFile = function (files) {
             $scope.location.photos = files[0];
             console.log($scope.location.photos);
         };
+
+        var pushToServer = function () {
+            var fd = new FormData();
+            fd.append("locationName", $scope.locationName);
+            fd.append("description", $scope.description);
+            fd.append("gps", $scope.gps);
+            fd.append("street", $scope.street);
+            fd.append("city", $scope.city);
+            fd.append("state", $scope.state);
+            fd.append("country", $scope.country);
+            fd.append("photos", $scope.location.photos);
+            fd.append("comments", $scope.comments);
+            fd.append("sponsored", $scope.sponsored);
+            fd.append("user", $scope.session.id);
+            fd.append("voteCount", $scope.voteCount);
+
+            $http.post('http://localhost:8001/location', fd, {
+                withCredentials: true,
+                headers: {'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).success(function (response) {
+                    $window.location = 'index.html#/home';
+                }).error(function (response) {
+                    console.log('Response: ' + response);
+                });
+        };
+
         $scope.save = function () {
             if ($scope.submitted == false) {
-                var fd = new FormData();
-                fd.append("locationName", $scope.locationName);
-                fd.append("description", $scope.description);
-                fd.append("gps", $scope.gps);
-                fd.append("street", $scope.street);
-                fd.append("city", $scope.city);
-                fd.append("state", $scope.state);
-                fd.append("country", $scope.country);
-                fd.append("photos", $scope.location.photos);
-                fd.append("comments", $scope.comments);
-                fd.append("sponsored", $scope.sponsored);
-                fd.append("user", $scope.session.id);
-                fd.append("voteCount", $scope.voteCount);
+                $scope.reliableGPS = true;
 
-                $http.post('http://localhost:8001/location', fd, {
-                    withCredentials: true,
-                    headers: {'Content-Type': undefined },
-                    transformRequest: angular.identity
-                }).success(function (response) {
-                        $window.location = 'index.html#/home';
-                    }).error(function (response) {
-                        console.log('Response: ' + response);
+                // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
+                if ($scope.gps == null){
+                    $scope.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
+                    var geocoder = new google.maps.Geocoder();
+                    var locateMe = $scope.city + ", "+ $scope.state;
+
+                    console.log("Im travelling to: "+locateMe);
+                    var geocoderRequest = { address: locateMe };
+                    geocoder.geocode(geocoderRequest, function (results, status) {
+                        $scope.geoLocater = results;
+
+                        var lng = $scope.geoLocater[0].geometry.location.e;
+                        var lat = $scope.geoLocater[0].geometry.location.d;
+                        var myLatlng= new google.maps.LatLng(lat, lng);
+                        $scope.gps = myLatlng;
+
+                        pushToServer();
+    //                    var mapOptions = {
+    //                        zoom: 6,
+    //                        center: myLatlng
+    //                    };
+    //                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    //
+    //                    var marker = new google.maps.Marker({
+    //                        position: myLatlng,
+    //                        map: map,
+    //                        title: $scope.location.locationName
+    //                    });
+    //
+    //                    if ($scope.location.gps==''){
+    //                        $scope.gpsValue = "Appoximated: "+ (lat).toFixed(2) +" "+ (lng).toFixed(2);
+    //                        console.log($scope.gpsValue);
+    //                    }
+    //                    else{
+    //                        $scope.gpsValue = $scope.location.gps;
+    //                    }
                     });
+                }  // Ends Maps the Location --------------------------------------------------------------------------------->
+
+                else{
+                    pushToServer();
+                }
             }
+
+
         }
-//
-//        // this bit is used on the EditLocation Page:
-//        $scope.update = function () {
-//            if ($scope.submitted == false) {
-//                var fd = new FormData();
-//                fd.append("locationName", $scope.locationName);
-//                fd.append("description", $scope.description);
-//                fd.append("gps", $scope.gps);
-//                fd.append("street", $scope.street);
-//                fd.append("city", $scope.city);
-//                fd.append("state", $scope.state);
-//                fd.append("country", $scope.country);
-//                fd.append("photos", $scope.location.photos);
-//                fd.append("comments", $scope.comments);
-//                fd.append("sponsored", $scope.sponsored);
-//                fd.append("user", $scope.session.id);
-//                fd.append("voteCount", $scope.voteCount);
-//
-//                $http.post('http://localhost:8001/location', fd, {
-//                    withCredentials: true,
-//                    headers: {'Content-Type': undefined },
-//                    transformRequest: angular.identity
-//                }).success(function (response) {
-//                        $window.location = 'index.html#/home';
-//                    }).error(function (response) {
-//                        console.log('Response: ' + response);
-//                    });
-//            }
-//        }
 
     }])
     .controller('EditLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', '$routeParams', function($scope, $http, SessionService, Restangular, $window, $routeParams) {
@@ -305,7 +327,63 @@ angular.module('roApp.controllers', [])
             .then(function (data) {
                 $scope.locationList = data;
                 $scope.imagefinder();
-            })
+
+//            // Maps the Location --------------------------------------------------------------------------------->
+//                var geocoder = new google.maps.Geocoder();
+//
+//
+//                var locationArray = []; //[chicago,anchorage,mexico,equator,london,johannesburg,kinshasa,sydney];
+//                var locationNameArray = []; //['Chicago','Anchorage','Mexico City','The Equator','London','Johannesburg','Kinshasa','Sydney'];
+//
+//                for (var x = 0; x<10; x++){
+//                    var locateMe = $scope.locationList[x].city + ", "+ $scope.locationList[x].state;
+//                    console.log(locateMe);
+//                    var geocoderRequest = { address: locateMe };
+//                    geocoder.geocode(geocoderRequest, function (results, status) {
+//                        $scope.geoLocater = results;
+//                        //do your result related activities here, maybe push the coordinates to the backend for later use, etc.
+//                       // console.log($scope.geoLocater[0]);
+//
+//                        var lng = $scope.geoLocater[0].geometry.location.e;
+//                        var lat = $scope.geoLocater[0].geometry.location.d;
+//                        var basicLatlng = new google.maps.LatLng(38.8254535,-97.6321155);
+//                        locationArray.push(new google.maps.LatLng(lat, lng));
+//                        locationNameArray.push($scope.locationList[x].name);
+//
+//                        var mapOptions = {
+//                            zoom: 3,
+//                            center: basicLatlng
+//                        };
+//                        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+//
+//                        var marker = new google.maps.Marker({
+//                            position: myLatlng,
+//                            map: map,
+//                            title: $scope.locationList[4].locationName
+//                        });
+//
+//                        var coord;
+//                        for (coord in locationArray) {
+//                            new google.maps.Marker({
+//                                position: locationArray[coord],
+//                                map: map,
+//                                title: locationNameArray[coord]
+//                            });
+//                        }
+//                    });
+////                    var kinshasa = new google.maps.LatLng(locateMe);
+////                    var sydney = new google.maps.LatLng( -33.867139, 151.207114);
+//
+//                }
+//                console.log(locationArray);
+//                console.log(locationNameArray);
+//
+//
+//
+//
+//            // Ends Maps the Location --------------------------------------------------------------------------------->
+
+            });
 
         // Saves the Up Votes and down Votes back to the server
         var vote = false;
@@ -317,7 +395,6 @@ angular.module('roApp.controllers', [])
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
                 .then(function (data) {
-                  console.log(data);
                 })
             }
         };
@@ -328,7 +405,6 @@ angular.module('roApp.controllers', [])
                 delete location.photos;
                 Restangular.one('location-detail', location.id).customPUT(location)
                 .then(function (data) {
-                  console.log(data);
                 })
             }
         };
@@ -379,7 +455,6 @@ angular.module('roApp.controllers', [])
         .then(function (location) {
             $scope.location = location;
 
-
             // Maps the Location --------------------------------------------------------------------------------->
             var geocoder = new google.maps.Geocoder();
             var locateMe = $scope.location.city + ", "+ $scope.location.state;
@@ -403,7 +478,7 @@ angular.module('roApp.controllers', [])
                 var marker = new google.maps.Marker({
                     position: myLatlng,
                     map: map,
-                    title: 'Check me out here!' //$scope.location.locationName
+                    title: $scope.location.locationName
                 });
 
                 if ($scope.location.gps==''){
@@ -413,13 +488,7 @@ angular.module('roApp.controllers', [])
                 else{
                     $scope.gpsValue = $scope.location.gps;
                 }
-
             });
-
-
-
-
-
             // Ends Maps the Location --------------------------------------------------------------------------------->
         });
 

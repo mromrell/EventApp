@@ -17,7 +17,11 @@
                     <input class="form-control form-group" id="gps" type="text" ng-model="gps" placeholder="GPS Coordinates: 37.235065, -115.811117">
                     <input class="form-control form-group" id="street" type="text" required="required" ng-model="street" placeholder="Street Address">
                     <input class="form-control form-group" id="city" type="text" required="required" ng-model="city" placeholder="City">
-                    <input class="form-control form-group" id="state" type="text" required="required" ng-model="state" placeholder="State">
+                    <input class="form-control form-group" id="state" type="text" required="required" ng-model="state" placeholder="State"> <!--
+                <div class="ui-widget">
+                  <label for="tags">Tags: </label>
+                  <input id="tags">
+                </div>-->
                     <input class="form-control form-group" id="country" type="text" required="required" ng-model="country" placeholder="Country">
                     <input class="form-control form-group" id="description" type="text" ng-model="description" required="required" placeholder="Description">
                 <div class="form-group">
@@ -44,9 +48,9 @@
                 </div>
                 <input class="form-control" id="photos" value="{{imageFileName}}" type="hidden" ng-model="photos">
               <hr/>
-<!--
+                <!--
               <button ng-click="questionAdder(4)" class="btn btn-default">Add a Photo</button>
-         -->
+                 -->
               <hr/>
               <button type="submit" class="btn btn-success" value="Save">Create Location</button>
             </form>

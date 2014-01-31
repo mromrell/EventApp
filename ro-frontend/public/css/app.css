@@ -221,7 +221,7 @@ body {
 }
 .filterbox {
     background-color: #222222;
-    opacity: 0.7;
+    /*opacity: 0.7;*/
     color: aliceblue;
 }
 .formresize{

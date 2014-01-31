@@ -5,9 +5,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 # from settings.base import AUTH_USER_MODEL
 #from django import forms
-#from django.contrib.localflavor.us.forms import USStateSelect
+from localflavor.us.forms import USStateSelect
 from datetime import datetime
 from django.contrib.auth.hashers import make_password, is_password_usable
+
 
 @receiver(post_save, sender=User)
 def hash_password(sender, instance=None, created=False, **kwargs):
