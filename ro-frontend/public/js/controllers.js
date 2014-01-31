@@ -332,7 +332,7 @@ angular.module('roApp.controllers', [])
             });
 
     }])
-    .controller('HomeController', ['$scope', 'SessionService', 'Restangular', '$window', function ($scope, SessionService, Restangular, $window) {
+    .controller('HomeController', ['$scope', 'mapService', 'SessionService', 'Restangular', '$window', function ($scope, mapService, SessionService, Restangular, $window) {
         $scope.session = SessionService.getSession();
 
         $scope.user = {};
@@ -374,55 +374,7 @@ angular.module('roApp.controllers', [])
             .then(function (data) {
                 $scope.locationList = data;
                 $scope.imagefinder();
-
-                 // Maps the Location --------------------------------------------------------------------------------->
-                function initialize() {
-                    var locationArray = [];
-                    var locationNameArray = [];
-                    var locationIdArray = [];
-                    var basicLatlng = new google.maps.LatLng($scope.locationList[0].gpsLat, $scope.locationList[0].gpsLng);
-    //                var bounds = new google.maps.LatLngBounds();
-                    var mapOptions = {
-                        zoom: 3,
-                        center: basicLatlng
-                    };
-                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-                    for (var x = 0; x<$scope.locationList.length; x++){
-                        locationArray.push(new google.maps.LatLng($scope.locationList[x].gpsLat, $scope.locationList[x].gpsLng));
-                        locationNameArray.push($scope.locationList[x].locationName);
-                        locationIdArray.push($scope.locationList[x].id);
-    //                    bounds.extend(myLatLng);
-    //                    map.fitBounds(bounds);
-                    }
-                    var coord;
-                    var markerArray = [];
-                    for (coord in locationArray) {
-                        var marker = new google.maps.Marker({
-                            position: locationArray[coord],
-                            map: map,
-                            title: locationNameArray[coord],
-                            id: locationIdArray[coord]
-                        });
-                        markerArray.push(marker);
-                    }
-                    console.log(markerArray);
-                    for (var i = 0; i<markerArray.length; i++) {
-                        google.maps.event.addListener(markerArray[i], 'click', function () {
-//                            map.setZoom(8);
-//                            map.setCenter(marker.getPosition());
-                            $window.location = 'index.html#/locationDetails/' + this.id;
-                        });
-                    }
-
-
-                }
-
-                google.maps.event.addDomListener(window, 'load', initialize);
-
-
-
-
+                mapService.main($scope.locationList);
         });
 
         // Saves the Up Votes and down Votes back to the server
