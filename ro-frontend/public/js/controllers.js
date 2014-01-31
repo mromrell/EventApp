@@ -143,25 +143,6 @@ angular.module('roApp.controllers', [])
 //                        var myLatlng= new google.maps.LatLng(lat, lng);
 
                         pushToServer();
-    //                    var mapOptions = {
-    //                        zoom: 6,
-    //                        center: myLatlng
-    //                    };
-    //                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    //
-    //                    var marker = new google.maps.Marker({
-    //                        position: myLatlng,
-    //                        map: map,
-    //                        title: $scope.location.locationName
-    //                    });
-    //
-    //                    if ($scope.location.gps==''){
-    //                        $scope.gpsValue = "Appoximated: "+ (lat).toFixed(2) +" "+ (lng).toFixed(2);
-    //                        console.log($scope.gpsValue);
-    //                    }
-    //                    else{
-    //                        $scope.gpsValue = $scope.location.gps;
-    //                    }
                     });
                 }  // Ends Maps the Location --------------------------------------------------------------------------------->
                 else{
@@ -220,10 +201,10 @@ angular.module('roApp.controllers', [])
                 $scope.location.reliableGPS = true;
 
                 // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
-                if ($scope.location.gpsLat == '' || $scope.location.gpsLng == ''){
+                if ($scope.location.gpsLat == '' || $scope.location.gpsLng == '' || $scope.location.gpsLat == null || $scope.location.gpsLng == null){
                     $scope.location.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
                     var geocoder = new google.maps.Geocoder();
-                    var locateMe = $scope.location.city + ", "+ $scope.location.state;
+                    var locateMe = $scope.location.city + ", "+ $scope.location.state + ", " + $scope.location.country;
 
                     console.log("Im travelling to: "+locateMe);
                     var geocoderRequest = { address: locateMe };
@@ -235,25 +216,6 @@ angular.module('roApp.controllers', [])
 //                        var myLatlng= new google.maps.LatLng(lat, lng);
 
                         pushToServer();
-    //                    var mapOptions = {
-    //                        zoom: 6,
-    //                        center: myLatlng
-    //                    };
-    //                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    //
-    //                    var marker = new google.maps.Marker({
-    //                        position: myLatlng,
-    //                        map: map,
-    //                        title: $scope.location.locationName
-    //                    });
-    //
-    //                    if ($scope.location.gps==''){
-    //                        $scope.gpsValue = "Appoximated: "+ (lat).toFixed(2) +" "+ (lng).toFixed(2);
-    //                        console.log($scope.gpsValue);
-    //                    }
-    //                    else{
-    //                        $scope.gpsValue = $scope.location.gps;
-    //                    }
                     });
                 }  // Ends Maps the Location --------------------------------------------------------------------------------->
                 else{
