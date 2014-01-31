@@ -320,13 +320,51 @@ angular.module('roApp.controllers', [])
                         }
                     });
             }
-        }
+        };
 
         $scope.locationList = {};
         Restangular.all('location').getList()
             .then(function (data) {
                 $scope.locationList = data;
                 $scope.imagefinder();
+
+
+
+            // Maps the Location --------------------------------------------------------------------------------->
+            var geocoder = new google.maps.Geocoder();
+////            var locateMe = $scope.location.city + ", "+ $scope.location.state;
+
+
+
+            var geocoderRequest = { address: "MountainView, CA"  };
+            geocoder.geocode(geocoderRequest, function (results, status) {
+                $scope.geoLocater = results;
+                //do your result related activities here, maybe push the coordinates to the backend for later use, etc.
+                console.log($scope.geoLocater[0]);
+
+                var lng = $scope.geoLocater[0].geometry.location.e;
+                var lat = $scope.geoLocater[0].geometry.location.d;
+                var myLatlng = new google.maps.LatLng(lat, lng);
+                var mapOptions = {
+                    zoom: 6,
+                    center: myLatlng
+                };
+                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: "Hello" //$scope.location.locationName
+                });
+            });
+            // Ends Maps the Location --------------------------------------------------------------------------------->
+
+
+//                var marker = new google.maps.Marker({
+//                    position: myLatlng,
+//                    map: map,
+//                    title: $scope.locationList[4].locationName
+//                });
 
 //            // Maps the Location --------------------------------------------------------------------------------->
 //                var geocoder = new google.maps.Geocoder();

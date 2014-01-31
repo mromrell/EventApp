@@ -29,17 +29,13 @@
             <div class="filterbox col-sm-12">
                 <h3>Filter Places</h3>
                 <hr/>
-                <form class="navbar-form center" role="form">
-                    <div class="form-group">
-                        <input type="text" ng-model="searchText" placeholder="Search" class="form-control">
-                    </div>
-                </form>
+                <input type="text" ng-model="searchText" placeholder="Search" class="form-control center">
                 <br/>
                 <a href="" class="btn btn-success center" ng-click="predicate = 'voteCount'; reverse=!reverse">Sort by Votes</a></a>
                 <br/>
                 <a href="" class="btn btn-info center" ng-click="predicate = 'datecreated'; reverse=!reverse">Sort by Date</a></a>
                 <br/>
-
+<!--
                 <form class="navbar-form center" role="form">
                     <div class="form-group">
                         <input type="text" placeholder="Places near.." class="form-control formresize">
@@ -51,7 +47,8 @@
                         <option>100 miles</option>
                     </select>
                 </form>
-                <!-- <div id="map-canvas"></div> -->
+                  -->
+                <div id="map-canvas"></div>
                 <br/><br/>
             </div>
         </div>
