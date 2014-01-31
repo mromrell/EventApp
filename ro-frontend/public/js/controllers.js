@@ -401,7 +401,8 @@ angular.module('roApp.controllers', [])
                         var marker = new google.maps.Marker({
                             position: locationArray[coord],
                             map: map,
-                            title: locationNameArray[coord]
+                            title: locationNameArray[coord],
+                            id: locationIdArray[coord]
                         });
                         markerArray.push(marker);
                     }
@@ -410,7 +411,7 @@ angular.module('roApp.controllers', [])
                         google.maps.event.addListener(markerArray[i], 'click', function () {
 //                            map.setZoom(8);
 //                            map.setCenter(marker.getPosition());
-                            $window.location = 'index.html#/locationDetails/' + locationIdArray[i-1];
+                            $window.location = 'index.html#/locationDetails/' + this.id;
                         });
                     }
 
