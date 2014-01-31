@@ -375,40 +375,45 @@ angular.module('roApp.controllers', [])
                 $scope.locationList = data;
                 $scope.imagefinder();
 
+                 // Maps the Location --------------------------------------------------------------------------------->
+                function initialize() {
+                    var locationArray = [];
+                    var locationNameArray = [];
+                    var basicLatlng = new google.maps.LatLng($scope.locationList[0].gpsLat, $scope.locationList[0].gpsLng);
+    //                var bounds = new google.maps.LatLngBounds();
+                    var mapOptions = {
+                        zoom: 3,
+                        center: basicLatlng
+                    };
+                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
+                    for (var x = 0; x<$scope.locationList.length; x++){
+                        locationArray.push(new google.maps.LatLng($scope.locationList[x].gpsLat, $scope.locationList[x].gpsLng));
+                        locationNameArray.push($scope.locationList[x].locationName);
+    //                    bounds.extend(myLatLng);
+    //                    map.fitBounds(bounds);
+                    }
+                    var coord;
+                    for (coord in locationArray) {
+                        var marker = new google.maps.Marker({
+                            position: locationArray[coord],
+                            map: map,
+                            title: locationNameArray[coord]
+                        });
+                    }
 
-            // Maps the Location --------------------------------------------------------------------------------->
-                var locationArray = []; //[chicago,anchorage,mexico,equator,london,johannesburg,kinshasa,sydney];
-                var locationNameArray = []; //['Chicago','Anchorage','Mexico City','The Equator','London','Johannesburg','Kinshasa','Sydney'];
-
-                var basicLatlng = new google.maps.LatLng($scope.locationList[0].gpsLat, $scope.locationList[0].gpsLng);
-//                var bounds = new google.maps.LatLngBounds();
-
-                var mapOptions = {
-                    zoom: 3,
-                    center: basicLatlng
-                };
-                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-
-                for (var x = 0; x<$scope.locationList.length; x++){
-                    locationArray.push(new google.maps.LatLng($scope.locationList[x].gpsLat, $scope.locationList[x].gpsLng));
-                    locationNameArray.push($scope.locationList[x].locationName);
-//                    bounds.extend(myLatLng);
-//                    map.fitBounds(bounds);
-
-                }
-                console.log(locationArray);
-                console.log(locationNameArray);
-                var coord;
-                for (coord in locationArray) {
-                    new google.maps.Marker({
-                        position: locationArray[coord],
-                        map: map,
-                        title: locationNameArray[coord]
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setZoom(8);
+                        map.setCenter(marker.getPosition());
                     });
                 }
-        })
+
+                google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
+        });
 
         // Saves the Up Votes and down Votes back to the server
         var vote = false;
