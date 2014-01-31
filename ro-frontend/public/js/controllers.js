@@ -143,25 +143,6 @@ angular.module('roApp.controllers', [])
 //                        var myLatlng= new google.maps.LatLng(lat, lng);
 
                         pushToServer();
-    //                    var mapOptions = {
-    //                        zoom: 6,
-    //                        center: myLatlng
-    //                    };
-    //                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    //
-    //                    var marker = new google.maps.Marker({
-    //                        position: myLatlng,
-    //                        map: map,
-    //                        title: $scope.location.locationName
-    //                    });
-    //
-    //                    if ($scope.location.gps==''){
-    //                        $scope.gpsValue = "Appoximated: "+ (lat).toFixed(2) +" "+ (lng).toFixed(2);
-    //                        console.log($scope.gpsValue);
-    //                    }
-    //                    else{
-    //                        $scope.gpsValue = $scope.location.gps;
-    //                    }
                     });
                 }  // Ends Maps the Location --------------------------------------------------------------------------------->
                 else{
@@ -173,9 +154,9 @@ angular.module('roApp.controllers', [])
     }])
     .controller('EditLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', '$routeParams', function($scope, $http, SessionService, Restangular, $window, $routeParams) {
         $scope.session = SessionService.getSession();
+        console.log($scope.session);
 
         $scope.$on('event:login-confirmed', function() {
-            console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
         });
         $scope.oldLocationName = '';
@@ -220,10 +201,10 @@ angular.module('roApp.controllers', [])
                 $scope.location.reliableGPS = true;
 
                 // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
-                if ($scope.location.gpsLat == '' || $scope.location.gpsLng == ''){
+                if ($scope.location.gpsLat == '' || $scope.location.gpsLng == '' || $scope.location.gpsLat == null || $scope.location.gpsLng == null){
                     $scope.location.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
                     var geocoder = new google.maps.Geocoder();
-                    var locateMe = $scope.location.city + ", "+ $scope.location.state;
+                    var locateMe = $scope.location.city + ", "+ $scope.location.state + ", " + $scope.location.country;
 
                     console.log("Im travelling to: "+locateMe);
                     var geocoderRequest = { address: locateMe };
@@ -235,25 +216,6 @@ angular.module('roApp.controllers', [])
 //                        var myLatlng= new google.maps.LatLng(lat, lng);
 
                         pushToServer();
-    //                    var mapOptions = {
-    //                        zoom: 6,
-    //                        center: myLatlng
-    //                    };
-    //                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    //
-    //                    var marker = new google.maps.Marker({
-    //                        position: myLatlng,
-    //                        map: map,
-    //                        title: $scope.location.locationName
-    //                    });
-    //
-    //                    if ($scope.location.gps==''){
-    //                        $scope.gpsValue = "Appoximated: "+ (lat).toFixed(2) +" "+ (lng).toFixed(2);
-    //                        console.log($scope.gpsValue);
-    //                    }
-    //                    else{
-    //                        $scope.gpsValue = $scope.location.gps;
-    //                    }
                     });
                 }  // Ends Maps the Location --------------------------------------------------------------------------------->
                 else{
@@ -423,6 +385,20 @@ angular.module('roApp.controllers', [])
             Restangular.all('location').getList()
             .then(function (data) {
                 $scope.locationList = data;
+//
+//                if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
+//                    $scope.showEdit = "Approved";
+//                    }
+//                    else{
+//                    $scope.showEdit = null;
+//                    }
+//                if ($scope.location.reliableGPS == false){
+//                    $scope.gpsStatus = "These coordinates have been approximated to the city center";
+//                    }
+//                    else{
+//                        $scope.gpsStatus = "These coordinates have been manually entered and should be exact";
+//                    }
+//
                 for (var i = 0; i < $scope.locationList.length; i++){
                     if ($scope.locationList[i].user==$scope.session.id){
                         $scope.myLocationList.push($scope.locationList[i]);
@@ -436,6 +412,7 @@ angular.module('roApp.controllers', [])
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
         //to display images from Home page
+
         Restangular.one('uploadedimages', $routeParams.id).customGET()
             .then(function (photo_url) {
                 $scope.photo_url = photo_url[0];
@@ -445,12 +422,18 @@ angular.module('roApp.controllers', [])
         .then(function (location) {
             $scope.location = location;
 
+            if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
+                $scope.showEdit = "Approved";
+                }
+                else{
+                $scope.showEdit = null;
+                }
             if ($scope.location.reliableGPS == false){
                 $scope.gpsStatus = "These coordinates have been approximated to the city center";
-            }
-            else{
-                $scope.gpsStatus = "These coordinates have been manually entered and should be exact";
-            }
+                }
+                else{
+                    $scope.gpsStatus = "These coordinates have been manually entered and should be exact";
+                }
 
             // Maps the Location --------------------------------------------------------------------------------->
             var myLatlng = new google.maps.LatLng($scope.location.gpsLat, $scope.location.gpsLng);
