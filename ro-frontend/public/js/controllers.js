@@ -332,7 +332,7 @@ angular.module('roApp.controllers', [])
             });
 
     }])
-    .controller('HomeController', ['$scope', 'SessionService', 'Restangular', function ($scope, SessionService, Restangular) {
+    .controller('HomeController', ['$scope', 'SessionService', 'Restangular', '$window', function ($scope, SessionService, Restangular, $window) {
         $scope.session = SessionService.getSession();
 
         $scope.user = {};
@@ -379,6 +379,7 @@ angular.module('roApp.controllers', [])
                 function initialize() {
                     var locationArray = [];
                     var locationNameArray = [];
+                    var locationIdArray = [];
                     var basicLatlng = new google.maps.LatLng($scope.locationList[0].gpsLat, $scope.locationList[0].gpsLng);
     //                var bounds = new google.maps.LatLngBounds();
                     var mapOptions = {
@@ -390,22 +391,30 @@ angular.module('roApp.controllers', [])
                     for (var x = 0; x<$scope.locationList.length; x++){
                         locationArray.push(new google.maps.LatLng($scope.locationList[x].gpsLat, $scope.locationList[x].gpsLng));
                         locationNameArray.push($scope.locationList[x].locationName);
+                        locationIdArray.push($scope.locationList[x].id);
     //                    bounds.extend(myLatLng);
     //                    map.fitBounds(bounds);
                     }
                     var coord;
+                    var markerArray = [];
                     for (coord in locationArray) {
                         var marker = new google.maps.Marker({
                             position: locationArray[coord],
                             map: map,
                             title: locationNameArray[coord]
                         });
+                        markerArray.push(marker);
+                    }
+                    console.log(markerArray);
+                    for (var i = 0; i<markerArray.length; i++) {
+                        google.maps.event.addListener(markerArray[i], 'click', function () {
+//                            map.setZoom(8);
+//                            map.setCenter(marker.getPosition());
+                            $window.location = 'index.html#/locationDetails/' + locationIdArray[i-1];
+                        });
                     }
 
-                    google.maps.event.addListener(marker, 'click', function () {
-                        map.setZoom(8);
-                        map.setCenter(marker.getPosition());
-                    });
+
                 }
 
                 google.maps.event.addDomListener(window, 'load', initialize);
