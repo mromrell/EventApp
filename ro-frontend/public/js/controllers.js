@@ -184,40 +184,6 @@ angular.module('roApp.controllers', [])
             $scope.location.photos = files[0];
         };
 
-//        // this bit is used on the EditLocation Page:
-//        $scope.update = function () {
-//            if ($scope.submitted == false) {
-//                var fd = new FormData();
-//                fd.append("locationName", $scope.location.locationName);
-//                fd.append("description", $scope.location.description);
-//                fd.append("gps", $scope.location.gps);
-//                fd.append("street", $scope.location.street);
-//                fd.append("city", $scope.location.city);
-//                fd.append("state", $scope.location.state);
-//                fd.append("country", $scope.location.country);
-//                if ($scope.location.photos.hasOwnProperty('type')) {
-//                    fd.append("photos", $scope.location.photos);
-//                }
-//                fd.append("comments", $scope.location.comments);
-//                fd.append("sponsored", $scope.location.sponsored);
-//                fd.append("user", $scope.location.user);
-//                fd.append("voteCount", $scope.location.voteCount);
-//
-//                var locationUrl = 'http://localhost:8001/location-detail/' + $routeParams.id;
-//                $http.put(locationUrl, fd, {
-//                    withCredentials: true,
-//                    headers: {'Content-Type': undefined },
-//                    transformRequest: angular.identity
-//                }).success(function (response) {
-//                        $window.location = 'index.html#/locationDetails/' + $scope.location.id;
-//                    }).error(function (response) {
-//                        console.log('Response: ' + response);
-//                    });
-//            }
-//        };
-
-
-
         var pushToServer = function () {
             var fd = new FormData();
             fd.append("locationName", $scope.location.locationName);
@@ -412,97 +378,37 @@ angular.module('roApp.controllers', [])
 
 
             // Maps the Location --------------------------------------------------------------------------------->
-            var geocoder = new google.maps.Geocoder();
-////            var locateMe = $scope.location.city + ", "+ $scope.location.state;
+                var locationArray = []; //[chicago,anchorage,mexico,equator,london,johannesburg,kinshasa,sydney];
+                var locationNameArray = []; //['Chicago','Anchorage','Mexico City','The Equator','London','Johannesburg','Kinshasa','Sydney'];
 
+                var basicLatlng = new google.maps.LatLng($scope.locationList[0].gpsLat, $scope.locationList[0].gpsLng);
+//                var bounds = new google.maps.LatLngBounds();
 
-
-            var geocoderRequest = { address: "MountainView, CA"  };
-            geocoder.geocode(geocoderRequest, function (results, status) {
-                $scope.geoLocater = results;
-                //do your result related activities here, maybe push the coordinates to the backend for later use, etc.
-                console.log($scope.geoLocater[0]);
-
-                var lng = $scope.geoLocater[0].geometry.location.e;
-                var lat = $scope.geoLocater[0].geometry.location.d;
-                var myLatlng = new google.maps.LatLng(lat, lng);
                 var mapOptions = {
-                    zoom: 6,
-                    center: myLatlng
+                    zoom: 3,
+                    center: basicLatlng
                 };
                 var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map,
-                    title: "Hello" //$scope.location.locationName
-                });
-            });
-            // Ends Maps the Location --------------------------------------------------------------------------------->
 
+                for (var x = 0; x<$scope.locationList.length; x++){
+                    locationArray.push(new google.maps.LatLng($scope.locationList[x].gpsLat, $scope.locationList[x].gpsLng));
+                    locationNameArray.push($scope.locationList[x].locationName);
+//                    bounds.extend(myLatLng);
+//                    map.fitBounds(bounds);
 
-//                var marker = new google.maps.Marker({
-//                    position: myLatlng,
-//                    map: map,
-//                    title: $scope.locationList[4].locationName
-//                });
-
-//            // Maps the Location --------------------------------------------------------------------------------->
-//                var geocoder = new google.maps.Geocoder();
-//
-//
-//                var locationArray = []; //[chicago,anchorage,mexico,equator,london,johannesburg,kinshasa,sydney];
-//                var locationNameArray = []; //['Chicago','Anchorage','Mexico City','The Equator','London','Johannesburg','Kinshasa','Sydney'];
-//
-//                for (var x = 0; x<10; x++){
-//                    var locateMe = $scope.locationList[x].city + ", "+ $scope.locationList[x].state;
-//                    console.log(locateMe);
-//                    var geocoderRequest = { address: locateMe };
-//                    geocoder.geocode(geocoderRequest, function (results, status) {
-//                        $scope.geoLocater = results;
-//                        //do your result related activities here, maybe push the coordinates to the backend for later use, etc.
-//                       // console.log($scope.geoLocater[0]);
-//
-//                        var lng = $scope.geoLocater[0].geometry.location.e;
-//                        var lat = $scope.geoLocater[0].geometry.location.d;
-//                        var basicLatlng = new google.maps.LatLng(38.8254535,-97.6321155);
-//                        locationArray.push(new google.maps.LatLng(lat, lng));
-//                        locationNameArray.push($scope.locationList[x].name);
-//
-//                        var mapOptions = {
-//                            zoom: 3,
-//                            center: basicLatlng
-//                        };
-//                        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-//
-//                        var marker = new google.maps.Marker({
-//                            position: myLatlng,
-//                            map: map,
-//                            title: $scope.locationList[4].locationName
-//                        });
-//
-//                        var coord;
-//                        for (coord in locationArray) {
-//                            new google.maps.Marker({
-//                                position: locationArray[coord],
-//                                map: map,
-//                                title: locationNameArray[coord]
-//                            });
-//                        }
-//                    });
-////                    var kinshasa = new google.maps.LatLng(locateMe);
-////                    var sydney = new google.maps.LatLng( -33.867139, 151.207114);
-//
-//                }
-//                console.log(locationArray);
-//                console.log(locationNameArray);
-//
-//
-//
-//
-//            // Ends Maps the Location --------------------------------------------------------------------------------->
-
-            });
+                }
+                console.log(locationArray);
+                console.log(locationNameArray);
+                var coord;
+                for (coord in locationArray) {
+                    new google.maps.Marker({
+                        position: locationArray[coord],
+                        map: map,
+                        title: locationNameArray[coord]
+                    });
+                }
+        })
 
         // Saves the Up Votes and down Votes back to the server
         var vote = false;

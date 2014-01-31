@@ -9,9 +9,7 @@
                 <a class="list-group-item active">Get Directions</a>
                 <div class="list-group-item">
                     <strong>GPS:</strong> {{ location.gpsLat }}, {{ location.gpsLng }}<br/>
-                    <p>{{ gpsStatus }}</p>
-                  <!-- <strong>GPS:</strong> {{ gpsValue }}<br/> -->
-
+                    <div class="alert alert-warning">{{ gpsStatus }}</div>
                     {{ location.street }}<br/>
                     {{ location.city }}, {{ location.state }}<br/>
                     {{ location.country }}<br/>
