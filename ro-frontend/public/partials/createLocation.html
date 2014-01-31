@@ -14,7 +14,8 @@
         <div class="mainform center">
             <form ng-submit="save()" enctype="multipart/form-data" class="form-register">
                     <input class="form-control form-group" id="locationName" type="text" ng-model="locationName" required="required" placeholder="Location Name">
-                    <input class="form-control form-group" id="gps" type="text" ng-model="gps" placeholder="GPS Coordinates: 37.235065, -115.811117">
+                    <input class="form-control form-group" id="gpsLat" type="text" ng-model="gpsLat" placeholder="GPS Latitude: (ex: 37.235065)">
+                    <input class="form-control form-group" id="gpsLng" type="text" ng-model="gpsLng" placeholder="GPS Longitude: (ex: -115.811117)">
                     <input class="form-control form-group" id="street" type="text" required="required" ng-model="street" placeholder="Street Address">
                     <input class="form-control form-group" id="city" type="text" required="required" ng-model="city" placeholder="City">
                     <input class="form-control form-group" id="state" type="text" required="required" ng-model="state" placeholder="State"> <!--
@@ -36,7 +37,7 @@
                     <li class="no-decoration"><input type="checkbox" ng-model="value1"> Yes</li>
                 </div>
                 <br/>
-                    <input id="photos" type="file" ng-model="photos" required="required" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+                    <input id="photos" type="file" ng-model="photos" onchange="angular.element(this).scope().uploadFile(this.files)"/>
                <div>
                    <!--
                     <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3" onchange="angular.element(this).scope().uploadFile(this.files)">

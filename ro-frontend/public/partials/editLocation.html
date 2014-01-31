@@ -12,7 +12,10 @@
                         <td>Place Name</td><td class="tablemanners2"><input class="form-control form-group" id="locationName" type="text" ng-model="location.locationName"></td>
                     </tr>
                     <tr>
-                        <td>GPS Coordinates</td><td><input class="form-control form-group" id="gps" type="text" ng-model="location.gps"></td>
+                        <td>GPS Latitude</td><td><input class="form-control form-group" id="gpsLat" type="text" ng-model="location.gpsLat"></td>
+                    </tr>
+                    <tr>
+                        <td>GPS Longitude</td><td><input class="form-control form-group" id="gpsLng" type="text" ng-model="location.gpsLng"></td>
                     </tr>
                     <tr>
                         <td>Street</td><td><input class="form-control form-group" id="street" type="text" ng-model="location.street"></td>
@@ -59,15 +62,6 @@
 
                 <div class="ratings">
                    <p class="pull-right">{{ commentList.length }} reviews</p>
-
-                    <p>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star-empty"></span>
-                        4.0 stars
-                    </p>
                     <br>
                     <hr>
                 </div>

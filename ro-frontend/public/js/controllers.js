@@ -75,7 +75,8 @@ angular.module('roApp.controllers', [])
         $scope.image = null;
         $scope.imageFileName = '';
         $scope.location = Object();
-        $scope.gps = null;
+        $scope.gpsLat = null;
+        $scope.gpsLng = null;
         $scope.street = "fake Street"; //null;
         $scope.city = "Denver"; //null;
         $scope.state = "Colorado"; //null;
@@ -98,7 +99,9 @@ angular.module('roApp.controllers', [])
             var fd = new FormData();
             fd.append("locationName", $scope.locationName);
             fd.append("description", $scope.description);
-            fd.append("gps", $scope.gps);
+            fd.append("gpsLng", $scope.gpsLng);
+            fd.append("gpsLat", $scope.gpsLat);
+            fd.append("reliableGPS", $scope.reliableGPS);
             fd.append("street", $scope.street);
             fd.append("city", $scope.city);
             fd.append("state", $scope.state);
@@ -125,7 +128,7 @@ angular.module('roApp.controllers', [])
                 $scope.reliableGPS = true;
 
                 // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
-                if ($scope.gps == null){
+                if ($scope.gpsLat == null || $scope.gpsLng == null){
                     $scope.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
                     var geocoder = new google.maps.Geocoder();
                     var locateMe = $scope.city + ", "+ $scope.state;
@@ -135,10 +138,9 @@ angular.module('roApp.controllers', [])
                     geocoder.geocode(geocoderRequest, function (results, status) {
                         $scope.geoLocater = results;
 
-                        var lng = $scope.geoLocater[0].geometry.location.e;
-                        var lat = $scope.geoLocater[0].geometry.location.d;
-                        var myLatlng= new google.maps.LatLng(lat, lng);
-                        $scope.gps = myLatlng;
+                        $scope.gpsLng = $scope.geoLocater[0].geometry.location.e;
+                        $scope.gpsLat = $scope.geoLocater[0].geometry.location.d;
+//                        var myLatlng= new google.maps.LatLng(lat, lng);
 
                         pushToServer();
     //                    var mapOptions = {
@@ -162,13 +164,10 @@ angular.module('roApp.controllers', [])
     //                    }
                     });
                 }  // Ends Maps the Location --------------------------------------------------------------------------------->
-
                 else{
                     pushToServer();
                 }
             }
-
-
         }
 
     }])
@@ -185,37 +184,119 @@ angular.module('roApp.controllers', [])
             $scope.location.photos = files[0];
         };
 
-        // this bit is used on the EditLocation Page:
+//        // this bit is used on the EditLocation Page:
+//        $scope.update = function () {
+//            if ($scope.submitted == false) {
+//                var fd = new FormData();
+//                fd.append("locationName", $scope.location.locationName);
+//                fd.append("description", $scope.location.description);
+//                fd.append("gps", $scope.location.gps);
+//                fd.append("street", $scope.location.street);
+//                fd.append("city", $scope.location.city);
+//                fd.append("state", $scope.location.state);
+//                fd.append("country", $scope.location.country);
+//                if ($scope.location.photos.hasOwnProperty('type')) {
+//                    fd.append("photos", $scope.location.photos);
+//                }
+//                fd.append("comments", $scope.location.comments);
+//                fd.append("sponsored", $scope.location.sponsored);
+//                fd.append("user", $scope.location.user);
+//                fd.append("voteCount", $scope.location.voteCount);
+//
+//                var locationUrl = 'http://localhost:8001/location-detail/' + $routeParams.id;
+//                $http.put(locationUrl, fd, {
+//                    withCredentials: true,
+//                    headers: {'Content-Type': undefined },
+//                    transformRequest: angular.identity
+//                }).success(function (response) {
+//                        $window.location = 'index.html#/locationDetails/' + $scope.location.id;
+//                    }).error(function (response) {
+//                        console.log('Response: ' + response);
+//                    });
+//            }
+//        };
+
+
+
+        var pushToServer = function () {
+            var fd = new FormData();
+            fd.append("locationName", $scope.location.locationName);
+            fd.append("description", $scope.location.description);
+            fd.append("gpsLat", $scope.location.gpsLat);
+            fd.append("gpsLng", $scope.location.gpsLng);
+            fd.append("reliableGPS", $scope.location.reliableGPS);
+            fd.append("street", $scope.location.street);
+            fd.append("city", $scope.location.city);
+            fd.append("state", $scope.location.state);
+            fd.append("country", $scope.location.country);
+            if ($scope.location.photos.hasOwnProperty('type')) {
+                fd.append("photos", $scope.location.photos);
+            }
+            fd.append("comments", $scope.location.comments);
+            fd.append("sponsored", $scope.location.sponsored);
+            fd.append("user", $scope.location.user);
+            fd.append("voteCount", $scope.location.voteCount);
+
+            var locationUrl = 'http://localhost:8001/location-detail/' + $routeParams.id;
+            $http.put(locationUrl, fd, {
+                withCredentials: true,
+                headers: {'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).success(function (response) {
+                    $window.location = 'index.html#/locationDetails/' + $scope.location.id;
+                }).error(function (response) {
+                    console.log('Response: ' + response);
+                });
+        };
+
         $scope.update = function () {
             if ($scope.submitted == false) {
-                var fd = new FormData();
-                fd.append("locationName", $scope.location.locationName);
-                fd.append("description", $scope.location.description);
-                fd.append("gps", $scope.location.gps);
-                fd.append("street", $scope.location.street);
-                fd.append("city", $scope.location.city);
-                fd.append("state", $scope.location.state);
-                fd.append("country", $scope.location.country);
-                if ($scope.location.photos.hasOwnProperty('type')) {
-                    fd.append("photos", $scope.location.photos);
-                }
-                fd.append("comments", $scope.location.comments);
-                fd.append("sponsored", $scope.location.sponsored);
-                fd.append("user", $scope.location.user);
-                fd.append("voteCount", $scope.location.voteCount);
+                $scope.location.reliableGPS = true;
 
-                var locationUrl = 'http://localhost:8001/location-detail/' + $routeParams.id;
-                $http.put(locationUrl, fd, {
-                    withCredentials: true,
-                    headers: {'Content-Type': undefined },
-                    transformRequest: angular.identity
-                }).success(function (response) {
-                        $window.location = 'index.html#/locationDetails/' + $scope.location.id;
-                    }).error(function (response) {
-                        console.log('Response: ' + response);
+                // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
+                if ($scope.location.gpsLat == '' || $scope.location.gpsLng == ''){
+                    $scope.location.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
+                    var geocoder = new google.maps.Geocoder();
+                    var locateMe = $scope.location.city + ", "+ $scope.location.state;
+
+                    console.log("Im travelling to: "+locateMe);
+                    var geocoderRequest = { address: locateMe };
+                    geocoder.geocode(geocoderRequest, function (results, status) {
+                        $scope.geoLocater = results;
+
+                        $scope.location.gpsLng = $scope.geoLocater[0].geometry.location.e;
+                        $scope.location.gpsLat = $scope.geoLocater[0].geometry.location.d;
+//                        var myLatlng= new google.maps.LatLng(lat, lng);
+
+                        pushToServer();
+    //                    var mapOptions = {
+    //                        zoom: 6,
+    //                        center: myLatlng
+    //                    };
+    //                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    //
+    //                    var marker = new google.maps.Marker({
+    //                        position: myLatlng,
+    //                        map: map,
+    //                        title: $scope.location.locationName
+    //                    });
+    //
+    //                    if ($scope.location.gps==''){
+    //                        $scope.gpsValue = "Appoximated: "+ (lat).toFixed(2) +" "+ (lng).toFixed(2);
+    //                        console.log($scope.gpsValue);
+    //                    }
+    //                    else{
+    //                        $scope.gpsValue = $scope.location.gps;
+    //                    }
                     });
+                }  // Ends Maps the Location --------------------------------------------------------------------------------->
+                else{
+                    pushToServer();
+                }
             }
-        };
+        }
+
+
         $scope.session = SessionService.getSession();
         //to display images from Home page
         Restangular.one('uploadedimages', $routeParams.id).customGET()
@@ -487,59 +568,35 @@ angular.module('roApp.controllers', [])
                 $scope.photo_url = photo_url[0];
         });
 
-        $scope.gpsValue = "none";
-
         Restangular.one('location-detail', $routeParams.id).customGET()
         .then(function (location) {
             $scope.location = location;
 
+            if ($scope.location.reliableGPS == false){
+                $scope.gpsStatus = "These coordinates have been approximated to the city center";
+            }
+            else{
+                $scope.gpsStatus = "These coordinates have been manually entered and should be exact";
+            }
+
             // Maps the Location --------------------------------------------------------------------------------->
-            var geocoder = new google.maps.Geocoder();
-            var locateMe = $scope.location.city + ", "+ $scope.location.state;
+            var myLatlng = new google.maps.LatLng($scope.location.gpsLat, $scope.location.gpsLng);
+            var mapOptions = {
+                zoom: 6,
+                center: myLatlng
+            };
+            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-            console.log("hey"+locateMe);
-            var geocoderRequest = { address: locateMe };
-            geocoder.geocode(geocoderRequest, function (results, status) {
-                $scope.geoLocater = results;
-                //do your result related activities here, maybe push the coordinates to the backend for later use, etc.
-                console.log($scope.geoLocater[0]);
-
-                var lng = $scope.geoLocater[0].geometry.location.e;
-                var lat = $scope.geoLocater[0].geometry.location.d;
-                var myLatlng = new google.maps.LatLng(lat, lng);
-                var mapOptions = {
-                    zoom: 6,
-                    center: myLatlng
-                };
-                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map,
-                    title: $scope.location.locationName
-                });
-
-                if ($scope.location.gps==''){
-                    $scope.gpsValue = "Appoximated: "+ (lat).toFixed(2) +" "+ (lng).toFixed(2);
-                    console.log($scope.gpsValue);
-                }
-                else{
-                    $scope.gpsValue = $scope.location.gps;
-                }
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: $scope.location.locationName
             });
             // Ends Maps the Location --------------------------------------------------------------------------------->
         });
 
-
-//
-//        SessionService.success(function(data) {
-//            $scope.locationList = data;
-//            $scope.location = $scope.locationList[$scope.id];
-//            })
         $scope.commentText = null;
         $scope.submitted = false;
-
-//        console.log('USER: ' + JSON.stringify($scope.session));
 
         $scope.save = function () {
             if ($scope.submitted == false) {
@@ -562,8 +619,6 @@ angular.module('roApp.controllers', [])
             }
         };
         //to save upvotes and downvotes to server
-        var vote = false;
-
 
         $scope.countChoculaUp = function(location){
             if (location.voted==null){
