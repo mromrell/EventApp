@@ -93,6 +93,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8001',
     'localhost:8000',
     'localhost/',
+    'lit-basin-5948.herokuapp.com',
 )
 
 from base import *

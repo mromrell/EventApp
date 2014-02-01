@@ -113,6 +113,7 @@ angular.module('roApp.controllers', [])
             fd.append("voteCount", $scope.voteCount);
 
             $http.post('http://localhost:8001/location', fd, {
+//            $http.post('http://vast-journey-8108.herokuapp.com/location', fd, {
                 withCredentials: true,
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity
@@ -185,6 +186,7 @@ angular.module('roApp.controllers', [])
             fd.append("voteCount", $scope.location.voteCount);
 
             var locationUrl = 'http://localhost:8001/location-detail/' + $routeParams.id;
+//            var locationUrl = 'http://vast-journey-8108.herokuapp.com/location-detail/' + $routeParams.id;
             $http.put(locationUrl, fd, {
                 withCredentials: true,
                 headers: {'Content-Type': undefined },
@@ -253,6 +255,7 @@ angular.module('roApp.controllers', [])
                 $http({
                     method: 'POST',
                     url: 'http://localhost:8001/comment',
+//                    url: 'http://vast-journey-8108.herokuapp.com/comment',
                     data: fd
                 }).success(function (response) {
                         $scope.commentList[$scope.commentList.length] = response;
@@ -465,6 +468,7 @@ angular.module('roApp.controllers', [])
                 $http({
                     method: 'POST',
                     url: 'http://localhost:8001/comment',
+//                    url: 'http://vast-journey-8108.herokuapp.com/comment',
                     data: fd
                 }).success(function (response) {
                         $scope.commentList[$scope.commentList.length] = response;
