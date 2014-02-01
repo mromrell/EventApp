@@ -81,8 +81,15 @@
                             </div>
                         </div>
                         <div class="pull-right">
+                            <button type="button" class="pull-right" ng-click="starLocation(location)">
+                                <span class="glyphicon glyphicon-star-empty" ng-hide="location.starLocation"></span>
+                                <span class="glyphicon glyphicon-star" ng-show="location.starLocation"></span>
+                            </button>
+                            <br/>
+                            <br/>
                             <p>{{ userList[location.user -1].username }}</p>
                         </div>
+
                     </div>
                 </div>
             </section>

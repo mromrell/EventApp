@@ -294,7 +294,7 @@ angular.module('roApp.controllers', [])
             });
 
     }])
-    .controller('HomeController', ['$scope', 'mapService', 'SessionService', 'Restangular', '$window', function ($scope, mapService, SessionService, Restangular, $window) {
+    .controller('HomeController', ['$scope', 'mapService', 'SessionService', 'Restangular', '$window', '$routeParams', function ($scope, mapService, SessionService, Restangular, $window, $routeParams) {
         $scope.session = SessionService.getSession();
 
         $scope.user = {};
@@ -334,7 +334,17 @@ angular.module('roApp.controllers', [])
         $scope.locationList = {};
         Restangular.all('location').getList()
             .then(function (data) {
-                $scope.locationList = data;
+                if ($routeParams.hasOwnProperty('starred')) {
+                   $scope.locationList = [];
+                    for (var i =0; i<data.length; i++){
+                       if(data[i].starLocation){
+                           $scope.locationList.push(data[i]);
+                       }
+                   }
+                }
+                else {
+                    $scope.locationList = data;
+                }
                 $scope.imagefinder();
                 mapService.main($scope.locationList);
         });
@@ -361,6 +371,15 @@ angular.module('roApp.controllers', [])
                 .then(function (data) {
                 })
             }
+        };
+
+        $scope.starLocation = function(location){
+            location.starLocation = !location.starLocation;
+            delete location.photos;
+            Restangular.one('location-detail', location.id).customPUT(location)
+                .then(function (data) {
+                    $scope.location.starLocation = data.starLocation;
+                })
         };
 
         $scope.userList = {};
@@ -409,6 +428,7 @@ angular.module('roApp.controllers', [])
             })
         });
     }])
+
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
         //to display images from Home page

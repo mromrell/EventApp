@@ -32,6 +32,11 @@ var roApp = angular.module('roApp', [
                 title: 'Location Details',
                 locationspecific:'locationSpecific.html'
             })
+            .when('/home/:starred',{
+                templateUrl: 'partials/home.tpl.html',
+                controller: 'HomeController',
+                title: 'Home Page'
+            })
             .when('/editLocation/:id', {
                 templateUrl: 'partials/editLocation.html',
                 controller: 'EditLocationController',
