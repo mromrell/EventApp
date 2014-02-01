@@ -496,7 +496,14 @@ angular.module('roApp.controllers', [])
                 })
             }
         };
-
+        $scope.starLocation = function(location){
+            location.starLocation = !location.starLocation;
+            delete location.photos;
+            Restangular.one('location-detail', location.id).customPUT(location)
+                .then(function (data) {
+                    $scope.location.starLocation = data.starLocation;
+                })
+        };
         $scope.commentList = {};
         Restangular.all('comments-by-location').getList({'locationID':$routeParams.id})
             .then(function (data) {
