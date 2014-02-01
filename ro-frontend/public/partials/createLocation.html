@@ -37,7 +37,7 @@
                     <li class="no-decoration"><input type="checkbox" ng-model="value1"> Yes</li>
                 </div>
                 <br/>
-                    <input id="photos" type="file" ng-model="photos" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+                    <input type="file" ng-model="photos" onchange="angular.element(this).scope().uploadFile(this.files)"/>
                <div>
                    <!--
                     <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3" onchange="angular.element(this).scope().uploadFile(this.files)">

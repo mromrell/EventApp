@@ -57,6 +57,7 @@ class Location(models.Model):
     voteCount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User)
     datecreated = models.DateField(default=datetime.now)
+    starLocation = models.NullBooleanField(default=False)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.locationName, self.user, self.description)
@@ -71,6 +72,7 @@ class Comment(models.Model):
     commentText = models.CharField(max_length=900)
     commentDate = models.DateField(default=datetime.now)
     locationRating = models.IntegerField(blank=True, null=True)
+
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.user, self.locationPostID, self.commentText)
