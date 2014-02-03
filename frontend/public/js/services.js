@@ -41,7 +41,7 @@ angular.module('roApp.services', ['angularLocalStorage'])
         return {
             initialize: function (locationList) {
                 var locationArray = [];
-                var locationNameArray = [];
+                var eventNameArray = [];
                 var locationIdArray = [];
                 var basicLatlng = new google.maps.LatLng(locationList[0].gpsLat, locationList[0].gpsLng);
                 //                var bounds = new google.maps.LatLngBounds();
@@ -53,7 +53,7 @@ angular.module('roApp.services', ['angularLocalStorage'])
 
                 for (var x = 0; x < locationList.length; x++) {
                     locationArray.push(new google.maps.LatLng(locationList[x].gpsLat, locationList[x].gpsLng));
-                    locationNameArray.push(locationList[x].locationName);
+                    eventNameArray.push(locationList[x].eventName);
                     locationIdArray.push(locationList[x].id);
                     //                    bounds.extend(myLatLng);
                     //                    map.fitBounds(bounds);
@@ -64,7 +64,7 @@ angular.module('roApp.services', ['angularLocalStorage'])
                     var marker = new google.maps.Marker({
                         position: locationArray[coord],
                         map: map,
-                        title: locationNameArray[coord],
+                        title: eventNameArray[coord],
                         id: locationIdArray[coord]
                     });
                     markerArray.push(marker);

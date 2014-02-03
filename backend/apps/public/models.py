@@ -42,7 +42,7 @@ class Address(models.Model):
 
 class Location(models.Model):
     ''' Model features for an address '''
-    locationName = models.CharField(max_length=200)
+    eventName = models.CharField(max_length=200)
     gpsLat = models.CharField(max_length=200, blank=True, null=True)
     gpsLng = models.CharField(max_length=200, blank=True, null=True)
     reliableGPS = models.BooleanField()
@@ -63,7 +63,7 @@ class Location(models.Model):
     starLocation = models.NullBooleanField(default=False)
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.locationName, self.user, self.description)
+        return u'%s, %s, %s' % (self.eventName, self.user, self.description)
 
     class Meta:
         verbose_name_plural = 'Location'
