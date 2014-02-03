@@ -47,11 +47,10 @@ coverage.xml
 # Django stuff:
 *.log
 *.pot
-#backend/apps/public/migrations/*
-#backend/settings/local_settings.py
-#backend/img/*
-#backend/db.sqlite3
-#backend/settings/local_settings.py
+backend/apps/public/migrations/*
+backend/settings/local_settings.py
+backend/img/*
+backend/db.sqlite3
 
 # Sphinx documentation
 docs/_build/
