@@ -43,7 +43,6 @@ class Address(models.Model):
 class Location(models.Model):
     ''' Model features for an address '''
     locationName = models.CharField(max_length=200)
-    # address = models.USStateSelect()
     gpsLat = models.CharField(max_length=200, blank=True, null=True)
     gpsLng = models.CharField(max_length=200, blank=True, null=True)
     reliableGPS = models.BooleanField()
