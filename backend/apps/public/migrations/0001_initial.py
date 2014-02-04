@@ -22,19 +22,25 @@ class Migration(SchemaMigration):
         # Adding model 'Location'
         db.create_table(u'public_location', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('locationName', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('gps', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('street', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('eventName', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('gpsLat', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
+            ('gpsLng', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
+            ('reliableGPS', self.gf('django.db.models.fields.BooleanField')()),
+            ('street', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('city', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('state', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('country', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('photos', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=1000)),
+            ('description', self.gf('django.db.models.fields.CharField')(max_length=5000)),
             ('sponsored', self.gf('django.db.models.fields.BooleanField')()),
-            ('upVoteCount', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('downVoteCount', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('forCharity', self.gf('django.db.models.fields.BooleanField')()),
+            ('linkUrl', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
+            ('participantCost', self.gf('django.db.models.fields.DecimalField')(max_digits=8, decimal_places=2)),
+            ('totalCost', self.gf('django.db.models.fields.DecimalField')(max_digits=9, decimal_places=2)),
+            ('voteCount', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('datecreated', self.gf('django.db.models.fields.DateField')(default=datetime.datetime.now)),
+            ('starLocation', self.gf('django.db.models.fields.NullBooleanField')(default=False, null=True, blank=True)),
         ))
         db.send_create_signal(u'public', ['Location'])
 
@@ -121,17 +127,23 @@ class Migration(SchemaMigration):
             'city': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'country': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'datecreated': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime.now'}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
-            'downVoteCount': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'gps': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'description': ('django.db.models.fields.CharField', [], {'max_length': '5000'}),
+            'eventName': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'forCharity': ('django.db.models.fields.BooleanField', [], {}),
+            'gpsLat': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'gpsLng': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'locationName': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'linkUrl': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'participantCost': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'}),
             'photos': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'reliableGPS': ('django.db.models.fields.BooleanField', [], {}),
             'sponsored': ('django.db.models.fields.BooleanField', [], {}),
+            'starLocation': ('django.db.models.fields.NullBooleanField', [], {'default': 'False', 'null': 'True', 'blank': 'True'}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'street': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'upVoteCount': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
+            'street': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'totalCost': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '2'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
+            'voteCount': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         }
     }
 
