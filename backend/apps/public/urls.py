@@ -17,7 +17,7 @@ urlpatterns = patterns(
     url(r'^addresses/(?P<pk>[0-9]+)$', AddressDetail.as_view(), name='address-detail'),
     url(r'^users$', UserList.as_view(), name='user-list'),
     url(r'^users/(?P<pk>[0-9]+)$', UserDetail.as_view(), name='user-detail'),
-    url(r'^uploadedimages/(?P<location_id>.+)$', uploadedimages, name='uploadedimages'),
+    url(r'^uploadedimages/(?P<event_id>.+)$', uploadedimages, name='uploadedimages'),
 
     url(r'^location$', LocationList.as_view(), name='location-list'),
     url(r'^location-detail/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-detail'),
@@ -26,6 +26,9 @@ urlpatterns = patterns(
     # url(r'^starlist$', StarList.as_view(), name='star-list'),
     url(r'^getuserid/(?P<token>.+)$', obtain_user_from_token, name='getUserId'),
     # url(r'^location/(?P<pk>[0-9]+)$', LocationDetail.as_view(), name='location-Detail'),
+    url(r'^photo$', PhotoList.as_view(), name='photo-list'),
+    url(r'^photo-detail/(?P<pk>[0-9]+)$', PhotoDetail.as_view(), name='photo-detail'),
+
 )
 
 # urlpatterns += patterns('', url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'))
