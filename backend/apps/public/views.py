@@ -48,11 +48,13 @@ class PhotoList(generics.ListCreateAPIView):
     model = Photo
     serializer_class = PhotoSerializer
 
+
 class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
     """List all Locations or create a new Location"""
     #permission_classes = (permissions.IsAuthenticated,)
     model = Photo
     serializer_class = PhotoSerializer
+
 
 class LocationList(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
@@ -60,11 +62,13 @@ class LocationList(generics.ListCreateAPIView):
     model = Location
     serializer_class = LocationSerializer
 
+
 class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
     """List all Locations or create a new Location"""
     #permission_classes = (permissions.IsAuthenticated,)
     model = Location
     serializer_class = LocationSerializer
+
 
 class CommentList(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
@@ -107,12 +111,14 @@ def authenticate(request):
         c['message'] = 'Login failed!'
         return render_to_response('partials/login.tpl.html', c)
 
+
 @api_view(('GET',))
 def obtain_user_from_token(r, token):
    auth = TokenAuthentication()
    response = auth.authenticate_credentials(token)
    user_id = response[0].id
    return Response(user_id)
+
 
 @api_view(('GET',))
 def uploadedimages(request, event_id):
@@ -128,18 +134,20 @@ def uploadedimages(request, event_id):
     response = [photo_url, event_id]
     return Response(response)
 
+
 def logout(request):
     auth.logout(request)
     return JSONResponse([{'success': 'Logged out!'}])
 
+
 class NewAuthToken(ObtainAuthToken):
-   def post(self, request):
-       serializer = self.serializer_class(data=request.DATA)
-       if serializer.is_valid():
-           token, created = Token.objects.get_or_create(user=serializer.object['user'])
-           data = {
-               'user': UserSerializer(User.objects.filter(auth_token=token)).data,
-               'token': token.key,
-           }
-           return Response(data)
-       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        serializer = self.serializer_class(data=request.DATA)
+        if serializer.is_valid():
+            token, created = Token.objects.get_or_create(user=serializer.object['user'])
+            data = {
+                'user': UserSerializer(User.objects.filter(auth_token=token)).data,
+                'token': token.key,
+            }
+            return Response(data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
