@@ -1,7 +1,7 @@
 /* app css stylesheet */
 body {
     padding-bottom: 20px;
-    padding-top: 50px;
+    padding-top: 70px;
     /*background: url(../img/travelappbg_mini.jpg) no-repeat bottom;*/
     /*background-attachment: fixed;*/
     height: 100%;
@@ -278,7 +278,7 @@ body {
 #map-canvas {
     height: 260px;
     width: 100%;
-    margin: 0px;
+    margin-top: -20px;
     padding: 0px
 }
 .votecount {
