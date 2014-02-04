@@ -14,8 +14,6 @@
         <div class="mainform center">
             <form ng-submit="save()" enctype="multipart/form-data" class="form-register">
                     <input class="form-control form-group" id="eventName" type="text" ng-model="eventName" required="required" placeholder="Location Name">
-                    <input class="form-control form-group" id="gpsLat" type="text" ng-model="gpsLat" placeholder="GPS Latitude: (ex: 37.235065)">
-                    <input class="form-control form-group" id="gpsLng" type="text" ng-model="gpsLng" placeholder="GPS Longitude: (ex: -115.811117)">
                     <input class="form-control form-group" id="street" type="text" required="required" ng-model="street" placeholder="Street Address">
                     <input class="form-control form-group" id="city" type="text" required="required" ng-model="city" placeholder="City">
                     <input class="form-control form-group" id="state" type="text" required="required" ng-model="state" placeholder="State"> <!--
@@ -28,6 +26,8 @@
                     <input class="form-control form-group" id="totalCost" type="text" ng-model="totalCost" required="required" placeholder="Total Cost of the Event">
                     <input class="form-control form-group" id="participantCost" type="text" ng-model="participantCost" required="required" placeholder="Cost for each Participant">
                     <input class="form-control form-group" id="linkUrl" type="text" ng-model="linkUrl" placeholder="Link to the Event Website">
+                    <input class="form-control form-group" id="eventStartDate" type="text" ng-model="eventStartDate" placeholder="When does the Event Start?">
+                    <input class="form-control form-group" id="eventEndDate" type="text" ng-model="eventEndDate" placeholder="When does the Event End?">
                 <div class="form-group">
                     <input class="form-control" id="comments" value="nocomments" type="hidden" ng-model="comments">
                     <input class="form-control" id="voteCount" value="0" type="hidden" ng-model="voteCount">

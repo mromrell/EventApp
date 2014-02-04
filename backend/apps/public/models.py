@@ -59,6 +59,8 @@ class Location(models.Model):
     voteCount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User)
     datecreated = models.DateField(default=datetime.now)
+    eventStartDate = models.DateField()
+    eventEndDate = models.DateField()
     starLocation = models.NullBooleanField(default=False)
 
     def __unicode__(self):
