@@ -8,25 +8,6 @@ body {
 
 }
 
-.btn-primary {
-    background-color: #222222;
-    color: #999999;
-}
-
-.btn-primary:hover {
-    color: #ffffff;
-    background-color: #222222;
-    border-color: #222222;
-}
-
-.btn-primary:focus,
-.btn-primary:active,
-.btn-primary.active,
-.open .dropdown-toggle.btn-primary {
-    color: #999999;
-    background-color: #222222;
-    border-color: #222222;
-}
 
 .form-signin {
     max-width: 330px;
