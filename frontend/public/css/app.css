@@ -339,3 +339,7 @@ background-color: #ffffff;
 .watcher{
     columns: #666666;
 }
+.calendar{
+    width: 200px;
+    height: 200px;
+}
