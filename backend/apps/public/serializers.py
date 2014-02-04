@@ -9,12 +9,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         # fields = ('id', 'username')
 
-
 class AddressSerializer(serializers.ModelSerializer):
     """Serializes an Address object"""
     class Meta:
         model = Address
-
 
 class LocationSerializer(serializers.ModelSerializer):
     """Serializes a User object"""
@@ -23,10 +21,15 @@ class LocationSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField('get_username')
-
     """Serializes a User object"""
     class Meta:
         model = Comment
 
     def get_username(self, obj):
         return obj.user.username
+
+class PhotoSerializer(serializers.ModelSerializer):
+    """Serializes a User object"""
+    class Meta:
+        model = Photo
+        # fields = ('id', 'username')

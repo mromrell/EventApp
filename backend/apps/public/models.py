@@ -50,7 +50,6 @@ class Location(models.Model):
     city = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
-    photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
     description = models.CharField(max_length=5000)
     sponsored = models.BooleanField()
     forCharity = models.BooleanField()
@@ -82,3 +81,16 @@ class Comment(models.Model):
 
     class Meta:
         verbose_name_plural = 'Comment'
+
+class Photo (models.Model):
+    ''' Model features for an address '''
+    photo = models.ImageField(upload_to='img/locations', blank=True, null=True)
+    user = models.ForeignKey(User)
+    eventPostID = models.ForeignKey(Location)
+
+    def __unicode__(self):
+        return u'%s, %s' % (self.user, self.eventPostID)
+
+    class Meta:
+        verbose_name_plural = 'Photos'
+

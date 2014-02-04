@@ -42,6 +42,18 @@ class UserDetail(generics.RetrieveAPIView):
 
 # I Added this stuff --------------------------------------
 
+class PhotoList(generics.ListCreateAPIView):
+    """List all Locations or create a new Location"""
+    #permission_classes = (permissions.IsAuthenticated,)
+    model = Photo
+    serializer_class = PhotoSerializer
+
+class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
+    """List all Locations or create a new Location"""
+    #permission_classes = (permissions.IsAuthenticated,)
+    model = Photo
+    serializer_class = PhotoSerializer
+
 class LocationList(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
     #permission_classes = (permissions.IsAuthenticated,)
@@ -116,9 +128,9 @@ def obtain_user_from_token(r, token):
    return Response(user_id)
 
 @api_view(('GET',))
-def uploadedimages(request, location_id):
-    location = Location.objects.get(id=location_id)
-    photo_name = location.photos.name.split("/")[-1]
+def uploadedimages(request, event_id):
+    photo = Photo.objects.get(id=event_id)
+    photo_name = photo.photo.name.split("/")[-1]
     # if request.method == 'GET':
     #     logo = Logo.objects.get(consultant_id=company.consultant_id)
     if request.is_secure():
@@ -126,7 +138,7 @@ def uploadedimages(request, location_id):
     else:
         photo_url = ''.join(['http://', request.META['HTTP_HOST'], '/static/', photo_name])
 
-    response = [photo_url, location_id]
+    response = [photo_url, event_id]
     return Response(response)
 
 def logout(request):
