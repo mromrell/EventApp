@@ -124,4 +124,29 @@ angular.module('roApp.directives', [])
                 })
             }
         }
-    }]);
+    }])
+    .directive('stripeForm', [ function (e) {
+            return {
+                restrict: 'A',
+                templateUrl: 'partials/stripeForm.tpl.html',
+                link: function(scope, elem, attrs) {
+                    console.log('blah, blah');
+                    elem.bind('submit', function() {
+                        var handler = StripeCheckout.configure({
+                            key: 'pk_test_6pRNASCoBOKtIshFeQd4XMUh',
+                            image: '/Calendar-Icon-blue.png',
+                            token: function (token, args) {
+                                // Use the token to create the charge with a server-side script.
+                            }
+                        });
+
+                        handler.open({
+                            name: 'Demo Site',
+                            description: '2 widgets ($20.00)',
+                            amount: 250
+                        });
+                        e.preventDefault();
+                    });
+                }
+            }
+        }]);
