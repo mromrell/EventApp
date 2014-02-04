@@ -26,7 +26,7 @@
     <!--span(ng-show="hasError('first_name')") First name is required-->
     <!--span(ng-show="errorFirstName") {{ errorFirstName }}-->
     <h4>*Phone Number:</h4>
-    <input type="text" name="phoneNumber" ng-model="user.phone" placeholder="Phone" required="required" class="form-control"/>
+    <input id= "phonebox" type="tel" onkeyup="processPhone();" name="phoneNumber" ng-model="user.phone" placeholder="Phone" required="required" class="form-control"/>
 
     <h4>E-Mail:</h4>
     <input type="text" name="email" ng-model="user.email" placeholder="E-Mail Address" class="form-control"/>
@@ -41,4 +41,4 @@
 
 
 </div>
-        <script src="js/phoneValidator.js"></script>
+        <script src="js/phoneformat.js"></script>

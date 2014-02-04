@@ -52,6 +52,11 @@ var roApp = angular.module('roApp', [
                 controller: 'RegisterController',
                 title: "Create an Account"
             })
+            .when('/paymentInfo', {
+                templateUrl: 'partials/paymentInfo.html',
+                controller: 'PaymentInfoController',
+                title: "Payments"
+            })
             .otherwise({
                 redirectTo: '/home'
             });
