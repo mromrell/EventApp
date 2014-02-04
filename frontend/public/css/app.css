@@ -2,9 +2,10 @@
 body {
     padding-bottom: 20px;
     padding-top: 50px;
-    background: url(../img/travelappbg_mini.jpg) no-repeat bottom;
+    /*background: url(../img/travelappbg_mini.jpg) no-repeat bottom;*/
+    /*background-attachment: fixed;*/
     height: 100%;
-    background-attachment: fixed;
+
 }
 
 .btn-primary {
