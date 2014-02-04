@@ -31,7 +31,7 @@ class AccountInfo(models.Model):
     is_cell = models.BooleanField()
 
     # social_info = models.ForeignKey(Social, null=True)
-    address = models.ForeignKey(Address, null=True)
+    address = models.ForeignKey(Address, null=True, blank=True)
 
 
 # class Social(models.Model):
