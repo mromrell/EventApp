@@ -9,7 +9,7 @@
                 <table>
                 <tbody>
                     <tr>
-                        <td>Place Name</td><td class="tablemanners2"><input class="form-control form-group" id="locationName" type="text" ng-model="location.locationName"></td>
+                        <td>Place Name</td><td class="tablemanners2"><input class="form-control form-group" id="eventName" type="text" ng-model="location.eventName"></td>
                     </tr>
                     <tr>
                         <td>GPS Latitude</td><td><input class="form-control form-group" id="gpsLat" type="text" ng-model="location.gpsLat"></td>
@@ -50,7 +50,7 @@
                 <img class="img-responsive" src="{{ photo_url }}" alt="">
 
                 <div class="caption-full">
-                    <h4><a href="#">{{ location.locationName }}</a>
+                    <h4><a href="#">{{ location.eventName }}</a>
                     </h4>
 
                     <p>{{ location.description }}</p>

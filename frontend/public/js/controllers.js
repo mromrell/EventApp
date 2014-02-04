@@ -81,7 +81,7 @@ angular.module('roApp.controllers', [])
         $scope.city = null;
         $scope.state = null;
         $scope.country = null;
-        $scope.locationName = null;
+        $scope.eventName = null;
         $scope.description = null;
         $scope.photos = null;
         $scope.comments = "none";
@@ -97,7 +97,7 @@ angular.module('roApp.controllers', [])
 
         var pushToServer = function () {
             var fd = new FormData();
-            fd.append("locationName", $scope.locationName);
+            fd.append("eventName", $scope.eventName);
             fd.append("description", $scope.description);
             fd.append("gpsLng", $scope.gpsLng);
             fd.append("gpsLat", $scope.gpsLat);
@@ -168,7 +168,7 @@ angular.module('roApp.controllers', [])
 
         var pushToServer = function () {
             var fd = new FormData();
-            fd.append("locationName", $scope.location.locationName);
+            fd.append("eventName", $scope.location.eventName);
             fd.append("description", $scope.location.description);
             fd.append("gpsLat", $scope.location.gpsLat);
             fd.append("gpsLng", $scope.location.gpsLng);
@@ -237,7 +237,7 @@ angular.module('roApp.controllers', [])
         Restangular.one('location-detail', $routeParams.id).customGET()
         .then(function (location) {
           $scope.location = location;
-          $scope.oldLocationName = $scope.location.locationName;
+          $scope.oldLocationName = $scope.location.eventName;
         });
 
         $scope.commentText = null;
@@ -469,7 +469,7 @@ angular.module('roApp.controllers', [])
             var marker = new google.maps.Marker({
                 position: myLatlng,
                 map: map,
-                title: $scope.location.locationName
+                title: $scope.location.eventName
             });
             // Ends Maps the Location --------------------------------------------------------------------------------->
         });

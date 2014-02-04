@@ -1,0 +1,44 @@
+
+<head>
+    <title>Shopping Cart</title>
+</head>
+
+
+<div class="container">
+    <!--// <div ng-hide="session">
+        <div login></div>
+    </div>
+    <div ng-show="session">//-->
+
+<form role="form" name="userInfo" ng-submit="submitIdentifyingInfo()" style="max-width: 450px;" ng-disabled="disabled" class="form-register">
+  <div class="form-group">
+    <h4>I would like to:</h4>
+      <h3>*Those that would like to sponsor an event will have the ability to sign up as individuals later on.</h3>
+          <select required="required" name="userStatus" ng-model="user.status" placeholder="test" class="form-control">
+      <option>Attend in an event</option>
+      <option>Become a corporate sponsor of an event</option>
+      <option>Register a new event</option>
+      <option>Register as a vendor at an event</option>
+    </select>
+
+    <h4>*Your Name / Name of Company:</h4>
+    <input type="text" name="userName" ng-model="user.username" placeholder="Name" required="required" class="form-control"/>
+    <!--span(ng-show="hasError('first_name')") First name is required-->
+    <!--span(ng-show="errorFirstName") {{ errorFirstName }}-->
+    <h4>*Phone Number:</h4>
+    <input type="text" name="phoneNumber" ng-model="user.phone" placeholder="Phone" required="required" class="form-control"/>
+
+    <h4>E-Mail:</h4>
+    <input type="text" name="email" ng-model="user.email" placeholder="E-Mail Address" class="form-control"/>
+    <h4>Verify E-mail:</h4>
+    <input type="email" name="email2" ng-model="user.email" placeholder="Nobody Likes Typos..." class="form-control" data-validation-matches-match="email"
+        data-validation-matches-message="Must match email address entered above"/>
+
+  </div>
+      <button type="submit" class="btn btn-lg btn-success">Create</button>&nbsp;<a href="/">
+      <button type="button" class="btn btn-lg btn-danger">Cancel</button></a>
+</form>
+
+
+</div>
+        <script src="js/phoneValidator.js"></script>

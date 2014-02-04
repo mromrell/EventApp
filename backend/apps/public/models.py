@@ -42,8 +42,7 @@ class Address(models.Model):
 
 class Location(models.Model):
     ''' Model features for an address '''
-    locationName = models.CharField(max_length=200)
-    # address = models.USStateSelect()
+    eventName = models.CharField(max_length=200)
     gpsLat = models.CharField(max_length=200, blank=True, null=True)
     gpsLng = models.CharField(max_length=200, blank=True, null=True)
     reliableGPS = models.BooleanField()
@@ -54,13 +53,17 @@ class Location(models.Model):
     photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
     description = models.CharField(max_length=5000)
     sponsored = models.BooleanField()
+    forCharity = models.BooleanField()
+    linkUrl = models.CharField(max_length=200, blank=True, null=True)
+    participantCost = models.DecimalField(max_digits=8, decimal_places=2)
+    totalCost = models.DecimalField(max_digits=9, decimal_places=2)
     voteCount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User)
     datecreated = models.DateField(default=datetime.now)
     starLocation = models.NullBooleanField(default=False)
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.locationName, self.user, self.description)
+        return u'%s, %s, %s' % (self.eventName, self.user, self.description)
 
     class Meta:
         verbose_name_plural = 'Location'
