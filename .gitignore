@@ -8,6 +8,8 @@ __pycache__/
 # Node
 frontend/node_modules/
 
+.git/
+
 .DS_store
 
 # Distribution / packaging
