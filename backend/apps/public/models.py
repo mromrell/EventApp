@@ -4,7 +4,7 @@ from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # from settings.base import AUTH_USER_MODEL
-#from django import forms
+# from django import forms
 from localflavor.us.forms import USStateSelect
 from datetime import datetime
 from django.contrib.auth.hashers import make_password, is_password_usable
@@ -25,60 +25,50 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
 
+class Social(models.Model):
+    facebook_url = models.URLField(blank=True)
+    google_plus = models.URLField(blank=True)
+    twitter_handle = models.CharField(max_length=50, blank=True)
+
+    user_id = models.ForeignKey(User)
+
+
 class AccountInfo(models.Model):
     birth_date = models.DateField(auto_now_add=True)
-    phone = models.CharField(max_length=25, blank=True)
-    is_cell = models.BooleanField()
+    phone = models.CharField(max_length=25, blank=True, null=True)
+    is_cell = models.NullBooleanField(blank=True, null=True)
+    street = models.CharField(max_length=200, blank=True, null=True)
+    city = models.CharField(max_length=200, blank=True, null=True)
+    state = models.CharField(max_length=200, blank=True, null=True)
+    country = models.CharField(max_length=200, blank=True, null=True)
+    is_sponsor = models.NullBooleanField(blank=True, null=True)
+    is_organizer = models.NullBooleanField(blank=True, null=True)
 
-    # social_info = models.ForeignKey(Social, null=True)
-    address = models.ForeignKey(Address, null=True, blank=True)
-
-
-# class Social(models.Model):
-#     facebook_url = models.URLField()
-
-
-class Address(models.Model):
-    ADDRESS_TYPES = (
-        ('Sponsor', 'Sponsor'),
-        ('Event', 'Event'),
-        ('User', 'User'),
-    )
-
-    street = models.CharField(max_length=200)
-    city = models.CharField(max_length=200)
-    state = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
-    gps = models.CharField(max_length=300)
-    address_type = models.CharField(max_length=50, choices=ADDRESS_TYPES)
-
-    def __unicode__(self):
-        return u'%s, %s, %s' % (self.city, self.state, self.gps)
-
-    class Meta:
-        verbose_name_plural = 'Address'
+    social_info = models.ForeignKey(Social, null=True, blank=True)
+    user_id = models.ForeignKey(User)
 
 
 class Location(models.Model):
     # Model features for an address
-    eventName = models.CharField(max_length=200)
+    eventName = models.CharField(max_length=200, blank=True, null=True)
     gpsLat = models.CharField(max_length=200, blank=True, null=True)
     gpsLng = models.CharField(max_length=200, blank=True, null=True)
-    reliableGPS = models.BooleanField()
+    reliableGPS = models.NullBooleanField(blank=True, null=True)
     street = models.CharField(max_length=200, blank=True, null=True)
-    city = models.CharField(max_length=200)
-    state = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
-    description = models.CharField(max_length=5000)
-    sponsored = models.BooleanField()
-    forCharity = models.BooleanField()
+    city = models.CharField(max_length=200, blank=True, null=True)
+    state = models.CharField(max_length=200, blank=True, null=True)
+    country = models.CharField(max_length=200, blank=True, null=True)
+    description = models.CharField(max_length=5000, blank=True, null=True)
+    sponsored = models.NullBooleanField(blank=True, null=True)
+    forCharity = models.NullBooleanField(blank=True, null=True)
     linkUrl = models.CharField(max_length=200, blank=True, null=True)
     participantCost = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     totalCost = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     voteCount = models.IntegerField(blank=True, null=True)
-    user = models.ForeignKey(User)
     datecreated = models.DateField(default=datetime.now)
     starLocation = models.NullBooleanField(default=False)
+
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.eventName, self.user, self.description)
@@ -87,13 +77,34 @@ class Location(models.Model):
         verbose_name_plural = 'Location'
 
 
+class Payment(models.Model):
+    PAYMENT_TYPE_LIST = (
+        ('Sponsor', 'Sponsor'),
+        ('Registration', 'Registration'),
+    )
+    payment_amount = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    sponsor_amount = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    payment_type = models.CharField(max_length=20, choices=PAYMENT_TYPE_LIST)
+    user_id = models.ForeignKey(User)
+    event_id = models.ForeignKey(Location)
+
+
+class Vote(models.Model):
+    is_up = models.NullBooleanField(blank=True, null=True)
+    is_down = models.NullBooleanField(blank=True, null=True)
+
+    user_id = models.ForeignKey(User)
+    event_id = models.ForeignKey(Location)
+
+
 class Comment(models.Model):
     # Model features for an address
     user = models.ForeignKey(User)
-    locationPostID = models.ForeignKey(Location)
-    commentText = models.CharField(max_length=900)
+    commentText = models.CharField(max_length=900, blank=True, null=True)
     commentDate = models.DateField(default=datetime.now)
     locationRating = models.IntegerField(blank=True, null=True)
+
+    locationPostID = models.ForeignKey(Location)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.user, self.locationPostID, self.commentText)
@@ -101,15 +112,17 @@ class Comment(models.Model):
     class Meta:
         verbose_name_plural = 'Comment'
 
-class Photo (models.Model):
-    ''' Model features for an address '''
+
+class Photo(models.Model):
+    # Model features for an address
     photo = models.ImageField(upload_to='img/locations', blank=True, null=True)
+    is_profile = models.NullBooleanField(blank=True, null=True)
+
     user = models.ForeignKey(User)
-    eventPostID = models.ForeignKey(Location)
+    eventPostID = models.ForeignKey(Location, blank=True, null=True)
 
     def __unicode__(self):
         return u'%s, %s' % (self.user, self.eventPostID)
 
     class Meta:
         verbose_name_plural = 'Photos'
-
