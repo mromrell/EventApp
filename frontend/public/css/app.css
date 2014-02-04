@@ -1,7 +1,7 @@
 /* app css stylesheet */
 body {
     padding-bottom: 20px;
-    padding-top: 70px;
+    padding-top: 50px;
     background: url(../img/travelappbg_mini.jpg) no-repeat bottom;
     height: 100%;
     background-attachment: fixed;
@@ -234,14 +234,14 @@ body {
     width: 292px;
 }
 .homeh1{
-    font-family: 'Love Ya Like A Sister', cursive;
-    font-size: 45pt;
-    color: #68a743;
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-size: 40pt;
+    color: #94c0e3;
 }
 .homeh4{
-    font-family: 'Love Ya Like A Sister', cursive;
+    font-family: 'Montserrat Alternates', sans-serif;
     font-size: 30pt;
-    color: #68a743;
+    color: #94c0e3;
 }
 .pininfo {
     background-color: #e6e6e6;
@@ -345,4 +345,12 @@ background-color: #ffffff;
   -webkit-column-count: 1;
   column-count:         1;
   }
+}
+.form-control-extra{
+    display: table-row !important;
+    width: 200px !important;
+}
+.padme{
+    padding: 7px;
+    margin-left: 20px;
 }

@@ -72,6 +72,8 @@ angular.module('roApp.controllers', [])
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
         });
+
+
 //        $scope.image = null;
 //        $scope.imageFileName = '';
 //        $scope.location = Object();
