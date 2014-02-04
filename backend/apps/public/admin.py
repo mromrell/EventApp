@@ -7,3 +7,7 @@ from .models import *
 admin.site.register(Location)
 admin.site.register(Comment)
 admin.site.register(Photo)
+admin.site.register(Social)
+admin.site.register(AccountInfo)
+admin.site.register(Payment)
+admin.site.register(Vote)
