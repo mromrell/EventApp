@@ -32,6 +32,9 @@ class Social(models.Model):
 
     user_id = models.ForeignKey(User)
 
+    class Meta:
+        verbose_name_plural = 'Social'
+
 
 class AccountInfo(models.Model):
     birth_date = models.DateField(auto_now_add=True)
@@ -46,6 +49,9 @@ class AccountInfo(models.Model):
 
     social_info = models.ForeignKey(Social, null=True, blank=True)
     user_id = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name_plural = 'Accounts'
 
 
 class Location(models.Model):
@@ -76,7 +82,7 @@ class Location(models.Model):
         return u'%s, %s, %s' % (self.eventName, self.user, self.description)
 
     class Meta:
-        verbose_name_plural = 'Location'
+        verbose_name_plural = 'Locations'
 
 
 class Payment(models.Model):
@@ -90,6 +96,9 @@ class Payment(models.Model):
     user_id = models.ForeignKey(User)
     event_id = models.ForeignKey(Location)
 
+    class Meta:
+        verbose_name_plural = 'Payments'
+
 
 class Vote(models.Model):
     is_up = models.NullBooleanField(blank=True, null=True)
@@ -97,6 +106,9 @@ class Vote(models.Model):
 
     user_id = models.ForeignKey(User)
     event_id = models.ForeignKey(Location)
+
+    class Meta:
+        verbose_name_plural = 'Votes'
 
 
 class Comment(models.Model):
@@ -112,7 +124,7 @@ class Comment(models.Model):
         return u'%s, %s, %s' % (self.user, self.locationPostID, self.commentText)
 
     class Meta:
-        verbose_name_plural = 'Comment'
+        verbose_name_plural = 'Comments'
 
 
 class Photo(models.Model):
