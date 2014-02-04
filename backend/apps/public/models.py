@@ -23,16 +23,36 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
-# class ExtendedUser(AbstractUser):
-#    testField = models.CharField(max_length=200)
+class AccountInfo(models.Model):
+    birthdate = models.DateField(auto_now_add=True)
+    phone = models.CharField(max_length=25, blank=True)
+    is_cell = models.BooleanField()
+    contact_me_by
+    social_link
+
+    address = models.ForeignKey(Address, null=True)
+
+
+
+    account_type = models.CharField(max_length=25, choices=ACCOUNT_TYPE_LIST, blank=True, null=True)
+
+
+
 
 class Address(models.Model):
     ''' Model features for an address '''
+    ADDRESS_TYPES = (
+        ('Sponsor', 'Sponsor'),
+        ('Event'), 'Event'),
+        ('User'), 'User'),
+    )
+
     street = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
     gps = models.CharField(max_length=300)
+    address_type = models.CharField(max_length=50, choices=ADDRESS_TYPES)
 
     def __unicode__(self):
         return u'%s, %s, %s' % (self.city, self.state, self.gps)
