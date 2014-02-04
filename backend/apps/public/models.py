@@ -50,13 +50,12 @@ class Location(models.Model):
     city = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
-    photos = models.ImageField(upload_to='img/locations', blank=True, null=True)
     description = models.CharField(max_length=5000)
     sponsored = models.BooleanField()
     forCharity = models.BooleanField()
     linkUrl = models.CharField(max_length=200, blank=True, null=True)
-    participantCost = models.DecimalField(max_digits=8, decimal_places=2)
-    totalCost = models.DecimalField(max_digits=9, decimal_places=2)
+    participantCost = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    totalCost = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     voteCount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User)
     datecreated = models.DateField(default=datetime.now)
@@ -82,3 +81,16 @@ class Comment(models.Model):
 
     class Meta:
         verbose_name_plural = 'Comment'
+
+class Photo (models.Model):
+    ''' Model features for an address '''
+    photo = models.ImageField(upload_to='img/locations', blank=True, null=True)
+    user = models.ForeignKey(User)
+    eventPostID = models.ForeignKey(Location)
+
+    def __unicode__(self):
+        return u'%s, %s' % (self.user, self.eventPostID)
+
+    class Meta:
+        verbose_name_plural = 'Photos'
+

@@ -86,6 +86,10 @@ angular.module('roApp.controllers', [])
         $scope.photos = null;
         $scope.comments = "none";
         $scope.sponsored = null;
+        $scope.forCharity = null;
+        $scope.totalCost = null;
+        $scope.participantCost = null;
+        $scope.linkUrl = null;
         $scope.voteCount = 0;
         $scope.submitted = false;
         $scope.reliableGPS = false;
@@ -109,6 +113,10 @@ angular.module('roApp.controllers', [])
             fd.append("photos", $scope.location.photos);
             fd.append("comments", $scope.comments);
             fd.append("sponsored", $scope.sponsored);
+            fd.append("forCharity", $scope.forCharity);
+            fd.append("totalCost", $scope.totalCost);
+            fd.append("participantCost", $scope.participantCost);
+            fd.append("linkUrl", $scope.linkUrl);
             fd.append("user", $scope.session.id);
             fd.append("voteCount", $scope.voteCount);
 

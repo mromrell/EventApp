@@ -25,6 +25,9 @@
                 </div>-->
                     <input class="form-control form-group" id="country" type="text" required="required" ng-model="country" placeholder="Country">
                     <input class="form-control form-group" id="description" type="text" ng-model="description" required="required" placeholder="Description">
+                    <input class="form-control form-group" id="totalCost" type="text" ng-model="totalCost" required="required" placeholder="Total Cost of the Event">
+                    <input class="form-control form-group" id="participantCost" type="text" ng-model="participantCost" required="required" placeholder="Cost for each Participant">
+                    <input class="form-control form-group" id="linkUrl" type="text" ng-model="linkUrl" placeholder="Link to the Event Website">
                 <div class="form-group">
                     <input class="form-control" id="comments" value="nocomments" type="hidden" ng-model="comments">
                     <input class="form-control" id="voteCount" value="0" type="hidden" ng-model="voteCount">
@@ -33,8 +36,11 @@
                     <input class="form-control" id="photos" value="http://www.placekitten.com/400/600" type="hidden" ng-model="photos">
                     -->
                 </div>
-                <div class="center">Do you want to sponsor this place?
+                <div class="center">Do you want to sponsor this event?
                     <li class="no-decoration"><input type="checkbox" ng-model="value1"> Yes</li>
+                </div>
+                <div class="center">Is this event for Charity?
+                    <li class="no-decoration"><input type="checkbox" ng-model="charity"> Yes</li>
                 </div>
                 <br/>
                     <input type="file" ng-model="photos" onchange="angular.element(this).scope().uploadFile(this.files)"/>
