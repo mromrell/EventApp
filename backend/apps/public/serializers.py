@@ -11,14 +11,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class LocationSerializer(serializers.ModelSerializer):
-    """Serializes a User object"""
+    """Serializes a Location object"""
     class Meta:
         model = Location
 
 
 class CommentSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField('get_username')
-    """ Serializes a User object """
+    """ Serializes a Comment object """
     class Meta:
         model = Comment
 
@@ -27,7 +27,31 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PhotoSerializer(serializers.ModelSerializer):
-    """ Serializes a User object """
+    """ Serializes a Photo object """
     class Meta:
         model = Photo
         # fields = ('id', 'username')
+
+
+class SocialSerializer(serializers.ModelSerializer):
+    """Serializes a Social object"""
+    class Meta:
+        model = Social
+
+
+class AccountSerializer(serializers.ModelSerializer):
+    """Serializes a AccountInfo object"""
+    class Meta:
+        model = AccountInfo
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    """Serializes a Payment object"""
+    class Meta:
+        model = Payment
+
+
+class VoteSerializer(serializers.ModelSerializer):
+    """Serializes a Vote object"""
+    class Meta:
+        model = Vote
