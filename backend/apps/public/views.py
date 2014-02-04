@@ -90,19 +90,6 @@ def comments_by_location(request):
     return Response(serializer_class.data)
 
 
-class AddressList(generics.ListCreateAPIView):
-    """List all addresses or create a new Address"""
-    permission_classes = (permissions.IsAuthenticated,)
-    model = Address
-    serializer_class = AddressSerializer
-
-
-class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
-    """Retrieve, update or delete an Address."""
-    permission_classes = (permissions.IsAuthenticated,)
-    model = Address
-    serializer_class = AddressSerializer
-
 @api_view(('POST',))
 def authenticate(request):
     c = {}
