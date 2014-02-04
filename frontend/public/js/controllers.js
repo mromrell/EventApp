@@ -72,27 +72,54 @@ angular.module('roApp.controllers', [])
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
         });
+//        $scope.image = null;
+//        $scope.imageFileName = '';
+//        $scope.location = Object();
+//        $scope.gpsLat = null;
+//        $scope.gpsLng = null;
+//        $scope.street = null;
+//        $scope.city = null;
+//        $scope.state = null;
+//        $scope.country = null;
+//        $scope.eventName = null;
+//        $scope.description = null;
+//        $scope.photos = null;
+//        $scope.comments = "none";
+//        $scope.sponsored = null;
+//        $scope.forCharity = null;
+//        $scope.totalCost = null;
+//        $scope.participantCost = null;
+//        $scope.linkUrl = null;
+//        $scope.voteCount = 0;
+//        $scope.submitted = false;
+//        $scope.reliableGPS = false;
+//        $scope.eventStartDate = null;
+//        $scope.eventEndDate = null;
+
+        //  Use this to quickly test ---------------------------------->
         $scope.image = null;
         $scope.imageFileName = '';
         $scope.location = Object();
         $scope.gpsLat = null;
         $scope.gpsLng = null;
-        $scope.street = null;
-        $scope.city = null;
-        $scope.state = null;
-        $scope.country = null;
-        $scope.eventName = null;
-        $scope.description = null;
+        $scope.street = 'Test Street';
+        $scope.city = 'Orem';
+        $scope.state = 'UT';
+        $scope.country = 'USA';
+        $scope.eventName = 'Test Event';
+        $scope.description = 'Test Event';
         $scope.photos = null;
         $scope.comments = "none";
         $scope.sponsored = null;
         $scope.forCharity = null;
-        $scope.totalCost = null;
-        $scope.participantCost = null;
+        $scope.totalCost = 600.00;
+        $scope.participantCost = 50.00;
         $scope.linkUrl = null;
         $scope.voteCount = 0;
         $scope.submitted = false;
         $scope.reliableGPS = false;
+        $scope.eventStartDate = '2014-02-13';
+        $scope.eventEndDate = '2014-02-13';
 
         $scope.uploadFile = function (files) {
             $scope.location.photos = files[0];
@@ -119,6 +146,8 @@ angular.module('roApp.controllers', [])
             fd.append("linkUrl", $scope.linkUrl);
             fd.append("user", $scope.session.id);
             fd.append("voteCount", $scope.voteCount);
+            fd.append("eventStartDate", $scope.eventStartDate);
+            fd.append("eventEndDate", $scope.eventEndDate);
 
             $http.post('http://localhost:8001/location', fd, {
 //            $http.post('http://vast-journey-8108.herokuapp.com/location', fd, {
