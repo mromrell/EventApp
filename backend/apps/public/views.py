@@ -142,13 +142,9 @@ def votes(request):
     votes_list = None
     vote = None
     up = None
-    down = None
 
     if 'is_up' in request.DATA and request.DATA['is_up'] is not None:
         up = Vote.objects.get(id=request.POST.get('is_up', request.DATA['is_up']))
-
-    if 'is_down' in request.DATA and request.DATA['is_down'] is not None:
-        down = Vote.objects.get(id=request.POST.get('is_down', request.DATA['is_down']))
 
     if 'id' in request.DATA and request.DATA['id'] is not None:
         vote = Vote.objects.get(id=request.POST.get('id', request.DATA['id']))
@@ -169,7 +165,6 @@ def votes(request):
         vote = Vote.objects.get(id=request.POST.get('id', request.DATA['id']))
 
         vote.is_up = up
-        vote.is_down = down
         vote.user_id = request.POST.get('user_id', request.DATA['user_id'])
         vote.event_id = request.POST.get('event_id', request.DATA['event_id'])
 
