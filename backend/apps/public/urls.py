@@ -27,8 +27,8 @@ urlpatterns = patterns(
     url(r'^photo$', PhotoList.as_view(), name='photo-list'),
     url(r'^photo-detail/(?P<pk>[0-9]+)$', PhotoDetail.as_view(), name='photo-detail'),
 
-    url(r'^votes$', votes(), name='votes-api'),
-    url(r'^social', social_accounts(), name='social-api'),
+    url(r'^votes$', votes, name='votes-api'),
+    url(r'^social', social_accounts, name='social-api'),
 
 )
 
