@@ -7,6 +7,7 @@ var roApp = angular.module('roApp', [
         'roApp.controllers',
         'roApp.constants',
         'roApp.filters',
+        'ui.calendar',
         'roApp.directives'
     ])
     .config(['$routeProvider', 'RestangularProvider', function($routeProvider, RestangularProvider) {

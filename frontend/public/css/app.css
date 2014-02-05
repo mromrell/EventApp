@@ -339,3 +339,27 @@ background-color: #ffffff;
 .watcher{
     columns: #666666;
 }
+.calendar{
+    background-color: #666666;
+}
+table.fc-border-separate {
+border-collapse: separate;
+background-color: #e6e6e6;
+}
+.fc-header-title h2 {
+margin-top: 0;
+white-space: nowrap;
+color: whitesmoke;
+}
+.fc-grid .fc-day-number {
+float: right;
+padding: 0 2px;
+color: black;
+}
+.fc-widget-header, .fc-widget-content {
+border: 1px solid #ddd;
+color: #000;
+}
+.fc-state-highlight {
+background: #ffffff;
+}

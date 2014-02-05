@@ -8,6 +8,7 @@
     "angular-route": "latest",
     "underscore": "latest",
     "restangular": "latest",
+    "angular-ui-calendar": "latest",
     "bootstrap": "latest"
   },
   "resolutions": {

@@ -13,7 +13,10 @@
                     {{ location.city }}, {{ location.state }}<br/>
                     {{ location.country }}<br/>
                 </div>
-                <a class="list-group-item active">Sign up for this event</a>
+                <a class="list-group-item active">
+                    <div ui-calendar="uiConfig.calendar" class="center" ng-model="eventSources"></div>
+                </a><!--
+                <a class="list-group-item active">Sign up for this event</a>-->
                 <div class="list-group-item">
                     <strong>Pledge your support to this Event by Pre-registering</strong><br/>
                     <p>If the event never hits it's goal of {{ location.totalCost }} then you don't get charged!</p>
