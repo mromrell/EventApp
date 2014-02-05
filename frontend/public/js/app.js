@@ -22,7 +22,7 @@ var roApp = angular.module('roApp', [
                 controller: 'AccountProfileController',
                 title: 'Account Profile'
             })
-            .when('/createLocation', {
+            .when('/createEvent', {
                 templateUrl: 'partials/createEvent.html',
                 controller: 'CreateEventController',
                 title: 'Create a Event'

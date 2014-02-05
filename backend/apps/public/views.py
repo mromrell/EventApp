@@ -268,3 +268,76 @@ class NewAuthToken(ObtainAuthToken):
             }
             return Response(data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'POST', 'DELETE'])
+def Location(request):
+
+    location_list = None
+    location = None
+    forCharity = None
+    sponsered = None
+    startdate = None
+    enddate = None
+
+    if 'eventStartDate' in request.DATA and request.DATA['eventStartDate'] is not None:
+        startdate = request.POST.get('eventStartDate', request.DATA['eventStartDate'])
+
+    if 'eventEndDate' in request.DATA and request.DATA['eventEndDate'] is not None:
+        enddate = request.POST.get('eventEndDate', request.DATA['eventEndDate'])
+
+    if 'id' in request.DATA and request.DATA['id'] is not None:
+        location = Location.objects.get(id=request.POST.get('id', request.DATA['id']))
+
+    if 'user_id' in request.DATA and request.DATA['user_id'] is not None:
+        location_list = Location.objects.filter(user=request.POST.get('user_id', request.DATA['user_id']))
+
+    else:
+        location_list = Location.objects.all()
+
+    if request.method == 'GET':
+        serialize = VoteSerializer(votes_list)
+        return Response(serialize.data)
+
+    elif request.method == 'PUT':
+        vote = Vote.objects.get(id=request.POST.get('id', request.DATA['id']))
+
+        vote.is_up = up
+        vote.is_down = down
+        vote.user_id = request.POST.get('user_id', request.DATA['user_id'])
+        vote.event_id = request.POST.get('event_id', request.DATA['event_id'])
+
+        vote.save()
+
+        return Response(status=status.HTTP_201_CREATED)
+
+    elif request.method == 'POST':
+
+        user = User.objects.get(id=request.POST.get('user_id', request.DATA['user_id']))
+        eventName = request.POST.get('eventName', request.DATA['eventName'])
+
+        new_event = Location(eventName=eventName,
+                             gpsLat=gpsLat,
+                             gpsLng=gpsLng,
+                             reliableGPS=reliableGPS,
+                             street=street, city=city,
+                             state=state, country=country,
+                             description=description,
+                             sponsored=sponsored,
+                             forCharity=forCharity,
+                             linkUrl=linkUrl,
+                             participantCost=participantCost,
+                             eventStartDate=eventStartDate,
+                             eventEndDate=eventEndDate,
+                             user=user
+                             )
+
+        new_event.save()
+
+        return Response(status=status.HTTP_201_CREATED)
+
+    else:
+        vote = Vote.objects.get(id=request.POST.get('id', request.DATA['id']))
+        vote.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

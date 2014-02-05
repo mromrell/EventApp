@@ -79,6 +79,32 @@ angular.module('roApp.controllers', [])
             console.log($scope.new_event.photos);
         };
 
+
+        var newEvent = {
+            'eventName': $scope.eventName,
+            'description': $scope.description,
+            'gpsLng': $scope.gpsLng,
+            'gpsLat': $scope.gpsLat,
+            'reliableGPS': $scope.reliableGPS,
+            'street': $scope.street,
+            'city': $scope.city,
+            'state': $scope.state,
+            'country': $scope.country,
+            'photos': $scope.photos,
+            'comments': $scope.comments,
+            'sponsored': $scope.sponsored,
+            'forCharity': $scope.forCharity,
+
+
+        };
+
+        Restangular.one('location').customPOST(newEvent)
+            .then(function (data){
+
+            })
+
+
+
         var pushToServer = function () {
             var fd = new FormData();
             fd.append("eventName", $scope.eventName);
@@ -115,6 +141,7 @@ angular.module('roApp.controllers', [])
         };
 
         $scope.save = function () {
+            console.log('you are trying to save');
             if ($scope.submitted == false) {
                 $scope.reliableGPS = true;
 
@@ -124,7 +151,6 @@ angular.module('roApp.controllers', [])
                     var geocoder = new google.maps.Geocoder();
                     var locateMe = $scope.city + ", "+ $scope.state;
 
-                    console.log("Im travelling to: "+locateMe);
                     var geocoderRequest = { address: locateMe };
                     geocoder.geocode(geocoderRequest, function (results, status) {
                         $scope.geoLocater = results;
@@ -132,13 +158,11 @@ angular.module('roApp.controllers', [])
                         $scope.gpsLng = $scope.geoLocater[0].geometry.location.e;
                         $scope.gpsLat = $scope.geoLocater[0].geometry.location.d;
 //                        var myLatlng= new google.maps.LatLng(lat, lng);
-
-                        pushToServer();
                     });
+
+
                 }  // Ends Maps the Location --------------------------------------------------------------------------------->
-                else{
-                    pushToServer();
-                }
+
             }
         }
 
@@ -423,7 +447,6 @@ angular.module('roApp.controllers', [])
             })
         });
     }])
-
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
         //to display images from Home page
