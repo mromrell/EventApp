@@ -1,5 +1,5 @@
 {
-    "name": "StormPig Event App",
+    "name": "StormPigEventApp",
     "description": "Find, Fund, and Start Events",
     "repository": "https://github.com/dstephenson/recipe-organizer-seed.git",
     "engines": {
@@ -13,8 +13,7 @@
         "karma": "~0.10",
         "karma-junit-reporter": "~0.1",
         "karma-jasmine": "~0.1",
-        "karma-ng-scenario": "~0.1",
-        "angular-ui-calendar": "~0.8.0"
+        "karma-ng-scenario": "~0.1"
     },
     "scripts": {
         "postinstall": "./node_modules/bower/bin/bower install"
