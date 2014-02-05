@@ -9,35 +9,60 @@
     <div ng-show="session">
         <h1>Howdy {{ session.username }}</h1>
 
-        <div>
-            <p>Checkout the Places you've posted</p>
-        </div>
         <br/>
 
-        <div class="bs-example">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>ID#</th>
-                    <th>Place</th>
-                    <th>Description</th>
-                    <th>Date Created</th>
-                    <th>Edit this Place</th>
-                </tr>
-                </thead>
-                <tbody ng-repeat="location in myLocationList">
 
+            <div class="bs-example">
+                <a href="#" class="list-group-item active">Below are the events that you've paid for</a>
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ location.id }}</td>
-                        <td><a href="#/locationDetails/{{location.id}}">{{ location.eventName }}</a></td>
-                        <td>{{ location.description | lenLimit100 }}</td>
-                        <td>{{ location.datecreated }}</td>
-                        <td><a href="#/editLocation/{{ location.id }}"><span class="glyphicon glyphicon-edit"></span><span class="glyphicon-class"> Edit</span></a></td>
+                        <th>ID#</th>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Starts on</th>
+                        <th>Pre-Paid</th>
+                        <th>Event Goal</th>
                     </tr>
+                    </thead>
+                    <tbody ng-repeat="event in myPaymentList">
+                        <tr>
+                            <td>{{ event.eventId }}</td>
+                            <td><a href="#/locationDetails/{{event.id}}">{{ event.eventName }}</a></td>
+                            <td>{{ event.description | lenLimit100 }}</td>
+                            <td>{{ event.eventStartDate }}</td>
+                            <td>{{ event.payment_amount | currency}}</td>
+                            <td>{{ event.totalCost | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <br>
 
-                </tbody>
-            </table>
-        </div>
+            <div class="bs-example">
+                <a href="#" class="list-group-item active">Below are the events that you've posted</a>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID#</th>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Date Created</th>
+                        <th>Edit this Event</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="event in myLocationList">
+                        <tr>
+                            <td>{{ event.id }}</td>
+                            <td><a href="#/locationDetails/{{event.id}}">{{ event.eventName }}</a></td>
+                            <td>{{ event.description | lenLimit100 }}</td>
+                            <td>{{ event.datecreated }}</td>
+                            <td><a href="#/editLocation/{{ event.id }}"><span class="glyphicon glyphicon-edit"></span><span class="glyphicon-class"> Edit</span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
     </div>
 </div>

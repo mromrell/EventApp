@@ -388,13 +388,40 @@ angular.module('roApp.controllers', [])
         $scope.currentUserInfo = SessionService.getSession();
 
         $scope.myLocationList = [];
+        $scope.myPaymentList = [];
+
         if (SessionService.getUserLocations()){
             $scope.myLocationList=SessionService.getUserLocations();
         }
 
+        //fd.append("eventName", $scope.location.eventName);
+        Restangular.all('payment').getList()
+            .then(function (data) {
+                $scope.paymentList = data;
+                for (var i = 0; i < $scope.paymentList.length; i++){
+                    if ($scope.paymentList[i].user_id==$scope.session.id){
+                        var eventIdNum = $scope.paymentList[i].event_id - 1;
+                        var event={
+                            'eventId': $scope.paymentList[i].event_id,
+                            'eventName':$scope.myLocationList[eventIdNum].eventName,
+                            'description':$scope.myLocationList[eventIdNum].description,
+                            'eventStartDate':$scope.myLocationList[eventIdNum].eventStartDate,
+                            'totalCost':$scope.myLocationList[eventIdNum].totalCost,
+                            'payment_amount':$scope.paymentList[i].payment_amount
+                        };
+                        $scope.myPaymentList.push(event);
+                    }
+                }
+
+                console.log($scope.paymentList);
+                console.log($scope.myPaymentList);
+            });
+
         $scope.$on('event:login-confirmed', function() {
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
+
+
 
             Restangular.all('location').getList()
             .then(function (data) {

@@ -55,6 +55,11 @@ class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Photo
     serializer_class = PhotoSerializer
 
+class PaymentList(generics.ListCreateAPIView):
+    """List all Payments or create a new Payment"""
+    #permission_classes = (permissions.IsAuthenticated,)
+    model = Payment
+    serializer_class = PaymentSerializer
 
 class LocationList(generics.ListCreateAPIView):
     """List all Locations or create a new Location"""
