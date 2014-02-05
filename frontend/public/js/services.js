@@ -43,7 +43,11 @@ angular.module('roApp.services', ['angularLocalStorage'])
                 var locationArray = [];
                 var eventNameArray = [];
                 var locationIdArray = [];
-                var basicLatlng = new google.maps.LatLng(locationList[0].gpsLat, locationList[0].gpsLng);
+                //console.log(locationList[0]);
+                if (locationList[0]) {
+                    var basicLatlng = new google.maps.LatLng(locationList[0].gpsLat, locationList[0].gpsLng);
+                }
+                else { var basicLatlng = new google.maps.LatLng(0, 0); }
                 //                var bounds = new google.maps.LatLngBounds();
                 var mapOptions = {
                     zoom: 3,
