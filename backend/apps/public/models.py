@@ -68,7 +68,7 @@ class Location(models.Model):
     sponsored = models.BooleanField()
     forCharity = models.BooleanField()
     linkUrl = models.CharField(max_length=200, blank=True, null=True)
-    # participantIdList = models.ForeignKey(User)
+    # participantIdList = models.CommaSeparatedIntegerField(max_length=999)
     participantCost = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     totalCost = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     totalPledged = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)

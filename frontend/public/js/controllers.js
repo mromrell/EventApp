@@ -454,6 +454,7 @@ angular.module('roApp.controllers', [])
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
         //to display images from Home page
+        $scope.paymentForm = 'partials/paymentForm.html';
 
         Restangular.one('uploadedimages', $routeParams.id).customGET()
             .then(function (photo_url) {
