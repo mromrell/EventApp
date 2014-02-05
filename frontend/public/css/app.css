@@ -369,11 +369,14 @@ background: #ffffff;
     margin-top: 20px;
     margin-bottom: 45px;
 }
-.progress-bar {
+.pb2 {
 line-height: 40px !important;
 }
-.progress {
+.p2 {
 height: 40px !important;
+}
+.p1 {
+margin-bottom: 0px !important;
 }
 .inline{
     display: inline;
