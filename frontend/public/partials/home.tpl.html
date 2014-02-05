@@ -50,8 +50,8 @@
                         <p>{{ location.description | lenLimit100}}</p>
                     </div>
                     <div class="progress progress-striped p1">
-                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                            <span class="">40% Funded</span>
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ location.totalPledged / location.totalCost * 100 }}%">
+                            <span class="">{{ location.totalPledged / location.totalCost * 100 | number:0 }}% Funded</span>
                         </div>
                     </div>
                     <div class="pininfo">
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="col-xs-7 center">
-                            <h4>$38,000</h4> Pledged of Goal
+                            <h4>{{ location.totalPledged | currency}}</h4> Pledged so far
                         </div>
                         <div class="col-xs-3 pull-right">
                             <button type="button" class="btn btn-warning pull-right" ng-click="starLocation(location)">

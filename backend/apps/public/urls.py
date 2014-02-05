@@ -29,6 +29,7 @@ urlpatterns = patterns(
 
     url(r'^votes$', votes, name='votes-api'),
     url(r'^social', social_accounts, name='social-api'),
+    url(r'^payment$', PaymentList.as_view(), name='payment-list')
 
 )
 
