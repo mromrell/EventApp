@@ -528,6 +528,21 @@ angular.module('roApp.controllers', [])
             // Ends Maps the Location --------------------------------------------------------------------------------->
         });
 
+        $scope.uiConfig = {
+          calendar:{
+            height: 250,
+            editable: true,
+            header:{
+              left: false,
+              center: 'title',
+              right: false
+            },
+            dayClick: $scope.alertEventOnClick,
+            eventDrop: $scope.alertOnDrop,
+            eventResize: $scope.alertOnResize
+          }
+        };
+
         $scope.commentText = null;
         $scope.submitted = false;
 
