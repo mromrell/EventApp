@@ -130,10 +130,9 @@ angular.module('roApp.directives', [])
                 restrict: 'A',
                 templateUrl: 'partials/stripeForm.tpl.html',
                 link: function(scope, elem, attrs) {
-                    console.log('blah, blah');
                     elem.bind('submit', function() {
                         var handler = StripeCheckout.configure({
-                            key: 'pk_test_6pRNASCoBOKtIshFeQd4XMUh',
+                            key: 'pk_test_nlD3TNsfeNFUUw1Wav8t84nv',
                             image: '/Calendar-Icon-blue.png',
                             token: function (token, args) {
                                 // Use the token to create the charge with a server-side script.

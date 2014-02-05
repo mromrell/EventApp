@@ -68,14 +68,15 @@ class Location(models.Model):
     sponsored = models.BooleanField()
     forCharity = models.BooleanField()
     linkUrl = models.CharField(max_length=200, blank=True, null=True)
+    # participantIdList = models.ForeignKey(User)
     participantCost = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     totalCost = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    totalPledged = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     voteCount = models.IntegerField(blank=True, null=True)
     datecreated = models.DateField(default=datetime.now)
     eventStartDate = models.DateField()
     eventEndDate = models.DateField()
     starLocation = models.NullBooleanField(default=False)
-
     user = models.ForeignKey(User)
 
     def __unicode__(self):
@@ -95,6 +96,7 @@ class Payment(models.Model):
     payment_type = models.CharField(max_length=20, choices=PAYMENT_TYPE_LIST)
     user_id = models.ForeignKey(User)
     event_id = models.ForeignKey(Location)
+    datePaid = models.DateField(default=datetime.now)
 
     class Meta:
         verbose_name_plural = 'Payments'
