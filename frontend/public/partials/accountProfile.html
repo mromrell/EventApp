@@ -30,7 +30,7 @@
                     <tr>
                         <td>{{ location.id }}</td>
                         <td><a href="#/locationDetails/{{location.id}}">{{ location.eventName }}</a></td>
-                        <td>{{ location.description }}</td>
+                        <td>{{ location.description | lenLimit100 }}</td>
                         <td>{{ location.datecreated }}</td>
                         <td><a href="#/editLocation/{{ location.id }}"><span class="glyphicon glyphicon-edit"></span><span class="glyphicon-class"> Edit</span></a></td>
                     </tr>

@@ -44,16 +44,44 @@
                     </div>
 
                     <div class="col-sm-11">
-                        <h4><a href="#">{{ location.eventName }}</a>
-                        <button type="button" class="pull-right" ng-click="starLocation(location)"><span class="watcher">Watch this Event</span>
-                            <span class="glyphicon glyphicon-star-empty" ng-hide="location.starLocation"></span>
-                            <span class="glyphicon glyphicon-star" ng-show="location.starLocation"></span>
-                        </button>
-                            <br/>
-                        </h4>
+                        <div class="row">
+                            <div class="col-md-10 pull-left">
+                                <h1><a class="vert-center">{{ location.eventName }}</a></h1>
+                            </div>
+                            <div class="col-md-2 pull-right">
+                                <button type="button" class="btn btn-warning pull-right vert-center" ng-click="starLocation(location)"><span class="watcher">Watch this Event</span>
+                                    <span class="glyphicon glyphicon-star-empty" ng-hide="location.starLocation"></span>
+                                    <span class="glyphicon glyphicon-star" ng-show="location.starLocation"></span>
+                                </button>
+                            </div>
+                        </div>
 
+
+                        <div class="progress progress-striped">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                <span class="">40% Funded</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="center"><!--
+                                <div class="pull-left">
+
+                                </div>
+                                <div class="pull-left">
+
+                                </div>
+                                <div class="pull-left">
+
+                                </div>-->
+                                <h2 class="inline">682</h2> Backers <h2 class="inline">$38,000</h2> Pledged of Goal <h2 class="inline">12</h2> Days Left</span>
+                        </div>
+                        <br/>
+                        <hr/>
                         <p>{{ location.description }}</p>
+                         <hr/>
                 </div>
+
 
 
                 <div class="caption-full">

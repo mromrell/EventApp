@@ -363,3 +363,19 @@ color: #000;
 .fc-state-highlight {
 background: #ffffff;
 }
+.vert-center{
+    display: table-cell;
+    vertical-align:middle;
+    margin-top: 20px;
+    margin-bottom: 45px;
+}
+.progress-bar {
+line-height: 40px !important;
+}
+.progress {
+height: 40px !important;
+}
+.inline{
+    display: inline;
+    margin-left: 35px;
+}
