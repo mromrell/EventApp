@@ -477,7 +477,7 @@ angular.module('roApp.controllers', [])
             editable: true,
             header:{
               left: false,
-              center: 'title',
+              center: false, //'title',
               right: false
             },
             dayClick: $scope.alertEventOnClick,

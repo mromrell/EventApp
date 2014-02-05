@@ -13,9 +13,9 @@
                     {{ location.city }}, {{ location.state }}<br/>
                     {{ location.country }}<br/>
                 </div>
-                <a class="list-group-item active">
+                <a class="list-group-item active">{{ location.eventStartDate | date:'fullDate' }}</a>
                     <div ui-calendar="uiConfig.calendar" class="center" ng-model="eventSources"></div>
-                </a><!--
+                <!--
                 <a class="list-group-item active">Sign up for this event</a>-->
                 <div class="list-group-item">
                     <strong>Pledge your support to this Event by Pre-registering</strong><br/>
