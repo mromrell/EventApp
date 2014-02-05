@@ -65,7 +65,8 @@ angular.module('roApp.controllers', [])
             return $scope.registerForm[field].$dirty && $scope.registerForm[field].$invalid;
         };
     }])
-    .controller('CreateEventController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
+    .controller('CreateEventController', ['$scope', 'SessionService', 'Restangular', '$window', function($scope, SessionService, Restangular, $window) {
+        $scope.new_event = {};
         $scope.session = SessionService.getSession();
 
         $scope.$on('event:login-confirmed', function() {
@@ -80,92 +81,51 @@ angular.module('roApp.controllers', [])
         };
 
 
-        var newEvent = {
-            'eventName': $scope.eventName,
-            'description': $scope.description,
-            'gpsLng': $scope.gpsLng,
-            'gpsLat': $scope.gpsLat,
-            'reliableGPS': $scope.reliableGPS,
-            'street': $scope.street,
-            'city': $scope.city,
-            'state': $scope.state,
-            'country': $scope.country,
-            'photos': $scope.photos,
-            'comments': $scope.comments,
-            'sponsored': $scope.sponsored,
-            'forCharity': $scope.forCharity,
+        $scope.save = function () {
+            var newEvent = {
+//                'user' : $scope.session.user[0].id,
+                'eventName': $scope.eventName,
+                'description': $scope.description,
+                'gpsLng': $scope.gpsLng,
+                'gpsLat': $scope.gpsLat,
+                'reliableGPS': $scope.reliableGPS,
+                'street': $scope.street,
+                'city': $scope.city,
+                'state': $scope.state,
+                'country': $scope.country,
+                'comments': $scope.comments,
+                'sponsored': $scope.sponsored,
+                'forCharity': $scope.forCharity,
+                'totalCost': $scope.totalCost,
+                'participantCost': $scope.participantCost,
+                'linkUrl': $scope.linkUrl,
+                'eventStartDate': $scope.eventStartDate,
+                'eventEndDate': $scope.eventEndDate,
+                'photos': $scope.new_event.photos
+            };
 
+            // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
+            if ($scope.new_event.gpsLat == null || $scope.new_event.gpsLng == null) {
+                $scope.new_event.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
+                var geocoder = new google.maps.Geocoder();
+                var locateMe = $scope.new_event.city + ", " + $scope.new_event.state;
 
-        };
+                var geocoderRequest = { address: locateMe };
+                geocoder.geocode(geocoderRequest, function (results, status) {
+                    $scope.geoLocater = results;
 
-        Restangular.one('location').customPOST(newEvent)
-            .then(function (data){
+                    $scope.new_event.gpsLng = $scope.geoLocater[0].geometry.location.e;
+                    $scope.new_event.gpsLat = $scope.geoLocater[0].geometry.location.d;
+                });
 
-            })
-
-
-
-        var pushToServer = function () {
-            var fd = new FormData();
-            fd.append("eventName", $scope.eventName);
-            fd.append("description", $scope.description);
-            fd.append("gpsLng", $scope.gpsLng);
-            fd.append("gpsLat", $scope.gpsLat);
-            fd.append("reliableGPS", $scope.reliableGPS);
-            fd.append("street", $scope.street);
-            fd.append("city", $scope.city);
-            fd.append("state", $scope.state);
-            fd.append("country", $scope.country);
-            fd.append("photos", $scope.location.photos);
-            fd.append("comments", $scope.comments);
-            fd.append("sponsored", $scope.sponsored);
-            fd.append("forCharity", $scope.forCharity);
-            fd.append("totalCost", $scope.totalCost);
-            fd.append("participantCost", $scope.participantCost);
-            fd.append("linkUrl", $scope.linkUrl);
-            fd.append("user", $scope.session.id);
-            fd.append("voteCount", $scope.voteCount);
-            fd.append("eventStartDate", $scope.eventStartDate);
-            fd.append("eventEndDate", $scope.eventEndDate);
-
-            $http.post('http://localhost:8001/location', fd, {
-//            $http.post('http://vast-journey-8108.herokuapp.com/location', fd, {
-                withCredentials: true,
-                headers: {'Content-Type': undefined },
-                transformRequest: angular.identity
-            }).success(function (response) {
-                    $window.location = 'index.html#/home';
-                }).error(function (response) {
+            }  // Ends Maps the Location --------------------------------------------------------------------------------->
+            Restangular.one('location').customPOST(newEvent)
+                .then(function (data) {
+                    console.log("I'm inside the restangular call");
+                }, function (response) {
                     console.log('Response: ' + response);
                 });
-        };
-
-        $scope.save = function () {
-            console.log('you are trying to save');
-            if ($scope.submitted == false) {
-                $scope.reliableGPS = true;
-
-                // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
-                if ($scope.gpsLat == null || $scope.gpsLng == null){
-                    $scope.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
-                    var geocoder = new google.maps.Geocoder();
-                    var locateMe = $scope.city + ", "+ $scope.state;
-
-                    var geocoderRequest = { address: locateMe };
-                    geocoder.geocode(geocoderRequest, function (results, status) {
-                        $scope.geoLocater = results;
-
-                        $scope.gpsLng = $scope.geoLocater[0].geometry.location.e;
-                        $scope.gpsLat = $scope.geoLocater[0].geometry.location.d;
-//                        var myLatlng= new google.maps.LatLng(lat, lng);
-                    });
-
-
-                }  // Ends Maps the Location --------------------------------------------------------------------------------->
-
-            }
         }
-
     }])
     .controller('EditLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', '$routeParams', function($scope, $http, SessionService, Restangular, $window, $routeParams) {
         $scope.session = SessionService.getSession();
