@@ -23,9 +23,9 @@ var roApp = angular.module('roApp', [
                 title: 'Account Profile'
             })
             .when('/createLocation', {
-                templateUrl: 'partials/createLocation.html',
-                controller: 'CreateLocationController',
-                title: 'Create a Location'
+                templateUrl: 'partials/createEvent.html',
+                controller: 'CreateEventController',
+                title: 'Create a Event'
             })
             .when('/locationDetails/:id', {
                 templateUrl: 'partials/locationDetails.html',
