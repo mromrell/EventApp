@@ -12,6 +12,7 @@
     "bootstrap": "latest"
   },
   "resolutions": {
-    "angular": "1.2.12-build.2208+sha.19ba651"
+    "angular": "~1.2.0-rc.2",
+    "jquery": ">=1.6"
   }
 }

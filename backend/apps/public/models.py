@@ -102,7 +102,6 @@ class Payment(models.Model):
 
 class Vote(models.Model):
     is_up = models.NullBooleanField(blank=True, null=True)
-    is_down = models.NullBooleanField(blank=True, null=True)
 
     user_id = models.ForeignKey(User)
     event_id = models.ForeignKey(Location)
