@@ -310,20 +310,7 @@ angular.module('roApp.controllers', [])
         $scope.predicate = '-voteCount';
         $scope.predicate = '-datecreated';
 
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
 
-        $scope.events = [
-          {title: 'All Day Event',start: new Date(y, m, 1)},
-          {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-          {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-          {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-          {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-          {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-        ];
-        $scope.eventSources = [$scope.events]
 
         // allows images to show up on the homepage
         $scope.imagefinder = function () {
@@ -450,12 +437,14 @@ angular.module('roApp.controllers', [])
         .then(function (location) {
             $scope.location = location;
 
+            // this Shows the Edit Event button if you are a logged in as a super user or you are the user that created the event
             if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
                 $scope.showEdit = "Approved";
                 }
                 else{
                 $scope.showEdit = null;
                 }
+            // This Shows a warning if the GPS coordinantes were not manually entered at the time of the event creation
             if ($scope.location.reliableGPS == false){
                 $scope.gpsStatus = "These coordinates have been approximated to the city center";
                 }
@@ -477,6 +466,9 @@ angular.module('roApp.controllers', [])
                 title: $scope.location.eventName
             });
             // Ends Maps the Location --------------------------------------------------------------------------------->
+
+            eventPopulator();
+
         });
 
         $scope.uiConfig = {
@@ -493,6 +485,27 @@ angular.module('roApp.controllers', [])
             eventResize: $scope.alertOnResize
           }
         };
+
+        $scope.eventSources = [];
+
+        function eventPopulator(){
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+
+            $scope.events = [
+              {title: 'All Day Event',start: new Date(y, m, 1)},
+              {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
+              {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
+              {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
+              {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
+              {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
+            ];
+            $scope.eventSources.push($scope.events);
+        }
+
+        console.log($scope.eventSources);
 
         $scope.commentText = null;
         $scope.submitted = false;
