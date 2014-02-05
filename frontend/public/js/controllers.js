@@ -65,67 +65,18 @@ angular.module('roApp.controllers', [])
             return $scope.registerForm[field].$dirty && $scope.registerForm[field].$invalid;
         };
     }])
-    .controller('CreateLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
+    .controller('CreateEventController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
         $scope.session = SessionService.getSession();
 
         $scope.$on('event:login-confirmed', function() {
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
+
         });
 
-
-//        $scope.image = null;
-//        $scope.imageFileName = '';
-//        $scope.location = Object();
-//        $scope.gpsLat = null;
-//        $scope.gpsLng = null;
-//        $scope.street = null;
-//        $scope.city = null;
-//        $scope.state = null;
-//        $scope.country = null;
-//        $scope.eventName = null;
-//        $scope.description = null;
-//        $scope.photos = null;
-//        $scope.comments = "none";
-//        $scope.sponsored = null;
-//        $scope.forCharity = null;
-//        $scope.totalCost = null;
-//        $scope.participantCost = null;
-//        $scope.linkUrl = null;
-//        $scope.voteCount = 0;
-//        $scope.submitted = false;
-//        $scope.reliableGPS = false;
-//        $scope.eventStartDate = null;
-//        $scope.eventEndDate = null;
-
-        //  Use this to quickly test ---------------------------------->
-        $scope.image = null;
-        $scope.imageFileName = '';
-        $scope.location = Object();
-        $scope.gpsLat = null;
-        $scope.gpsLng = null;
-        $scope.street = 'Test Street';
-        $scope.city = 'Orem';
-        $scope.state = 'UT';
-        $scope.country = 'USA';
-        $scope.eventName = 'Test Event';
-        $scope.description = 'Test Event';
-        $scope.photos = null;
-        $scope.comments = "none";
-        $scope.sponsored = null;
-        $scope.forCharity = null;
-        $scope.totalCost = 600.00;
-        $scope.participantCost = 50.00;
-        $scope.linkUrl = null;
-        $scope.voteCount = 0;
-        $scope.submitted = false;
-        $scope.reliableGPS = false;
-        $scope.eventStartDate = '2014-02-13';
-        $scope.eventEndDate = '2014-02-13';
-
         $scope.uploadFile = function (files) {
-            $scope.location.photos = files[0];
-            console.log($scope.location.photos);
+            $scope.new_event.photos = files[0];
+            console.log($scope.new_event.photos);
         };
 
         var pushToServer = function () {
