@@ -19,8 +19,9 @@
 
                 <a class="list-group-item active">Sign up for this event</a>
                 <div class="list-group-item">
-                    <strong>Pledge your support to this Event by Pre-registering</strong><br/>
-                    <p>If the event never hits it's goal of {{ location.totalCost }} then you don't get charged!</p>
+                    <h4>Register now: ${{ location.participantCost }}</h4>
+                    <p><strong>Pledge your support to this Event by Pre-registering.</strong>If the event never hits it's goal of {{ location.totalCost }} then you don't get charged!</p>
+                    <hr/>
                     <div ng-include="paymentForm"></div>
                 </div>
 
