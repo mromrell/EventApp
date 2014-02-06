@@ -1,12 +1,7 @@
-<!-- The required Stripe lib -->
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-
-<!-- jQuery is used only for this example; it isn't required to use Stripe -->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+<!--
 <script type="text/javascript">
     // This identifies your website in the createToken call below
-    Stripe.setPublishableKey('YOUR_PUBLISHABLE_KEY');
+    Stripe.setPublishableKey('pk_test_nlD3TNsfeNFUUw1Wav8t84nv');
 
     var stripeResponseHandler = function (status, response) {
         var $form = $('#payment-form');
@@ -39,34 +34,37 @@
         });
     });
 </script>
-<hr/>
-<h4>Charge $10 with Stripe</h4>
+-->
+<div ng-controller="StripeController">
+    <hr/>
+    <h4>Charge $10 with Stripe</h4>
 
-<form action="" method="POST" id="payment-form">
-    <span class="payment-errors"></span>
+    <form action="" method="POST" id="payment-form">
+        <span class="payment-errors"></span>
 
-    <div class="form-row">
-        <label>
-            <input type="text" size="20" data-stripe="number" placeholder="Card Number"/>
-        </label>
-    </div>
+        <div class="form-row">
+            <label>
+                <input type="text" size="20" data-stripe="number" placeholder="Card Number"/>
+            </label>
+        </div>
 
-    <div class="form-row">
-        <label>
-            <input type="text" size="4" data-stripe="cvc"/>
-            <span>CVC</span>
-        </label>
-    </div>
+        <div class="form-row">
+            <label>
+                <input type="text" size="4" data-stripe="cvc"/>
+                <span>CVC</span>
+            </label>
+        </div>
 
-    <div class="form-row">
-        <label>
-            <input type="text" size="2" data-stripe="exp-month" placeholder="MM"/>
-            <span> / </span>
-            <input type="text" size="4" data-stripe="exp-year" placeholder="YYYY"/>
-            <span>Expiration</span>
-        </label>
+        <div class="form-row">
+            <label>
+                <input type="text" size="2" data-stripe="exp-month" placeholder="MM"/>
+                <span> / </span>
+                <input type="text" size="4" data-stripe="exp-year" placeholder="YYYY"/>
+                <span>Expiration</span>
+            </label>
 
-    </div>
+        </div>
 
-    <button type="submit" class="btn btn-success">Submit Payment</button>
-</form>
+        <button type="submit" class="btn btn-success">Submit Payment</button>
+    </form>
+</div>
