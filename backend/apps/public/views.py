@@ -149,7 +149,7 @@ def votes(request):
     up = None
 
     if 'is_up' in request.DATA and request.DATA['is_up'] is not None:
-        up = Vote.objects.get(id=request.POST.get('is_up', request.DATA['is_up']))
+        up = request.POST.get('is_up', request.DATA['is_up'])
 
     if 'id' in request.DATA and request.DATA['id'] is not None:
         vote = Vote.objects.get(id=request.POST.get('id', request.DATA['id']))
@@ -175,17 +175,17 @@ def votes(request):
 
         vote.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
         event = Location.objects.get(id=request.POST.get('event_id', request.DATA['event_id']))
         user = User.objects.get(id=request.POST.get('user_id', request.DATA['user_id']))
 
-        new_vote = Vote(is_up=up, is_down=down, event_id=event, user_id=user)
+        new_vote = Vote(is_up=up, event_id=event, user_id=user)
 
         new_vote.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_200_OK)
 
     else:
         vote = Vote.objects.get(id=request.POST.get('id', request.DATA['id']))
@@ -234,7 +234,7 @@ def social_accounts(request):
 
         social.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
         user = User.objects.get(id=request.POST.get('user_id', request.DATA['user_id']))
@@ -243,7 +243,7 @@ def social_accounts(request):
 
         new_social.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_200_OK)
 
     else:
         social = Social.objects.get(id=request.POST.get('id', request.DATA['id']))
@@ -268,3 +268,105 @@ class NewAuthToken(ObtainAuthToken):
             }
             return Response(data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(('GET',))
+def create_data(request):
+    from fixtureless import Factory
+    import itertools
+
+    factory = Factory()
+
+    initial = {
+        'reliableGPS': False,
+        'sponsored': True,
+        'forCharity': False
+    }
+
+    initial_list = list()
+    for _ in itertools.repeat(None, 20):
+        initial_list.append(initial)
+
+    users = factory.create(User, 10)
+    social = factory.create(Social, 10)
+    accounts = factory.create(AccountInfo, 10)
+    locations = factory.create(Location, initial_list)
+    payments = factory.create(Payment, 15)
+    votes1 = factory.create(Vote, 60)
+    comments = factory.create(Comment, 60)
+
+    return Response(status=status.HTTP_200_OK)
+       
+
+@api_view(['GET', 'PUT', 'POST', 'DELETE'])
+def Location(request):
+
+    location_list = None
+    location = None
+    forCharity = None
+    sponsered = None
+    startdate = None
+    enddate = None
+
+    if 'eventStartDate' in request.DATA and request.DATA['eventStartDate'] is not None:
+        startdate = request.POST.get('eventStartDate', request.DATA['eventStartDate'])
+
+    if 'eventEndDate' in request.DATA and request.DATA['eventEndDate'] is not None:
+        enddate = request.POST.get('eventEndDate', request.DATA['eventEndDate'])
+
+    if 'id' in request.DATA and request.DATA['id'] is not None:
+        location = Location.objects.get(id=request.POST.get('id', request.DATA['id']))
+
+    if 'user_id' in request.DATA and request.DATA['user_id'] is not None:
+        location_list = Location.objects.filter(user=request.POST.get('user_id', request.DATA['user_id']))
+
+    else:
+        location_list = Location.objects.all()
+
+    if request.method == 'GET':
+        serialize = VoteSerializer(votes_list)
+        return Response(serialize.data)
+
+    elif request.method == 'PUT':
+        vote = Vote.objects.get(id=request.POST.get('id', request.DATA['id']))
+
+        vote.is_up = up
+        vote.is_down = down
+        vote.user_id = request.POST.get('user_id', request.DATA['user_id'])
+        vote.event_id = request.POST.get('event_id', request.DATA['event_id'])
+
+        vote.save()
+
+        return Response(status=status.HTTP_201_CREATED)
+
+    elif request.method == 'POST':
+
+        user = User.objects.get(id=request.POST.get('user_id', request.DATA['user_id']))
+
+        new_event = Location(eventName=request.POST.get('eventName', request.DATA['eventName']),
+                             gpsLat=request.POST.get('gpsLat', request.DATA['gpsLat']),
+                             gpsLng=request.POST.get('gpsLng', request.DATA['gpsLng']),
+                             reliableGPS=request.POST.get('reliableGPS', request.DATA['reliableGPS']),
+                             street=request.POST.get('street', request.DATA['street']),
+                             city=request.POST.get('city', request.DATA['city']),
+                             state=request.POST.get('state', request.DATA['state']),
+                             country=request.POST.get('country', request.DATA['country']),
+                             description=request.POST.get('description', request.DATA['description']),
+                             sponsored=request.POST.get('sponsored', request.DATA['sponsored']),
+                             forCharity=request.POST.get('forCharity', request.DATA['forCharity']),
+                             linkUrl=request.POST.get('gpslinkUrlLng', request.DATA['linkUrl']),
+                             participantCost=request.POST.get('participantCost', request.DATA['participantCost']),
+                             eventStartDate=request.POST.get('eventStartDate', request.DATA['eventStartDate']),
+                             eventEndDate=request.POST.get('eventEndDate', request.DATA['eventEndDate']),
+                             user=user
+                             )
+
+        new_event.save()
+
+        return Response(status=status.HTTP_201_CREATED)
+
+    else:
+        vote = Vote.objects.get(id=request.POST.get('id', request.DATA['id']))
+        vote.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

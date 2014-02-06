@@ -10,7 +10,7 @@
             <h3></h3>
 
             <div class="mainform">
-                <form ng-submit="save()" enctype="multipart/form-data" class="form-register">
+                <form ng-submit="save()" class="form-register">
                     <input class="form-control form-group" type="text" ng-model="new_event.eventName" required="required" placeholder="Event Name">
                     <div class="form-group">
                         <label>Event Location</label>
@@ -30,19 +30,19 @@
                     <label>The event ends on:</label>
                         <input class="form-control form-group" type="date" ng-model="new_event.eventEndDate" placeholder="When does the Event End?">
                     <div class="form-group">
-                        <input class="form-control" value="" type="hidden" ng-model="session.user[id]">
+                        <input class="form-control" type="hidden" ng-model="session.user[id]">
                     </div>
                     <div>Do you want to find sponsors for this event?
-                        <li class="no-decoration"><input type="checkbox" ng-model="value1"> Yes</li>
+                        <li class="no-decoration"><input type="checkbox" ng-model="new_event.sponsered"> Yes</li>
                     </div>
                     <div>Is this event for Charity?
-                        <li class="no-decoration"><input type="checkbox" ng-model="charity"> Yes</li>
+                        <li class="no-decoration"><input type="checkbox" ng-model="new_event.charity"> Yes</li>
                     </div>
                     <br/>
                     <input type="file" ng-model="photos" onchange="angular.element(this).scope().uploadFile(this.files)"/>
                     <div>
                         <hr/>
-                        <button type="submit" class="btn btn-success" value="Save">Create Event</button>
+                        <button type="ng-submit" class="btn btn-success" value="Save">Create Event</button>
                     </div>
                 </form>
             </div>

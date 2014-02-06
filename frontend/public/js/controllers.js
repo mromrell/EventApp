@@ -101,10 +101,11 @@ angular.module('roApp.controllers', [])
             return $scope.registerForm[field].$dirty && $scope.registerForm[field].$invalid;
         };
     }])
-    .controller('CreateEventController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', function($scope, $http, SessionService, Restangular, $window) {
+    .controller('CreateEventController', ['$scope', 'SessionService', 'Restangular', '$window', function ($scope, SessionService, Restangular, $window) {
+        $scope.new_event = {};
         $scope.session = SessionService.getSession();
 
-        $scope.$on('event:login-confirmed', function() {
+        $scope.$on('event:login-confirmed', function () {
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
 
@@ -112,72 +113,55 @@ angular.module('roApp.controllers', [])
 
         $scope.uploadFile = function (files) {
             $scope.new_event.photos = files[0];
-            console.log($scope.new_event.photos);
-        };
 
-        var pushToServer = function () {
-            var fd = new FormData();
-            fd.append("eventName", $scope.eventName);
-            fd.append("description", $scope.description);
-            fd.append("gpsLng", $scope.gpsLng);
-            fd.append("gpsLat", $scope.gpsLat);
-            fd.append("reliableGPS", $scope.reliableGPS);
-            fd.append("street", $scope.street);
-            fd.append("city", $scope.city);
-            fd.append("state", $scope.state);
-            fd.append("country", $scope.country);
-            fd.append("photos", $scope.location.photos);
-            fd.append("comments", $scope.comments);
-            fd.append("sponsored", $scope.sponsored);
-            fd.append("forCharity", $scope.forCharity);
-            fd.append("totalCost", $scope.totalCost);
-            fd.append("participantCost", $scope.participantCost);
-            fd.append("linkUrl", $scope.linkUrl);
-            fd.append("user", $scope.session.id);
-            fd.append("voteCount", $scope.voteCount);
-            fd.append("eventStartDate", $scope.eventStartDate);
-            fd.append("eventEndDate", $scope.eventEndDate);
-
-            $http.post('http://localhost:8001/location', fd, {
-//            $http.post('http://vast-journey-8108.herokuapp.com/location', fd, {
-                withCredentials: true,
-                headers: {'Content-Type': undefined },
-                transformRequest: angular.identity
-            }).success(function (response) {
-                    $window.location = 'index.html#/home';
-                }).error(function (response) {
-                    console.log('Response: ' + response);
-                });
         };
 
         $scope.save = function () {
-            if ($scope.submitted == false) {
-                $scope.reliableGPS = true;
 
-                // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
-                if ($scope.gpsLat == null || $scope.gpsLng == null){
-                    $scope.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
-                    var geocoder = new google.maps.Geocoder();
-                    var locateMe = $scope.city + ", "+ $scope.state;
+            var newEvent = {
+                'user': $scope.session.id,
+                'eventName': $scope.new_event.eventName,
+                'description': $scope.new_event.description,
+                'gpsLng': $scope.new_event.gpsLng,
+                'gpsLat': $scope.new_event.gpsLat,
+                'reliableGPS': $scope.new_event.reliableGPS,
+                'street': $scope.new_event.street,
+                'city': $scope.new_event.city,
+                'state': $scope.new_event.state,
+                'country': $scope.new_event.country,
+                'comments': $scope.new_event.comments,
+                'sponsored': $scope.new_event.sponsored,
+                'forCharity': $scope.new_event.forCharity,
+                'totalCost': $scope.new_event.totalCost,
+                'participantCost': $scope.new_event.participantCost,
+                'linkUrl': $scope.new_event.linkUrl,
+                'eventStartDate': $scope.new_event.eventStartDate,
+                'eventEndDate': $scope.new_event.eventEndDate,
+                'photos': $scope.new_event.photos
+            };
 
-                    console.log("Im travelling to: "+locateMe);
-                    var geocoderRequest = { address: locateMe };
-                    geocoder.geocode(geocoderRequest, function (results, status) {
-                        $scope.geoLocater = results;
+            // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
+            if ($scope.new_event.gpsLat == null || $scope.new_event.gpsLng == null) {
+                $scope.new_event.reliableGPS = false; // determines if the coordinates were manually entered or approximated based on the city
+                var geocoder = new google.maps.Geocoder();
+                var locateMe = $scope.new_event.city + ", " + $scope.new_event.state;
 
-                        $scope.gpsLng = $scope.geoLocater[0].geometry.location.e;
-                        $scope.gpsLat = $scope.geoLocater[0].geometry.location.d;
-//                        var myLatlng= new google.maps.LatLng(lat, lng);
+                var geocoderRequest = { address: locateMe };
+                geocoder.geocode(geocoderRequest, function (results, status) {
+                    $scope.geoLocater = results;
+                    $scope.new_event.gpsLng = $scope.geoLocater[0].geometry.location.e;
+                    $scope.new_event.gpsLat = $scope.geoLocater[0].geometry.location.d;
+                });
 
-                        pushToServer();
-                    });
-                }  // Ends Maps the Location --------------------------------------------------------------------------------->
-                else{
-                    pushToServer();
-                }
-            }
+            }  // Ends Maps the Location --------------------------------------------------------------------------------->
+            Restangular.one('location').customPOST(newEvent)
+                .then(function (data) {
+                    console.log("I'm inside the restangular call");
+                    $window.location = 'index.html#/';
+                }, function (response) {
+                    console.log('Response: ' + response);
+                });
         }
-
     }])
     .controller('EditLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', '$routeParams', function($scope, $http, SessionService, Restangular, $window, $routeParams) {
         $scope.session = SessionService.getSession();
@@ -486,7 +470,6 @@ angular.module('roApp.controllers', [])
             })
         });
     }])
-
     .controller('LocationDetailsController', ['$scope', '$http', 'SessionService', 'Restangular', '$routeParams', function ($scope, $http, SessionService, Restangular, $routeParams) {
         $scope.session = SessionService.getSession();
         //to display images from Home page
