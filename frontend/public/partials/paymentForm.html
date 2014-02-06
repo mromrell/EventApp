@@ -1,6 +1,6 @@
 <div ng-controller="StripeController">
     <hr/>
-    <h4>Charge $10 with Stripe</h4>
+    <h4>Register now: ${{ location.participantCost }}</h4>
 
     <br/>
     <form action="" method="POST" id="payment-form">
@@ -28,6 +28,7 @@
         <br/>
         <br/>
         <div class="form-row">
+            <p>Billing Info</p>
             <label>
                 <input type="text" size="20" data-stripe="number" placeholder="Card Number" value="4242424242424242"/>
             </label>
