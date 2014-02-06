@@ -342,21 +342,22 @@ def Location(request):
     elif request.method == 'POST':
 
         user = User.objects.get(id=request.POST.get('user_id', request.DATA['user_id']))
-        eventName = request.POST.get('eventName', request.DATA['eventName'])
 
-        new_event = Location(eventName=eventName,
-                             gpsLat=gpsLat,
-                             gpsLng=gpsLng,
-                             reliableGPS=reliableGPS,
-                             street=street, city=city,
-                             state=state, country=country,
-                             description=description,
-                             sponsored=sponsored,
-                             forCharity=forCharity,
-                             linkUrl=linkUrl,
-                             participantCost=participantCost,
-                             eventStartDate=eventStartDate,
-                             eventEndDate=eventEndDate,
+        new_event = Location(eventName=request.POST.get('eventName', request.DATA['eventName']),
+                             gpsLat=request.POST.get('gpsLat', request.DATA['gpsLat']),
+                             gpsLng=request.POST.get('gpsLng', request.DATA['gpsLng']),
+                             reliableGPS=request.POST.get('reliableGPS', request.DATA['reliableGPS']),
+                             street=request.POST.get('street', request.DATA['street']),
+                             city=request.POST.get('city', request.DATA['city']),
+                             state=request.POST.get('state', request.DATA['state']),
+                             country=request.POST.get('country', request.DATA['country']),
+                             description=request.POST.get('description', request.DATA['description']),
+                             sponsored=request.POST.get('sponsored', request.DATA['sponsored']),
+                             forCharity=request.POST.get('forCharity', request.DATA['forCharity']),
+                             linkUrl=request.POST.get('gpslinkUrlLng', request.DATA['linkUrl']),
+                             participantCost=request.POST.get('participantCost', request.DATA['participantCost']),
+                             eventStartDate=request.POST.get('eventStartDate', request.DATA['eventStartDate']),
+                             eventEndDate=request.POST.get('eventEndDate', request.DATA['eventEndDate']),
                              user=user
                              )
 

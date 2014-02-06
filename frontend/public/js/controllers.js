@@ -65,11 +65,11 @@ angular.module('roApp.controllers', [])
             return $scope.registerForm[field].$dirty && $scope.registerForm[field].$invalid;
         };
     }])
-    .controller('CreateEventController', ['$scope', 'SessionService', 'Restangular', '$window', function($scope, SessionService, Restangular, $window) {
+    .controller('CreateEventController', ['$scope', 'SessionService', 'Restangular', '$window', function ($scope, SessionService, Restangular, $window) {
         $scope.new_event = {};
         $scope.session = SessionService.getSession();
 
-        $scope.$on('event:login-confirmed', function() {
+        $scope.$on('event:login-confirmed', function () {
             console.log('event has been broadcast to Home Controller');
             $scope.session = SessionService.getSession();
 
@@ -77,30 +77,30 @@ angular.module('roApp.controllers', [])
 
         $scope.uploadFile = function (files) {
             $scope.new_event.photos = files[0];
-            console.log($scope.new_event.photos);
+
         };
 
-
         $scope.save = function () {
+
             var newEvent = {
-//                'user' : $scope.session.user[0].id,
-                'eventName': $scope.eventName,
-                'description': $scope.description,
-                'gpsLng': $scope.gpsLng,
-                'gpsLat': $scope.gpsLat,
-                'reliableGPS': $scope.reliableGPS,
-                'street': $scope.street,
-                'city': $scope.city,
-                'state': $scope.state,
-                'country': $scope.country,
-                'comments': $scope.comments,
-                'sponsored': $scope.sponsored,
-                'forCharity': $scope.forCharity,
-                'totalCost': $scope.totalCost,
-                'participantCost': $scope.participantCost,
-                'linkUrl': $scope.linkUrl,
-                'eventStartDate': $scope.eventStartDate,
-                'eventEndDate': $scope.eventEndDate,
+                'user': $scope.session.id,
+                'eventName': $scope.new_event.eventName,
+                'description': $scope.new_event.description,
+                'gpsLng': $scope.new_event.gpsLng,
+                'gpsLat': $scope.new_event.gpsLat,
+                'reliableGPS': $scope.new_event.reliableGPS,
+                'street': $scope.new_event.street,
+                'city': $scope.new_event.city,
+                'state': $scope.new_event.state,
+                'country': $scope.new_event.country,
+                'comments': $scope.new_event.comments,
+                'sponsored': $scope.new_event.sponsored,
+                'forCharity': $scope.new_event.forCharity,
+                'totalCost': $scope.new_event.totalCost,
+                'participantCost': $scope.new_event.participantCost,
+                'linkUrl': $scope.new_event.linkUrl,
+                'eventStartDate': $scope.new_event.eventStartDate,
+                'eventEndDate': $scope.new_event.eventEndDate,
                 'photos': $scope.new_event.photos
             };
 
@@ -113,7 +113,6 @@ angular.module('roApp.controllers', [])
                 var geocoderRequest = { address: locateMe };
                 geocoder.geocode(geocoderRequest, function (results, status) {
                     $scope.geoLocater = results;
-
                     $scope.new_event.gpsLng = $scope.geoLocater[0].geometry.location.e;
                     $scope.new_event.gpsLat = $scope.geoLocater[0].geometry.location.d;
                 });
@@ -122,6 +121,7 @@ angular.module('roApp.controllers', [])
             Restangular.one('location').customPOST(newEvent)
                 .then(function (data) {
                     console.log("I'm inside the restangular call");
+                    $window.location = 'index.html#/';
                 }, function (response) {
                     console.log('Response: ' + response);
                 });
