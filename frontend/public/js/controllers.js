@@ -21,9 +21,18 @@ angular.module('roApp.controllers', [])
             $scope.image = null
             $scope.imageFileName = ''
     })
-    .controller('StripeController', function($scope, $window) {
+    .controller('StripeController', ['$scope', '$location','SessionService', '$routeParams', 'Restangular', function($scope, $location, SessionService, $routeParams, Restangular) {
+        $scope.session = SessionService.getSession();
         // This identifies your website in the createToken call below
         Stripe.setPublishableKey('pk_test_nlD3TNsfeNFUUw1Wav8t84nv');
+
+        $scope.showSponsorField = true;
+        if ($scope.payment_type = 'Sponsor'){
+           $scope.showSponsorField = true;
+        }
+        if ($scope.payment_type = 'Registration'){
+           $scope.showSponsorField = false;
+        }
 
         var stripeResponseHandler = function (status, response) {
             var $form = $('#payment-form');
@@ -33,14 +42,59 @@ angular.module('roApp.controllers', [])
                 $form.find('.payment-errors').text(response.error.message);
                 $form.find('button').prop('disabled', false);
             } else {
-                // token contains id, last4, and card type
-                var token = response.id;
-                // Insert the token into the form so it gets submitted to the server
-                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-                // and re-submit
-                $form.get(0).submit();
-                $window.location = 'index.html#/home';
-            }
+
+//                // token contains id, last4, and card type
+//                var token = response.id;
+//                // Insert the token into the form so it gets submitted to the server
+//                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+//                // and re-submit
+//                $form.get(0).submit();
+//
+//                var port = ($location.$$port) ? ':' + $location.$$port : '';
+//                window.location.href = $location.$$protocol + '://' + $location.$$host + port + '/public/index.html';
+//            }
+
+                $scope.sponsor_amount = null;
+
+                if ($scope.payment_type == 'Sponsor'){
+                    $scope.payment_amount = null;
+                    $scope.sponsor_amount = $scope.enteredSponsorAmount; ///edit this
+                }
+                else if ($scope.payment_type == 'Registration'){
+                    $scope.payment_amount = $scope.location.participantCost;
+                    $scope.sponsor_amount = null;
+                }
+
+                var d = new Date();
+                 var newPayment = {
+                    'payment_amount': $scope.payment_amount,
+                    'sponsor_amount': $scope.sponsor_amount,
+                    'payment_type': $scope.payment_type,
+                    'user_id': $scope.session.id,
+                    'event_id': $routeParams.id,
+                    'datePaid': d.getFullYear() +'-'+ d.getMonth() +'-'+ d.getDate()
+                 };
+
+                Restangular.one('payment').customPOST(newPayment)
+                    .then(function (data) {
+                        console.log("I'm inside the restangular call");
+                        // token contains id, last4, and card type
+                        var token = response.id;
+                        // Insert the token into the form so it gets submitted to the server
+                        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+                        // and re-submit
+                        $form.get(0).submit();
+
+                        var port = ($location.$$port) ? ':' + $location.$$port : '';
+                        window.location.href = $location.$$protocol + '://' + $location.$$host + port + '/public/index.html';
+
+                    }, function (response) {
+                        console.log('Response: ' + response);
+                    });
+
+                }
+
+
         };
 
         jQuery(function ($) {
@@ -56,7 +110,7 @@ angular.module('roApp.controllers', [])
                 return false;
             });
         });
-    })
+    }])
     .controller('LoginController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();
         $scope.user = {};
@@ -495,12 +549,12 @@ angular.module('roApp.controllers', [])
             $scope.location = location;
 
             // this Shows the Edit Event button if you are a logged in as a super user or you are the user that created the event
-            if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
+            /*if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
                 $scope.showEdit = "Approved";
                 }
                 else{
                 $scope.showEdit = null;
-                }
+                }*/
             // This Shows a warning if the GPS coordinantes were not manually entered at the time of the event creation
             if ($scope.location.reliableGPS == false){
                 $scope.gpsStatus = "These coordinates have been approximated to the city center";

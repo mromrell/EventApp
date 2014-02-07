@@ -43,7 +43,7 @@ angular.module('roApp.services', ['angularLocalStorage'])
                 var locationArray = [];
                 var eventNameArray = [];
                 var locationIdArray = [];
-                //console.log(locationList[0]);
+                console.log('This is DOGE: ' + locationList[0]);
                 if (locationList[0]) {
                     var basicLatlng = new google.maps.LatLng(locationList[0].gpsLat, locationList[0].gpsLng);
                 }

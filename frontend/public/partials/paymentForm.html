@@ -1,70 +1,53 @@
-<!--
-<script type="text/javascript">
-    // This identifies your website in the createToken call below
-    Stripe.setPublishableKey('pk_test_nlD3TNsfeNFUUw1Wav8t84nv');
-
-    var stripeResponseHandler = function (status, response) {
-        var $form = $('#payment-form');
-
-        if (response.error) {
-            // Show the errors on the form
-            $form.find('.payment-errors').text(response.error.message);
-            $form.find('button').prop('disabled', false);
-        } else {
-            // token contains id, last4, and card type
-            var token = response.id;
-            // Insert the token into the form so it gets submitted to the server
-            $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-            // and re-submit
-            $form.get(0).submit();
-        }
-    };
-
-    jQuery(function ($) {
-        $('#payment-form').submit(function (e) {
-            var $form = $(this);
-
-            // Disable the submit button to prevent repeated clicks
-            $form.find('button').prop('disabled', true);
-
-            Stripe.createToken($form, stripeResponseHandler);
-
-            // Prevent the form from submitting with the default action
-            return false;
-        });
-    });
-</script>
--->
 <div ng-controller="StripeController">
-    <hr/>
-    <h4>Charge $10 with Stripe</h4>
-
     <form action="" method="POST" id="payment-form">
         <span class="payment-errors"></span>
-
+ <!--
         <div class="form-row">
             <label>
-                <input type="text" size="20" data-stripe="number" placeholder="Card Number"/>
+                <input type="text" size="20" ng-model="payment_type" placeholder="Card Number"/>
+            </label> Gibberish
+        </div>
+-->
+        <label> Register as a:
+            <select ng-model="payment_type">
+                <option value="Registration">Participant</option>
+                <option value="Sponsor">Sponsor</option>
+            </select>
+        </label>
+
+        <div ng-show="payment_type=='Sponsor'">
+            <br/>
+            How much do you want to pay towards sponsorship?
+            <input type="text" placeholder="ex: $450" ng-model="enteredSponsorAmount" class="form-control form-group">
+        </div>
+
+        <br/>
+        <br/>
+        <div class="form-row">
+            <p>Billing Info</p>
+            <label>
+                <input type="text" size="20" data-stripe="number" placeholder="Card Number" value="4242424242424242"/>
             </label>
         </div>
 
         <div class="form-row">
             <label>
-                <input type="text" size="4" data-stripe="cvc"/>
+                <input type="text" size="4" data-stripe="cvc" value="123"/>
                 <span>CVC</span>
             </label>
         </div>
 
         <div class="form-row">
             <label>
-                <input type="text" size="2" data-stripe="exp-month" placeholder="MM"/>
+                <input type="text" size="2" data-stripe="exp-month" placeholder="MM" value="05"/>
                 <span> / </span>
-                <input type="text" size="4" data-stripe="exp-year" placeholder="YYYY"/>
+                <input type="text" size="4" data-stripe="exp-year" placeholder="YYYY" value="2016"/>
                 <span>Expiration</span>
             </label>
 
         </div>
 
+        <br/>
         <button type="submit" class="btn btn-success">Submit Payment</button>
     </form>
 </div>
