@@ -48,7 +48,7 @@ class AccountInfo(models.Model):
     is_organizer = models.NullBooleanField(blank=True, null=True)
 
     social_info = models.ForeignKey(Social, null=True, blank=True)
-    user_id = models.ForeignKey(User)
+    user_id = models.OneToOneField(User)
 
     class Meta:
         verbose_name_plural = 'Accounts'
