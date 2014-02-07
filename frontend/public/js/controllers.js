@@ -539,12 +539,12 @@ angular.module('roApp.controllers', [])
             $scope.location = location;
 
             // this Shows the Edit Event button if you are a logged in as a super user or you are the user that created the event
-            if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
+            /*if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
                 $scope.showEdit = "Approved";
                 }
                 else{
                 $scope.showEdit = null;
-                }
+                }*/
             // This Shows a warning if the GPS coordinantes were not manually entered at the time of the event creation
             if ($scope.location.reliableGPS == false){
                 $scope.gpsStatus = "These coordinates have been approximated to the city center";
