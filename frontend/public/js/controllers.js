@@ -101,7 +101,7 @@ angular.module('roApp.controllers', [])
             return $scope.registerForm[field].$dirty && $scope.registerForm[field].$invalid;
         };
     }])
-    .controller('CreateEventController', ['$scope', 'SessionService', 'Restangular', '$window', function ($scope, SessionService, Restangular, $window) {
+    .controller('CreateEventController', ['$scope', 'SessionService', 'Restangular', '$window', '$http', function ($scope, SessionService, Restangular, $window, $http) {
         $scope.new_event = {};
         $scope.session = SessionService.getSession();
 
@@ -137,7 +137,7 @@ angular.module('roApp.controllers', [])
                 'linkUrl': $scope.new_event.linkUrl,
                 'eventStartDate': $scope.new_event.eventStartDate,
                 'eventEndDate': $scope.new_event.eventEndDate,
-                'photos': $scope.new_event.photos
+                'photo': $scope.new_event.photos
             };
 
             // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
@@ -154,13 +154,23 @@ angular.module('roApp.controllers', [])
                 });
 
             }  // Ends Maps the Location --------------------------------------------------------------------------------->
-            Restangular.one('location').customPOST(newEvent)
-                .then(function (data) {
-                    console.log("I'm inside the restangular call");
-                    $window.location = 'index.html#/';
-                }, function (response) {
-                    console.log('Response: ' + response);
-                });
+//            Restangular.one('newevent').customPOST(newEvent)
+//                .then(function (data) {
+//                    $window.location = 'index.html#/accountProfile';
+//                }, function (response) {
+//                    console.log('Response: ' + response);
+//                });
+            $http.post('http://localhost:8001/newevent', newEvent, {
+//                withCredentials: true,
+                headers: {'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).success(function (response) {
+                $window.location = 'index.html#/accountProfile';
+            }).error(function (response) {
+                console.log('Response: ' + response);
+            });
+
+
         }
     }])
     .controller('EditLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', '$routeParams', function($scope, $http, SessionService, Restangular, $window, $routeParams) {

@@ -299,14 +299,16 @@ def create_data(request):
        
 
 @api_view(['GET', 'PUT', 'POST', 'DELETE'])
-def Location(request):
+def new_event(request):
 
     location_list = None
     location = None
-    forCharity = None
-    sponsered = None
-    startdate = None
+    forCharity = False
+    sponsered = False
+    eventStartDate = None
     enddate = None
+    gpsLng = None
+    gpsLat = None
 
     if 'eventStartDate' in request.DATA and request.DATA['eventStartDate'] is not None:
         startdate = request.POST.get('eventStartDate', request.DATA['eventStartDate'])
@@ -317,8 +319,20 @@ def Location(request):
     if 'id' in request.DATA and request.DATA['id'] is not None:
         location = Location.objects.get(id=request.POST.get('id', request.DATA['id']))
 
-    if 'user_id' in request.DATA and request.DATA['user_id'] is not None:
-        location_list = Location.objects.filter(user=request.POST.get('user_id', request.DATA['user_id']))
+    if 'user' in request.DATA and request.DATA['user'] is not None:
+        location_list = Location.objects.filter(user=request.POST.get('user', request.DATA['user']))
+
+    if 'sponsered' in request.DATA and request.DATA['sponsered'] is not None:
+        sponsered = request.POST.get('sponsered', request.DATA['sponsered'])
+
+    if 'forCharity' in request.DATA and request.DATA['forCharity'] is not None:
+        forCharity = request.POST.get('forCharity', request.DATA['forCharity'])
+
+    if 'gpsLat' in request.DATA and request.DATA['gpsLat'] is not None:
+        gpsLat = request.POST.get('gpsLat', request.DATA['gpsLat'])
+
+    if 'gpsLng' in request.DATA and request.DATA['gpsLng'] is not None:
+        gpsLng = request.POST.get('gpsLng', request.DATA['gpsLng'])
 
     else:
         location_list = Location.objects.all()
@@ -341,7 +355,7 @@ def Location(request):
 
     elif request.method == 'POST':
 
-        user = User.objects.get(id=request.POST.get('user_id', request.DATA['user_id']))
+        user = User.objects.get(id=request.POST.get('user', request.DATA['user']))
 
         new_event = Location(eventName=request.POST.get('eventName', request.DATA['eventName']),
                              gpsLat=request.POST.get('gpsLat', request.DATA['gpsLat']),
@@ -352,8 +366,8 @@ def Location(request):
                              state=request.POST.get('state', request.DATA['state']),
                              country=request.POST.get('country', request.DATA['country']),
                              description=request.POST.get('description', request.DATA['description']),
-                             sponsored=request.POST.get('sponsored', request.DATA['sponsored']),
-                             forCharity=request.POST.get('forCharity', request.DATA['forCharity']),
+                             sponsored=sponsered,
+                             forCharity=forCharity,
                              linkUrl=request.POST.get('gpslinkUrlLng', request.DATA['linkUrl']),
                              participantCost=request.POST.get('participantCost', request.DATA['participantCost']),
                              eventStartDate=request.POST.get('eventStartDate', request.DATA['eventStartDate']),
@@ -362,6 +376,15 @@ def Location(request):
                              )
 
         new_event.save()
+
+        new_photo = Photo(
+            photo=request.FILES.get('photo', request.DATA['photo']),
+            is_profile=False,
+            user=user,
+            eventPostID=new_event
+        )
+
+        new_photo.save()
 
         return Response(status=status.HTTP_201_CREATED)
 
