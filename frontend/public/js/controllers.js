@@ -26,6 +26,7 @@ angular.module('roApp.controllers', [])
         // This identifies your website in the createToken call below
         Stripe.setPublishableKey('pk_test_nlD3TNsfeNFUUw1Wav8t84nv');
 
+        // This shows the new text field on the form if you select 'Sponsor'
         $scope.showSponsorField = true;
         if ($scope.payment_type = 'Sponsor'){
            $scope.showSponsorField = true;
@@ -43,19 +44,9 @@ angular.module('roApp.controllers', [])
                 $form.find('button').prop('disabled', false);
             } else {
 
-//                // token contains id, last4, and card type
-//                var token = response.id;
-//                // Insert the token into the form so it gets submitted to the server
-//                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-//                // and re-submit
-//                $form.get(0).submit();
-//
-//                var port = ($location.$$port) ? ':' + $location.$$port : '';
-//                window.location.href = $location.$$protocol + '://' + $location.$$host + port + '/public/index.html';
-//            }
-
                 $scope.sponsor_amount = null;
 
+                // Checks to see if you are a sponsor or a participant/registrant
                 if ($scope.payment_type == 'Sponsor'){
                     $scope.payment_amount = null;
                     $scope.sponsor_amount = $scope.enteredSponsorAmount; ///edit this
@@ -75,9 +66,39 @@ angular.module('roApp.controllers', [])
                     'datePaid': d.getFullYear() +'-'+ d.getMonth() +'-'+ d.getDate()
                  };
 
+//                // if stripe_customer_id on AccountInfo model is empty then create a new customer on Stripe & update the stripe_customer_id field on the AccountInfo Model
+//                Restangular.one('AccountInfo').customGET()
+//                    .then(function (data) {
+//                       var userInfo = data;
+//                        if (userInfo.stripe_customer_id == null) {
+//                            // then create a new customer on Stripe & update the stripe_customer_id field on the AccountInfo Model
+//                            // Set your secret key: remember to change this to your live secret key in production
+//                            // See your keys here https://manage.stripe.com/account
+//                            stripe.setApiKey("sk_test_NW9e4oGpkImOQJrGFZdNOOLF");
+//
+//                            // (Assuming you're using express - expressjs.com)
+//                            // Get the credit card details submitted by the form
+//                            var stripeToken = request.body.stripeToken;
+//
+//                            stripe.customers.create({
+//                                card: stripeToken,
+//                                description: 'payinguser@example.com'
+//                            }).then(function (customer) {
+//                                    return stripe.charges.create({
+//                                        amount: 1000, // amount in cents, again
+//                                        currency: 'usd',
+//                                        customer: customer.id
+//                                    });
+//                                }).then(function (charge) {
+//                                    saveStripeCustomerId(user, customer.id);
+//
+//                                });
+//                        }
+//                    });
+//                // Else just add a new payment below
+
                 Restangular.one('payment').customPOST(newPayment)
                     .then(function (data) {
-                        console.log("I'm inside the restangular call");
                         // token contains id, last4, and card type
                         var token = response.id;
                         // Insert the token into the form so it gets submitted to the server
@@ -85,14 +106,44 @@ angular.module('roApp.controllers', [])
                         // and re-submit
                         $form.get(0).submit();
 
-                        var port = ($location.$$port) ? ':' + $location.$$port : '';
-                        window.location.href = $location.$$protocol + '://' + $location.$$host + port + '/public/index.html';
+
+
 
                     }, function (response) {
                         console.log('Response: ' + response);
-                    });
+                });
 
-                }
+
+
+//                        // This will create a customer, store their token and allow for the user to be charged later
+//                        // storeCustomerToken();
+//                        Restangular.one('store-customer-token').customPOST(response)
+//                            .then(function (data) {
+//                                if (location.totalPledged >= location.totalCost){
+//                                    // Then do a restangular call to Go to new function where the tokens all get charged
+//                                    chargeAllCards();
+//                                    Restangular.one('charge-all-cards').customPOST(response)
+//                                        .then(function (data) {
+//                                        }, function (response) {
+//                                            console.log('Response: ' + response);
+//                                    });
+//                                }
+//
+//                                var port = ($location.$$port) ? ':' + $location.$$port : '';
+//                                window.location.href = $location.$$protocol + '://' + $location.$$host + port + '/public/index.html';
+//
+//                            }, function (response) {
+//                                console.log('Response: ' + response);
+//                        });
+
+
+
+
+
+
+            }
+
+
 
 
         };
@@ -110,6 +161,7 @@ angular.module('roApp.controllers', [])
                 return false;
             });
         });
+
     }])
     .controller('LoginController', ['$scope', 'SessionService', 'Restangular', function($scope, SessionService, Restangular) {
         $scope.session = SessionService.getSession();

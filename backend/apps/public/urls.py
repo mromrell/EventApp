@@ -1,7 +1,7 @@
 """
 This is your project's master URL configuration, it defines the set of "root" URLs for the entire project
 """
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import *
 
@@ -31,7 +31,12 @@ urlpatterns = patterns(
     url(r'^votes$', votes, name='votes-api'),
     url(r'^social', social_accounts, name='social-api'),
     url(r'^payment$', PaymentList.as_view(), name='payment-list'),
-    url(r'^createdata', create_data, name='create-data')
+
+    url(r'^createdata', create_data, name='create-data'),
+
+
+    url(r'^store-customer-token$', storeCustomerToken, name='storeCustomerToken'),
+    url(r'^charge-all-cards$', chargeAllCards, name='chargeAllCards')
 
 )
 

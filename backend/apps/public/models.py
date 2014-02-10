@@ -46,9 +46,10 @@ class AccountInfo(models.Model):
     country = models.CharField(max_length=200, blank=True, null=True)
     is_sponsor = models.NullBooleanField(blank=True, null=True)
     is_organizer = models.NullBooleanField(blank=True, null=True)
+    stripe_customer_id = models.IntegerField(blank=True, null=True)
 
     social_info = models.ForeignKey(Social, null=True, blank=True)
-    user_id = models.ForeignKey(User)
+    user_id = models.OneToOneField(User)
 
     class Meta:
         verbose_name_plural = 'Accounts'

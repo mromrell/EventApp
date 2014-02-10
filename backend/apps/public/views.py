@@ -16,6 +16,7 @@ from rest_framework import permissions
 from django.contrib.auth.models import User
 from .models import *
 from .serializers import *
+import stripe
 
 
 # Create your views here.
@@ -370,3 +371,39 @@ def Location(request):
         vote.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+def chargeAllCards():
+    # add a for loop here to loop over all of the event registrants that have already paid
+    customer_id = get_stripe_customer_id(user)
+
+    stripe.Charge.create(
+        amount=1500, # $15.00 this time
+        currency="usd",
+        customer=customer_id
+    )
+
+def storeCustomerToken(request):
+
+    # Set your secret key: remember to change this to your live secret key in production
+    # See your keys here https://manage.stripe.com/account
+    stripe.api_key = "sk_test_NW9e4oGpkImOQJrGFZdNOOLF"
+
+    # Get the credit card details submitted by the form
+    token = request.POST['stripeToken']
+
+    # Create a Customer
+    customer = stripe.Customer.create(
+        card=token,
+        description="payinguser@example.com"
+    )
+
+    # Charge the Customer instead of the card
+    stripe.Charge.create(
+        amount=1000, # in cents
+        currency="usd",
+        customer=customer.id
+    )
+
+    # Save the customer ID in your database so you can use it later
+    save_stripe_customer_id(user, customer.id)
