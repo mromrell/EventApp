@@ -207,7 +207,7 @@ angular.module('roApp.controllers', [])
             return $scope.registerForm[field].$dirty && $scope.registerForm[field].$invalid;
         };
     }])
-    .controller('CreateEventController', ['$scope', 'SessionService', 'Restangular', '$window', function ($scope, SessionService, Restangular, $window) {
+    .controller('CreateEventController', ['$scope', 'SessionService', 'Restangular', '$window', '$http', function ($scope, SessionService, Restangular, $window, $http) {
         $scope.new_event = {};
         $scope.session = SessionService.getSession();
 
@@ -243,7 +243,7 @@ angular.module('roApp.controllers', [])
                 'linkUrl': $scope.new_event.linkUrl,
                 'eventStartDate': $scope.new_event.eventStartDate,
                 'eventEndDate': $scope.new_event.eventEndDate,
-                'photos': $scope.new_event.photos
+                'photo': $scope.new_event.photos
             };
 
             // Grabs the GPS coordinates if it's not already there --------------------------------------------------------------------------------->
@@ -260,13 +260,23 @@ angular.module('roApp.controllers', [])
                 });
 
             }  // Ends Maps the Location --------------------------------------------------------------------------------->
-            Restangular.one('location').customPOST(newEvent)
-                .then(function (data) {
-                    console.log("I'm inside the restangular call");
-                    $window.location = 'index.html#/';
-                }, function (response) {
-                    console.log('Response: ' + response);
-                });
+//            Restangular.one('newevent').customPOST(newEvent)
+//                .then(function (data) {
+//                    $window.location = 'index.html#/accountProfile';
+//                }, function (response) {
+//                    console.log('Response: ' + response);
+//                });
+            $http.post('http://localhost:8001/newevent', newEvent, {
+//                withCredentials: true,
+                headers: {'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).success(function (response) {
+                $window.location = 'index.html#/accountProfile';
+            }).error(function (response) {
+                console.log('Response: ' + response);
+            });
+
+
         }
     }])
     .controller('EditLocationController', ['$scope', '$http', 'SessionService', 'Restangular', '$window', '$routeParams', function($scope, $http, SessionService, Restangular, $window, $routeParams) {
@@ -591,12 +601,12 @@ angular.module('roApp.controllers', [])
             $scope.location = location;
 
             // this Shows the Edit Event button if you are a logged in as a super user or you are the user that created the event
-            if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
+            /*if ($scope.session.is_superuser == true || $scope.location.user == $scope.session.id){
                 $scope.showEdit = "Approved";
                 }
                 else{
                 $scope.showEdit = null;
-                }
+                }*/
             // This Shows a warning if the GPS coordinantes were not manually entered at the time of the event creation
             if ($scope.location.reliableGPS == false){
                 $scope.gpsStatus = "These coordinates have been approximated to the city center";
